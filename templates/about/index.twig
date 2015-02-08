@@ -1,0 +1,196 @@
+{% extends '_layouts/cp' %}
+
+{% set title = 'DashCols' | t %}
+{% set tabs = craft.dashCols.getCpTabs %}
+{% set selectedTab = 'about' %}
+
+{% block content %}
+
+	<div class="dashCols-aboutPage">
+
+		<h2 class="dashCols-title">{{ 'About DashCols' | t }}</h2>
+
+		<p><em>{{ 'DashCols makes it easy to include your custom fields in element index tables.' | t }}</em></p>
+
+		<p><a href="{{ craft.dashCols.getPluginUrl }}">{{ craft.dashCols.getPluginUrl }}</a></p>
+
+		<hr />
+
+		<section>
+
+			<h3 class="dashCols-title">{{ 'Supported fields' | t }}</h3>
+
+			<table id="dashCols-supportedFields" class="data fullwidth collapsible">
+				<thead>
+					<th scope="col">{{ 'Field type' | t }}</th>
+				</thead>
+				<tbody>
+					<tr>
+						<td width="25%">
+							<a href="http://buildwithcraft.com/docs/categories-fields" class="go">Categories</a>
+						</td>
+						<td class="desc">Outputs as a comma-separated list</td>
+					</tr>
+					<tr>
+						<td width="25%">
+							<a href="http://buildwithcraft.com/docs/checkboxes-fields" class="go">Checkboxes</a>
+						</td>
+						<td class="desc"></td>
+					</tr>
+					<tr>
+						<td width="25%">
+							<a href="http://buildwithcraft.com/docs/color-fields" class="go">Color</a>
+						</td>
+						<td class="desc">Outputs as a colored rectangle</td>
+					</tr>
+					<tr>
+						<td width="25%">
+							<a href="http://buildwithcraft.com/docs/date-time-fields" class="go">Date/time</a>
+						</td>
+						<td class="desc"></td>
+					</tr>
+					<tr>
+						<td width="25%">
+							<a href="http://buildwithcraft.com/docs/dropdown-fields" class="go">Dropdown</a>
+						</td>
+						<td class="desc"></td>
+					</tr>
+					<tr>
+						<td width="25%">
+							<a href="http://buildwithcraft.com/docs/entries-fields" class="go">Entries</a>
+						</td>
+						<td class="desc">Outputs as a comma-separated list</td>
+					</tr>
+					<tr>
+						<td width="25%">
+							<a href="http://buildwithcraft.com/docs/lightswitch-fields" class="go">Lightswitch</a>
+						</td>
+						<td class="desc"></td>
+					</tr>
+					<tr>
+						<td width="25%">
+							<a href="http://buildwithcraft.com/docs/multi-select-fields" class="go">Multi-select</a>
+						</td>
+						<td class="desc">Selected values output as a comma-separated list</td>
+					</tr>
+					<tr>
+						<td width="25%">
+							<a href="http://buildwithcraft.com/docs/number-fields" class="go">Number</a>
+						</td>
+						<td class="desc"></td>
+					</tr>
+					<tr>
+						<td width="25%">
+							<a href="http://buildwithcraft.com/docs/plain-text-fields" class="go">Plain Text</a>
+						</td>
+						<td class="desc"></td>
+					</tr>
+					<tr>
+						<td width="25%">
+							<a href="http://buildwithcraft.com/docs/position-select-fields" class="go">Position Select</a>
+						</td>
+						<td class="desc"></td>
+					</tr>
+					<tr>
+						<td width="25%">
+							<a href="http://buildwithcraft.com/docs/radio-buttons-fields" class="go">Radio Buttons</a>
+						</td>
+						<td class="desc"></td>
+					</tr>
+					<tr>
+						<td width="25%">
+							<a href="http://buildwithcraft.com/docs/tags-fields" class="go">Tags</a>
+						</td>
+						<td class="desc">Outputs as a comma-separated list</td>
+					</tr>
+					<tr>
+						<td width="25%">
+							<a href="http://buildwithcraft.com/docs/users-fields" class="go">Users</a>
+						</td>
+						<td class="desc">Outputs as a comma-separated list</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<br />
+
+			<h3 class="dashCols-title">Partially supported fields</h3>
+
+			<table id="dashCols-supportedFields" class="data fullwidth collapsible">
+				<thead>
+					<th scope="col">{{ 'Field type' | t }}</th>
+				</thead>
+				<tbody>
+					<tr>
+						<td width="25%">
+							<a href="http://buildwithcraft.com/docs/assets-fields" class="go">Assets</a>
+						</td>
+						<td class="desc">DashCols will only output images, and only 1 per field (i.e. the first one)</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<br />
+
+			<h3 class="dashCols-title">Unsupported fields</h3>
+
+			<table id="dashCols-supportedFields" class="data fullwidth collapsible">
+				<thead>
+					<th scope="col">{{ 'Field type' | t }}</th>
+				</thead>
+				<tbody>
+					<tr>
+						<td width="25%"><a href="http://buildwithcraft.com/docs/matrix-fields" class="go">Matrix</a></td>
+						<td class="desc"></td>
+					</tr>
+					<tr>
+						<td width="25%"><a href="http://buildwithcraft.com/docs/rich-text-fields" class="go">Rich Text</a></td>
+						<td class="desc"></td>
+					</tr>
+					<tr>
+						<td width="25%"><a href="http://buildwithcraft.com/docs/table-fields" class="go">Table</a></td>
+						<td class="desc"></td>
+					</tr>
+				</tbody>
+			</table>
+
+			<br />
+
+			<h3 class="dashCols-title">Custom FieldTypes</h3>
+
+			<p>Please note that while <strong>any</strong> attribute of <em>String value</em> will output, you're currently on your own regarding custom FieldTypes.</p>
+
+		</section>
+
+		<hr />
+
+		<section>
+			
+			<h4 class="dashCols-title">{{ 'In future updates...' | t }}</h4>
+
+			<ul>
+				<li>Option to hide default fields (postDate, expiryDate and section)</li>
+				<li>Output of non-image Asset fields (icon and/or filename, haven't decided yet)</li>
+				<li>Sortable fields</li>
+				<li>Support for User tables</li>
+			</ul>
+
+			<p><em>Unfortunately, I can offer no ETA on any of these additions.</em></p>
+
+		</section>
+
+		<hr />
+
+		<section>
+			<h4 class="dashCols-title">{{ 'Disclaimer' | t }}</h4>
+
+			<p>DashCols is provided free of charge. The author is not responsible for any data loss or other problems resulting from the use of this plugin.</p>
+
+			<p>Please report any bugs, feature requests or other issues <a href="{{ craft.dashCols.getPluginUrl }}">here</a>. As DashCols is a hobby project, no promises are made regarding response time, feature implementations or bug amendments.</p>
+
+			<p><strong>Pull requests are very welcome!</strong></p>	
+		</section>
+
+	</div>
+
+{% endblock %}

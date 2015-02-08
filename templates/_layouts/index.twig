@@ -1,0 +1,71 @@
+{% extends '_layouts/cp' %}
+
+{% set title = 'DashCols' | t %}
+
+{% set content %}
+
+	<table id="dashCols-listings" class="data fullwidth collapsible">
+		<thead>
+			<th scope="col">{{ 'Listings' | t }}</th>
+		</thead>
+		<tbody>
+			{% for listingKey, listingName in listings %}
+			<tr data-name="{{ listingName | t }}">
+				<th scope="row" data-title="{{ 'Listings' | t }}"><a href="{{ url( 'dashcols/layouts/listing/' ~ listingKey ) }}">{{ listingName | t }}</a></th>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	{% if channels %}
+	<br />
+
+	<table id="dashCols-channels" class="data fullwidth collapsible">
+		<thead>
+			<th scope="col">{{ 'Channels' | t }}</th>
+		</thead>
+		<tbody>
+			{% for channel in channels %}
+			<tr data-id="{{ channel.id }}" data-name="{{ channel.name|t }}">
+				<th scope="row" data-title="{{ 'Section' | t }}"><a href="{{ url( 'dashcols/layouts/section/' ~ channel.handle ) }}">{{ channel.name | t }}</a></th>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	{% endif %}
+
+	{% if structures %}
+	<br />
+
+	<table id="dashCols-structures" class="data fullwidth collapsible">
+		<thead>
+			<th scope="col">{{ 'Structures' | t }}</th>
+		</thead>
+		<tbody>
+			{% for structure in structures %}
+			<tr data-id="{{ structure.id }}" data-name="{{ structure.name|t }}">
+				<th scope="row" data-title="{{ 'Section' | t }}"><a href="{{ url( 'dashcols/layouts/section/' ~ structure.handle ) }}">{{ structure.name | t }}</a></th>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	{% endif %}
+
+	{% if categoryGroups %}
+	<br />
+
+	<table id="dashCols-sections" class="data fullwidth collapsible">
+		<thead>
+			<th scope="col">{{ 'Category groups' | t }}</th>
+		</thead>
+		<tbody>
+			{% for categoryGroup in categoryGroups %}
+			<tr data-id="{{ categoryGroup.id }}" data-name="{{ categoryGroup.name|t }}">
+				<th scope="row" data-title="{{ 'Category groups' | t }}"><a href="{{ url( 'dashcols/layouts/category-group/' ~ categoryGroup.handle ) }}">{{ categoryGroup.name | t }}</a></th>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	{% endif %}
+
+{% endset %}
