@@ -1,7 +1,7 @@
 # DashCols Craft CMS Plugin
 
 DashCols makes it easy to add custom fields to element index tables.
-That’s right, if you ever wanted to display a “featured image” or the like in your index tables – fret no more.
+That’s right, if you ever wanted to display a “featured image” or the like in your entry listings – fret no more.
 
 ## Installation and setup
 
