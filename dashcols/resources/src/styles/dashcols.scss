@@ -18,3 +18,27 @@
 		content: "✔";
 	}
 }
+
+.dashCols-defaultFields,
+.dashCols-buttons {
+	width: 100%;
+	float: left;
+	clear: both;
+}
+
+.dashColds-defaultField {
+	margin-bottom: 5px;
+	width: 100%;
+	float: left;
+	clear: both;
+	label {
+		display: inline-block;
+		width: auto;
+		float: left;
+		padding-top: 3px;
+	}
+	.lightswitch {
+		width: auto;
+		float: left;
+	}
+}

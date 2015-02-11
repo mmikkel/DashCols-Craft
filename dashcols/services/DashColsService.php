@@ -223,6 +223,8 @@ class DashColsService extends BaseApplicationComponent
 		} else {
 			throw new Exception( Craft::t( 'Unknown target for layout' ) );
 		}
+
+		$dashColsLayoutRecord->hiddenDefaultFields = $dashColsLayout->hiddenDefaultFields;
 		
 		$dashColsLayoutRecord->validate();
 

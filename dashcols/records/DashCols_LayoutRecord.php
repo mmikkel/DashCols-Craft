@@ -29,7 +29,7 @@ class DashCols_LayoutRecord extends BaseRecord
 			'categoryGroupId' => AttributeType::Number,
 			'listingHandle' => AttributeType::String,
 			'fieldLayoutId' => AttributeType::Number,
-			'hiddenFields' => array( AttributeType::Enum, 'values' => 'section,postDate,expiryDate' ),
+			'hiddenDefaultFields' => AttributeType::Mixed,
 		);
 	}
 

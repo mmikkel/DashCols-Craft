@@ -13,3 +13,22 @@
   font-size: 16px; }
   .dashCols-lightswitch:before {
     content: "✔"; }
+
+.dashCols-defaultFields, .dashCols-buttons {
+  width: 100%;
+  float: left;
+  clear: both; }
+
+.dashColds-defaultField {
+  margin-bottom: 5px;
+  width: 100%;
+  float: left;
+  clear: both; }
+  .dashColds-defaultField label {
+    display: inline-block;
+    width: auto;
+    float: left;
+    padding-top: 3px; }
+  .dashColds-defaultField .lightswitch {
+    width: auto;
+    float: left; }

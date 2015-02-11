@@ -193,6 +193,15 @@ class DashCols_LayoutsController extends BaseController
 
 		$layout->setFieldLayout( $fieldLayout );
 
+		// Get hidden fields
+		$hiddenFields = array();
+		foreach ( $request->getPost( 'hiddenFields' ) as $key => $value ) {
+			if ( $value !== '1' ) {
+				$hiddenFields[] = $key;
+			}
+		}
+		$layout->hiddenDefaultFields = $hiddenFields;
+
 		if ( craft()->dashCols->saveLayout( $layout ) ) {
 			craft()->userSession->setNotice( Craft::t( 'Layout for ' . $section->name . ' saved!' ) );
 			$this->redirectToPostedUrl( $layout );

@@ -16,7 +16,7 @@ class DashColsPlugin extends BasePlugin
 
     public      $unsupportedFieldTypes = array( 'Rich Text', 'Table', 'Matrix' );
 
-    protected   $_version = '1.0',
+    protected   $_version = '1.0.2',
                 $_developer = 'Mats Mikkel Rummelhoff',
                 $_developerUrl = 'http://mmikkel.no',
                 $_pluginUrl = 'https://github.com/mmikkel/DashCols-Craft';
@@ -44,6 +44,11 @@ class DashColsPlugin extends BasePlugin
     public function getPluginUrl()
     {
         return $this->_pluginUrl;
+    }
+
+    public function getDefaultFieldTypes()
+    {
+        return $this->defaultFieldTypes;
     }
 
     public function hasCpSection()
