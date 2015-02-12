@@ -19,49 +19,22 @@
 
 		<hr />
 
+		{% if hiddenFields is defined %}
 		<h3>Hide/show default fields</h3>
-
 		<div class="dashCols-defaultFields">
-
+			{% for hiddenFieldKey,hiddenFieldValue in hiddenFields %}
 			<div class="dashColds-defaultField">
 				{{ forms.lightswitch({
-					id: 'postDate',
-					name: 'hiddenFields[postDate]',
-					on : true,
+					id: hiddenFieldKey,
+					name: 'hiddenFields[' ~ hiddenFieldKey ~ ']',
+					on : hiddenFieldKey in layout.hiddenFields ? false : true,
 				}) }}
-				<label for="postDate">Post Date</label>
+				<label for="{{ hiddenFieldKey }}">{{ hiddenFieldValue }}</label>
 			</div>
-
-			<div class="dashColds-defaultField">
-				{{ forms.lightswitch({
-					id: 'expiryDate',
-					name: 'hiddenFields[expiryDate]',
-					on : true,
-				}) }}
-				<label for="expiryDate">Expiry Date</label>
-			</div>
-
-			<div class="dashColds-defaultField">
-				{{ forms.lightswitch({
-					id: 'uri',
-					name: 'hiddenFields[uri]',
-					on : true,
-				}) }}
-				<label for="uri">URI</label>
-			</div>
-
-			<div class="dashColds-defaultField">
-				{{ forms.lightswitch({
-					id: 'section',
-					name: 'hiddenFields[section]',
-					on : true,
-				}) }}
-				<label for="section">Section</label>
-			</div>
-
+			{% endfor %}
 		</div>
-
 		<hr />
+		{% endif %}
 
 		<div class="dashCols-buttons">
 			<input type="submit" class="btn submit" value="{{ 'Save' | t }}" />

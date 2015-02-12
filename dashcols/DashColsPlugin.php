@@ -2,7 +2,7 @@
 
 /**
  * DashCols makes it easy to add custom fields to element index tables.
- * 
+ *
  * @author      Mats Mikkel Rummelhoff <http://mmikkel.no>
  * @package     DashCols
  * @since       Craft 2.3
@@ -16,7 +16,7 @@ class DashColsPlugin extends BasePlugin
 
     public      $unsupportedFieldTypes = array( 'Rich Text', 'Table', 'Matrix' );
 
-    protected   $_version = '1.0.2',
+    protected   $_version = '1.1',
                 $_developer = 'Mats Mikkel Rummelhoff',
                 $_developerUrl = 'http://mmikkel.no',
                 $_pluginUrl = 'https://github.com/mmikkel/DashCols-Craft';
@@ -61,15 +61,15 @@ class DashColsPlugin extends BasePlugin
         parent::init();
 
         if ( craft()->request->isCpRequest() ) {
-            craft()->templates->includeCssResource( 'dashCols/dist/css/dashcols.css' );
-            craft()->templates->includeJsResource( 'dashCols/dist/js/entryTable.js' );
+            craft()->templates->includeCssResource( 'dashCols/css/dashcols.css' );
+            craft()->templates->includeJsResource( 'dashCols/js/entryTable.js' );
         }
 
     }
 
     public function registerCpRoutes()
     {
-        
+
         return array(
             'dashcols' => array( 'action' => 'dashCols/layouts/getIndex' ),
             'dashcols/layouts' => array( 'action' => 'dashCols/layouts/getIndex' ),
@@ -88,7 +88,6 @@ class DashColsPlugin extends BasePlugin
     {
 
         $fieldLayoutId = false;
-        $sectionEditUrl = false;
 
         switch ( $source ) {
 
@@ -98,12 +97,9 @@ class DashColsPlugin extends BasePlugin
                 if ( $source === '*' ) {
                     $source = 'entries';
                 }
-
                 if ( $dashColsLayout = craft()->dashCols->getLayoutByListingHandle( $source ) ) {
                     $fieldLayoutId = $dashColsLayout->fieldLayoutId;
                 }
-
-                $sectionEditUrl = UrlHelper::getUrl( 'dashcols/layouts/listing/' . $source );
 
                 break;
 
@@ -118,23 +114,10 @@ class DashColsPlugin extends BasePlugin
                     $fieldLayoutId = $dashColsLayout->fieldLayoutId;
                 }
 
-                $sectionEditUrl = UrlHelper::getUrl( 'dashcols/layouts/section/' . $temp[ 1 ] );
-
         }
 
-        if ( ! $fieldLayoutId ) {
-            return false;
-        }
-
-        // Get field layout and fields
-        $fieldLayout = craft()->fields->getLayoutById( $fieldLayoutId );
-        $fields = $fieldLayout->getFields();
-
-        foreach ( $fields as $field ) {
-            if ( ! in_array( $field->field->getFieldType()->name, $this->unsupportedFieldTypes ) ) {
-                $attributes[ $field->field->handle ] = Craft::t( $field->field->name );
-            }
-        }
+        $this->_removeDefaultAttributes( $dashColsLayout, $attributes );
+        $this->_addFieldLayoutAttributes( $fieldLayoutId, $attributes );
 
     }
 
@@ -161,15 +144,8 @@ class DashColsPlugin extends BasePlugin
             return false;
         }
 
-        // Get field layout and fields
-        $fieldLayout = craft()->fields->getLayoutById( $fieldLayoutId );
-        $fields = $fieldLayout->getFields();
-
-        foreach ( $fields as $field ) {
-            if ( ! in_array( $field->field->getFieldType()->name, $this->unsupportedFieldTypes ) ) {
-                $attributes[ $field->field->handle ] = Craft::t( $field->field->name );
-            }
-        }
+        $this->_removeDefaultAttributes( $dashColsLayout, $attributes );
+        $this->_addFieldLayoutAttributes( $fieldLayoutId, $attributes );
 
     }
 
@@ -181,6 +157,37 @@ class DashColsPlugin extends BasePlugin
     public function getCategoryTableAttributeHtml( CategoryModel $category, $attribute )
     {
         return craft()->dashCols_attributeHtml->getAttributeHtml( $category, $attribute );
+    }
+
+    protected function _removeDefaultAttributes( $dashColsLayout, &$attributes )
+    {
+        if ( ! $dashColsLayout || ! is_array( $dashColsLayout->hiddenFields ) ) {
+            return false;
+        }
+        foreach ( $dashColsLayout->hiddenFields as $attribute ) {
+            if ( isset( $attributes[ $attribute ] ) ) {
+                unset( $attributes[ $attribute ] );
+            }
+        }
+    }
+
+    protected function _addFieldLayoutAttributes( $fieldLayoutId, &$attributes )
+    {
+
+        if ( ! $fieldLayoutId ) {
+            return false;
+        }
+
+        // Get field layout and fields
+        $fieldLayout = craft()->fields->getLayoutById( $fieldLayoutId );
+        $fields = $fieldLayout->getFields();
+
+        foreach ( $fields as $field ) {
+            if ( ! in_array( $field->field->getFieldType()->name, $this->unsupportedFieldTypes ) ) {
+                $attributes[ $field->field->handle ] = Craft::t( $field->field->name );
+            }
+        }
+
     }
 
 }

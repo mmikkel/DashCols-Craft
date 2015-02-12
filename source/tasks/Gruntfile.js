@@ -13,7 +13,7 @@ module.exports = function ( grunt ) {
 	}
 
 	var devDir = '../src/',
-		buildDir = '../dist/',
+		buildDir = '../../dashcols/resources/',
 		pkg = grunt.file.readJSON( 'package.json' ),
 		banner = '/*! <%= pkg.name %> | @author <%= pkg.author %> | <%= grunt.template.today("dd-mm-yyyy") %> */\n',
 
@@ -64,7 +64,7 @@ module.exports = function ( grunt ) {
 	 * Stylesheets
 	 */
 	grunt.registerTask( 'compile:css', function () {
-		
+
 		grunt.task.run( [ 'sass', 'autoprefixer' ] );
 
 		if ( ! options.isDev ) {
@@ -79,7 +79,7 @@ module.exports = function ( grunt ) {
 	 * Javascripts
 	 */
 	grunt.registerTask( 'compile:js', function () {
-		
+
 		grunt.task.run( [ 'lint:js', 'copy:js' ] );
 
 		if ( ! options.isDev ) {
@@ -87,7 +87,7 @@ module.exports = function ( grunt ) {
 		}
 
 	} );
-	
+
 	grunt.registerTask( 'lint:js', [ 'newer:jshint:common' ] );
 
 };

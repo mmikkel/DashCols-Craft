@@ -33,7 +33,7 @@ class DashCols_LayoutsController extends BaseController
 		// Get tabs
 		$variables[ 'tabs' ] = craft()->dashCols->getCpTabs();
 		$variables[ 'selectedTab' ] = 'layouts';
-	
+
 		// Render
 		return $this->renderTemplate( 'dashCols/_layouts', $variables );
 
@@ -56,7 +56,7 @@ class DashCols_LayoutsController extends BaseController
 		}
 
 		$variables[ 'sectionId' ] = $variables[ 'section' ]->id;
-		
+
 		// Get layout model
 		if ( ! $variables[ 'layout' ] = craft()->dashCols->getLayoutBySectionId( $variables[ 'sectionId' ] ) ) {
 			$variables[ 'layout' ] = new DashCols_LayoutModel();
@@ -88,7 +88,7 @@ class DashCols_LayoutsController extends BaseController
 		}
 
 		$variables[ 'categoryGroupId' ] = $variables[ 'section' ]->id;
-		
+
 		// Get layout model
 		if ( ! $variables[ 'layout' ] = craft()->dashCols->getLayoutByCategoryGroupId( $variables[ 'categoryGroupId' ] ) ) {
 			$variables[ 'layout' ] = new DashCols_LayoutModel();
@@ -140,6 +140,14 @@ class DashCols_LayoutsController extends BaseController
 	protected function renderEditLayout( array $variables = array() )
 	{
 
+		// Set hidden fields
+		$variables[ 'hiddenFields' ] = array(
+			'uri' => Craft::t( 'URI' ),
+			'postDate' => Craft::t( 'Post Date' ),
+			'expiryDate' => Craft::t( 'Expiry Date' ),
+			'section' => Craft::t( 'Section' ),
+		);
+
 		// Get tabs & breadcrumbs
 		$variables[ 'tabs' ] = craft()->dashCols->getCpTabs();
 		$variables[ 'selectedTab' ] = 'layouts';
@@ -168,12 +176,12 @@ class DashCols_LayoutsController extends BaseController
 	{
 
 		$this->requirePostRequest();
-		
+
 		$request = craft()->request;
 
 		$layout = new DashCols_LayoutModel();
 		$layout->id = ( $layoutId = $request->getPost( 'layoutId' ) ) ? $layoutId : null;
-		
+
 		$layout->sectionId = $request->getPost( 'sectionId' );
 		$layout->categoryGroupId = $request->getPost( 'categoryGroupId' );
 		$layout->listingHandle = $request->getPost( 'listingHandle' );
@@ -200,7 +208,7 @@ class DashCols_LayoutsController extends BaseController
 				$hiddenFields[] = $key;
 			}
 		}
-		$layout->hiddenDefaultFields = $hiddenFields;
+		$layout->hiddenFields = ! empty( $hiddenFields ) ? $hiddenFields : false;
 
 		if ( craft()->dashCols->saveLayout( $layout ) ) {
 			craft()->userSession->setNotice( Craft::t( 'Layout for ' . $section->name . ' saved!' ) );

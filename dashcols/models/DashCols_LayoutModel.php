@@ -13,7 +13,7 @@
 
 class DashCols_LayoutModel extends BaseModel
 {
-	
+
 	/**
 	 * @access protected
 	 * @return array
@@ -26,7 +26,7 @@ class DashCols_LayoutModel extends BaseModel
 			'categoryGroupId' => AttributeType::Number,
 			'listingHandle' => AttributeType::String,
 			'fieldLayoutId' => AttributeType::Number,
-			'hiddenDefaultFields' => AttributeType::Mixed,
+			'hiddenFields' => AttributeType::Mixed,
 		);
 	}
 

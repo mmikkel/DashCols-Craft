@@ -36,7 +36,7 @@ class DashColsService extends BaseApplicationComponent
 				'url' => UrlHelper::getUrl( 'dashcols/about' ),
 			),
 		);
-		
+
 	}
 
 	public function getSections()
@@ -157,7 +157,7 @@ class DashColsService extends BaseApplicationComponent
 		$dashColsLayoutRecord = DashCols_LayoutRecord::model()->findByAttributes( array(
 			'categoryGroupId' => $categoryGroupId,
 		) );
-		return $dashColsLayoutRecord ? DashCols_LayoutModel::populateModel( $dashColsLayoutRecord ) : false;	
+		return $dashColsLayoutRecord ? DashCols_LayoutModel::populateModel( $dashColsLayoutRecord ) : false;
 	}
 
 	public function getLayoutByListingHandle( $listingHandle )
@@ -165,7 +165,7 @@ class DashColsService extends BaseApplicationComponent
 		$dashColsLayoutRecord = DashCols_LayoutRecord::model()->findByAttributes( array(
 			'listingHandle' => $listingHandle,
 		) );
-		return $dashColsLayoutRecord ? DashCols_LayoutModel::populateModel( $dashColsLayoutRecord ) : false;	
+		return $dashColsLayoutRecord ? DashCols_LayoutModel::populateModel( $dashColsLayoutRecord ) : false;
 	}
 
 	public function getFieldLayoutBySectionId( $sectionId )
@@ -205,7 +205,7 @@ class DashColsService extends BaseApplicationComponent
 
 		if ( $dashColsLayout->id ) {
 			if ( ! $dashColsLayoutRecord = DashCols_LayoutRecord::model()->findById( $dashColsLayout->id ) ) {
-				throw new Exception( Craft::t( 'Could not find layout with ID "{id}"', array( 
+				throw new Exception( Craft::t( 'Could not find layout with ID "{id}"', array(
 					'id' => $dashColsLayout->id,
 				) ) );
 			}
@@ -224,18 +224,18 @@ class DashColsService extends BaseApplicationComponent
 			throw new Exception( Craft::t( 'Unknown target for layout' ) );
 		}
 
-		$dashColsLayoutRecord->hiddenDefaultFields = $dashColsLayout->hiddenDefaultFields;
-		
+		$dashColsLayoutRecord->hiddenFields = $dashColsLayout->hiddenFields;
+
 		$dashColsLayoutRecord->validate();
 
 		$dashColsLayout->addErrors( $dashColsLayoutRecord->getErrors() );
 
 		if ( ! $dashColsLayout->hasErrors() ) {
-			
+
 			$transaction = craft()->db->getCurrentTransaction() === null ? craft()->db->beginTransaction() : null;
 
 			try	{
-				
+
 				if ( $existingLayout && $existingLayout->fieldLayoutId ) {
 					craft()->fields->deleteLayoutById( $existingLayout->fieldLayoutId );
 				}
@@ -257,7 +257,7 @@ class DashColsService extends BaseApplicationComponent
 				if ( $transaction !== null ) {
 					$transaction->commit();
 				}
-				
+
 			} catch (\Exception $e) {
 
 				if ( $transaction !== null ) {
