@@ -60,3 +60,7 @@
   width: 100%;
   clear: both;
   float: left; }
+
+.elements.datatablesorthelper .move.icon, .elementindex .move.icon {
+  top: 50% !important;
+  margin-top: -12px !important; }
