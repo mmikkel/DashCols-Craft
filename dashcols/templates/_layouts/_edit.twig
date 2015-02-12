@@ -60,7 +60,7 @@
 				<input type="hidden" name="redirect" value="{{ url( 'categories/' ~ section.handle ) }}" />
 			{% elseif listingHandle is defined %}
 				<input type="hidden" name="listingHandle" value="{{ listingHandle }}" />
-				<input type="hidden" name="redirect" value="{{ url( 'entries/' ~ listingHandle ) }}" />
+				<input type="hidden" name="redirect" value="{{ url( 'entries/' ~ listingHandle == 'entries' ? '' : listingHandle ) }}" />
 			{% endif %}
 			{% if layout.id %}<input type="hidden" name="layoutId" value="{{ layout.id }}" />{% endif %}
 
