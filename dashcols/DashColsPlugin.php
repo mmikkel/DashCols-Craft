@@ -61,8 +61,8 @@ class DashColsPlugin extends BasePlugin
         parent::init();
 
         if ( craft()->request->isCpRequest() ) {
-            craft()->templates->includeCssResource( 'dashCols/css/dashcols.css' );
-            craft()->templates->includeJsResource( 'dashCols/js/entryTable.js' );
+            craft()->templates->includeCssResource( 'dashcols/css/dashcols.min.css' );
+            craft()->templates->includeJsResource( 'dashcols/js/entryTable.min.js' );
         }
 
     }
