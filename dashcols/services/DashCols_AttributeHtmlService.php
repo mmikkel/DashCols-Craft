@@ -26,7 +26,7 @@ class DashCols_AttributeHtmlService extends BaseApplicationComponent
 
         // Don't do anything for default attributes
         if ( in_array( $attribute, array( 'uri', 'section', 'postDate', 'expiryDate' ) ) ) {
-            return null;   
+            return null;
         }
 
         // Return early if element doesn't have the attribute
@@ -221,7 +221,7 @@ class DashCols_AttributeHtmlService extends BaseApplicationComponent
         foreach ( $elements as $element ) {
 
             $attribute = $element->title;
-            
+
             if ( $element->cpEditUrl ) {
                 $attribute = '<a href="' . $element->cpEditUrl . '">' . $attribute . '</a>';
             }
@@ -260,7 +260,7 @@ class DashCols_AttributeHtmlService extends BaseApplicationComponent
             }
 
             $attribute = $name !== '' ? trim( $name ) : $element->name;
-            
+
             if ( $element->cpEditUrl ) {
                 $attribute = '<a href="' . $element->cpEditUrl . '">' . $attribute . '</a>';
             }
@@ -343,7 +343,7 @@ class DashCols_AttributeHtmlService extends BaseApplicationComponent
     private function _getColorTableAttributeHtml()
     {
 
-        return '<span class="dashcols-hexcolor" style="display: block; width: 20px; height: 20px; border-radius: 2px; background-color: ' . $this->_attribute . ';" title="' . $this->_attribute . '"></span>';
+        return '<span class="dashcols-hexcolor" style="display: block; width: 20px; height: 20px; border-radius: 2px;' . ( strtolower( $this->_attribute ) === '#ffffff' ? 'border: 1px solid #E5E5E5; ' : '' ) . 'background-color: ' . $this->_attribute . ';" title="' . $this->_attribute . '"></span>';
 
     }
 

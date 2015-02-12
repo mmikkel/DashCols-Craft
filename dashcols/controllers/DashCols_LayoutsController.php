@@ -69,7 +69,7 @@ class DashCols_LayoutsController extends BaseController
 
 		// Set selected tab
 		$variables[ 'tabs' ][ $variables[ 'section' ]->handle ] = array(
-			'label' => Craft::t( 'Edit' ) . ': ' . $variables[ 'section' ]->name,
+			'label' => Craft::t( 'Edit layout' ),
 			'url' => UrlHelper::getUrl( 'dashcols/layouts/section/ ' . $variables[ 'section' ]->handle ),
 		);
 		$variables[ 'selectedTab' ] = $variables[ 'section' ]->handle;
@@ -108,7 +108,7 @@ class DashCols_LayoutsController extends BaseController
 
 		// Set selected tab
 		$variables[ 'tabs' ][ $variables[ 'section' ]->handle ] = array(
-			'label' => Craft::t( 'Edit' ) . ': ' . $variables[ 'section' ]->name,
+			'label' => Craft::t( 'Edit layout' ),
 			'url' => UrlHelper::getUrl( 'dashcols/layouts/category-group/ ' . $variables[ 'section' ]->handle ),
 		);
 		$variables[ 'selectedTab' ] = $variables[ 'section' ]->handle;
@@ -144,7 +144,7 @@ class DashCols_LayoutsController extends BaseController
 		);
 
 		$variables[ 'tabs' ][ $variables[ 'listingHandle' ] ] = array(
-			'label' => Craft::t( 'Edit' ) . ': ' . $variables[ 'section' ]->name,
+			'label' => Craft::t( 'Edit layout' ),
 			'url' => UrlHelper::getUrl( 'dashcols/layouts/listing/ ' . $variables[ 'listingHandle' ] ),
 		);
 		$variables[ 'selectedTab' ] = $variables[ 'listingHandle' ];
