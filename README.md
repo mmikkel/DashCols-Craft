@@ -50,10 +50,11 @@ If you have a publicly available FieldType plugin you wish to see supported, ple
 
 Look for the following in coming updates:
 
-* Option to hide default fields _(postDate, expiryDate and section)_
-* Output of non-image Asset fields _(icon and/or filename, haven't decided yet)_
-* Sortable fields
+* Output of non-image Asset fields (icon and/or filename, haven't decided yet)
+* Sorting/ordering options
 * Support for User tables
+* Inline editing of sections/listings/category groups
+* Option to clear a layout w/ a single button
 
 ## Bugs, feature requests, support
 
@@ -70,6 +71,13 @@ _DashCols_ is provided free of charge. The author is not responsible for any dat
 Please report any bugs, feature requests or other issues here. As _DashCols_ is a hobby project, no promises are made regarding response time, feature implementations or bug amendments.
 
 ## Changelog
+
+### Version 1.1
+
+* Added option to hide default fields (postDate, expiryDate, URI and section)
+* (Hopefully) improved CP section sub nav
+* DashCols now redirects to index table upon saving a layout
+* Some minor CSS fixes here and there
 
 ### Version 1.0
 
