@@ -26,16 +26,19 @@ class DashColsService extends BaseApplicationComponent
 	public function getCpTabs()
 	{
 
-		return array(
-			'layouts' => array(
-				'label' => Craft::t( 'Edit Layouts' ),
-				'url' => UrlHelper::getUrl( 'dashcols/layouts' ),
-			),
-			'about' => array(
-				'label' => Craft::t( 'About' ),
-				'url' => UrlHelper::getUrl( 'dashcols/about' ),
-			),
+		$tabs = array();
+
+		$tabs[ 'dashColsIndex' ] = array(
+			'label' => '',
+			'url' => UrlHelper::getUrl( 'dashcols' ),
 		);
+
+		$tabs[ 'about' ] = array(
+			'label' => Craft::t( 'About DashCols' ),
+			'url' => UrlHelper::getUrl( 'dashcols/about' ),
+		);
+
+		return $tabs;
 
 	}
 

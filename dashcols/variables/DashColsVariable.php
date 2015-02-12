@@ -13,17 +13,22 @@
 
 class DashColsVariable
 {
-	
+
 	protected $_plugin = null;
 
 	public function getCpTabs()
 	{
 		return craft()->dashCols->getCpTabs();
 	}
-	
+
 	public function getPluginUrl()
 	{
 		return $this->getPlugin()->getPluginUrl();
+	}
+
+	public function version()
+	{
+		return $this->getPlugin()->getVersion();
 	}
 
 	protected function getPlugin()

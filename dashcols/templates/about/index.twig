@@ -8,7 +8,7 @@
 
 	<div class="dashCols-aboutPage">
 
-		<h2 class="dashCols-title">{{ 'About DashCols' | t }}</h2>
+		<h2 class="dashCols-title">{{ 'About DashCols' | t }} <strong class="dashCols-version">v. {{ craft.dashCols.version }}</strong></h2>
 
 		<p><em>{{ 'DashCols makes it easy to include your custom fields in element index tables.' | t }}</em></p>
 
@@ -165,14 +165,35 @@
 		<hr />
 
 		<section>
-			
-			<h4 class="dashCols-title">{{ 'In future updates...' | t }}</h4>
+
+			<h3 class="dashCols-title">{{ 'Changelog' | t }}</h3>
+
+			<h5>Version 1.1 (02.12.2015)</h5>
+			<ul>
+				<li>Added option to hide default fields (postDate, expiryDate, URI and section)</li>
+				<li>(Hopefully) improved CP section sub nav</li>
+				<li>DashCols now redirects to index table upon saving a layout</li>
+			</ul>
+
+			<h5>Version 1.0 (02.08.2015)</h5>
+			<p><em>Initial public release</em></p>
+
+		</section>
+
+		<hr />
+
+		<section>
+
+			<h3 class="dashCols-title">{{ 'Roadmap' | t }}</h3>
+
+			<p>Look for the following in future updates:</p>
 
 			<ul>
-				<li>Option to hide default fields (postDate, expiryDate and section)</li>
 				<li>Output of non-image Asset fields (icon and/or filename, haven't decided yet)</li>
-				<li>Sortable fields</li>
+				<li>Sorting/ordering options</li>
 				<li>Support for User tables</li>
+				<li>Inline editing of sections/listings/category groups</li>
+				<li>Option to clear a layout w/ a single button</li>
 			</ul>
 
 			<p><em>Unfortunately, I can offer no ETA on any of these additions.</em></p>
@@ -188,7 +209,7 @@
 
 			<p>Please report any bugs, feature requests or other issues <a href="{{ craft.dashCols.getPluginUrl }}">here</a>. As DashCols is a hobby project, no promises are made regarding response time, feature implementations or bug amendments.</p>
 
-			<p><strong>Pull requests are very welcome!</strong></p>	
+			<p><strong>Pull requests are very welcome!</strong></p>
 		</section>
 
 	</div>

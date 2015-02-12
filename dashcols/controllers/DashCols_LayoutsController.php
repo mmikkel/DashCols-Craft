@@ -67,6 +67,13 @@ class DashCols_LayoutsController extends BaseController
 			'url' => UrlHelper::getUrl( 'dashcols/layouts/section/' . $variables[ 'section' ]->handle ),
 		);
 
+		// Set selected tab
+		$variables[ 'tabs' ][ $variables[ 'section' ]->handle ] = array(
+			'label' => Craft::t( 'Edit' ) . ': ' . $variables[ 'section' ]->name,
+			'url' => UrlHelper::getUrl( 'dashcols/layouts/section/ ' . $variables[ 'section' ]->handle ),
+		);
+		$variables[ 'selectedTab' ] = $variables[ 'section' ]->handle;
+
 		return $this->renderEditLayout( $variables );
 
 	}
@@ -99,6 +106,13 @@ class DashCols_LayoutsController extends BaseController
 			'url' => UrlHelper::getUrl( 'dashcols/layouts/category-group/' . $variables[ 'section' ]->handle ),
 		);
 
+		// Set selected tab
+		$variables[ 'tabs' ][ $variables[ 'section' ]->handle ] = array(
+			'label' => Craft::t( 'Edit' ) . ': ' . $variables[ 'section' ]->name,
+			'url' => UrlHelper::getUrl( 'dashcols/layouts/category-group/ ' . $variables[ 'section' ]->handle ),
+		);
+		$variables[ 'selectedTab' ] = $variables[ 'section' ]->handle;
+
 		return $this->renderEditLayout( $variables );
 
 	}
@@ -129,6 +143,12 @@ class DashCols_LayoutsController extends BaseController
 			'url' => UrlHelper::getUrl( 'dashcols/layouts/listing/' . $variables[ 'listingHandle' ] ),
 		);
 
+		$variables[ 'tabs' ][ $variables[ 'listingHandle' ] ] = array(
+			'label' => Craft::t( 'Edit' ) . ': ' . $variables[ 'section' ]->name,
+			'url' => UrlHelper::getUrl( 'dashcols/layouts/listing/ ' . $variables[ 'listingHandle' ] ),
+		);
+		$variables[ 'selectedTab' ] = $variables[ 'listingHandle' ];
+
 		return $this->renderEditLayout( $variables );
 
 	}
@@ -149,8 +169,8 @@ class DashCols_LayoutsController extends BaseController
 		);
 
 		// Get tabs & breadcrumbs
-		$variables[ 'tabs' ] = craft()->dashCols->getCpTabs();
-		$variables[ 'selectedTab' ] = 'layouts';
+		$variables[ 'tabs' ] = array_merge( craft()->dashCols->getCpTabs(), $variables[ 'tabs' ] );
+
 		$variables[ 'crumbs' ] = array(
 			array(
 				'label' => Craft::t( 'DashCols' ),
@@ -164,8 +184,28 @@ class DashCols_LayoutsController extends BaseController
 		$variables[ 'crumbs' ][] = $variables[ 'crumb' ];
 		unset( $variables[ 'crumb' ] );
 
-		// Set selected tab
-		$variables[ 'selectedTab' ] = 'layouts';
+		$variables[ 'layoutTabs' ] = array(
+			array(
+				'label' => Craft::t( 'All entries' ),
+				'url' => UrlHelper::getUrl( 'dashcols/layouts/listing/entries' ),
+				'active' => $variables[ 'selectedTab' ] === 'entries',
+			),
+			array(
+				'label' => Craft::t( 'Singles' ),
+				'url' => UrlHelper::getUrl( 'dashcols/layouts/listing/singles' ),
+				'active' => $variables[ 'selectedTab' ] === 'singles',
+			),
+		);
+
+		$layouts = array_merge( craft()->dashCols->getSections(), craft()->dashCols->getCategoryGroups() );
+
+		foreach ( $layouts as $section ) {
+			$variables[ 'layoutTabs' ][ $section->handle ] = array(
+				'label' => $section->name,
+				'url' => UrlHelper::getUrl( 'dashcols/layouts/section/' . $section->handle ),
+				'active' => $variables[ 'section' ]->handle === $section->handle,
+			);
+		}
 
 		// Render
 		return $this->renderTemplate( 'dashCols/_layouts/_edit', $variables );
