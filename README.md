@@ -72,6 +72,10 @@ Please report any bugs, feature requests or other issues here. As _DashCols_ is 
 
 ## Changelog
 
+### Version 1.1.2
+
+* Fixed issue with Singles layout redirect on save
+
 ### Version 1.1.1
 
 * Hotfixed an annoying issue w/ move icons not being vertically centered in tall table rows
