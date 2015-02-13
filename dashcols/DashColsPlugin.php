@@ -57,7 +57,6 @@ class DashColsPlugin extends BasePlugin
 
         if ( craft()->request->isCpRequest() ) {
             craft()->templates->includeCssResource( 'dashcols/css/dashcols.min.css' );
-            craft()->templates->includeJsResource( 'dashcols/js/entryTable.min.js' );
         }
 
     }
@@ -114,6 +113,8 @@ class DashColsPlugin extends BasePlugin
         $this->_removeDefaultAttributes( $dashColsLayout, $attributes );
         $this->_addFieldLayoutAttributes( $fieldLayoutId, $attributes );
 
+        craft()->templates->includeJsResource( 'dashcols/js/entryTable.min.js' );
+
     }
 
     /*
@@ -141,6 +142,8 @@ class DashColsPlugin extends BasePlugin
 
         $this->_removeDefaultAttributes( $dashColsLayout, $attributes );
         $this->_addFieldLayoutAttributes( $fieldLayoutId, $attributes );
+
+        craft()->templates->includeJsResource( 'dashcols/js/entryTable.min.js' );
 
     }
 

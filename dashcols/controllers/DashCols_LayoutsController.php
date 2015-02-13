@@ -199,21 +199,27 @@ class DashCols_LayoutsController extends BaseController
 			),
 		);
 
-		$layouts = array_merge( craft()->dashCols->getSections(), craft()->dashCols->getCategoryGroups() );
-
-		foreach ( $layouts as $section ) {
-
+		foreach ( craft()->dashCols->getSections() as $section ) {
 			if ( isset( $section->type ) && $section->type === 'single' ) {
 				continue;
 			}
-
 			$variables[ 'layoutUrls' ][ $section->handle ] = array(
 				'label' => $section->name,
 				'url' => UrlHelper::getUrl( 'dashcols/layouts/section/' . $section->handle ),
 				'active' => $variables[ 'section' ]->handle === $section->handle,
 			);
-
 		}
+
+		foreach ( craft()->dashCols->getCategoryGroups() as $categoryGroup ) {
+			$variables[ 'layoutUrls' ][ $categoryGroup->handle ] = array(
+				'label' => $categoryGroup->name,
+				'url' => UrlHelper::getUrl( 'dashcols/layouts/category-group/' . $categoryGroup->handle ),
+				'active' => $variables[ 'section' ]->handle === $categoryGroup->handle,
+			);
+		}
+
+		// Include some JS
+		craft()->templates->includeJsResource( 'dashcols/js/editLayout.min.js' );
 
 		// Render
 		return $this->renderTemplate( 'dashCols/_layouts/_edit', $variables );
