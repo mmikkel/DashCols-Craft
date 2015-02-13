@@ -20,12 +20,17 @@
 }
 
 #dashCols-sectionEdit,
-.dashCols-defaultFields,
-.dashCols-buttons {
+#dashCols-defaultFields {
 	width: 100%;
 	float: left;
 	clear: both;
 	margin-bottom: 20px;
+}
+
+#dashCols-actions {
+	width: 100%;
+	float: left;
+	clear: both;
 }
 
 .tab#tab-dashColsIndex {
@@ -83,4 +88,5 @@
 	font-size: 11px;
 	color: #8f98a3;
 	text-align: right;
+	margin-top: 20px;
 }

@@ -28,7 +28,7 @@
 
 			{% if defaultFields is defined and defaultFields | length > 0 and defaultFields != false %}
 			<h3>Hide/show default fields</h3>
-			<table class="dashCols-defaultFields data fullwidth collapsible">
+			<table id="dashCols-defaultFields" class="data fullwidth collapsible">
 				<tbody>
 					{% for hiddenFieldKey,hiddenFieldValue in defaultFields %}
 					<tr>
@@ -49,7 +49,7 @@
 			<hr />
 			{% endif %}
 
-			<div class="dashCols-buttons">
+			<div id="dashCols-actions">
 				<input type="submit" class="btn submit" value="{{ 'Save' | t }}" />
 			</div>
 
