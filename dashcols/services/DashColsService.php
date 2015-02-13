@@ -14,10 +14,19 @@
 class DashColsService extends BaseApplicationComponent
 {
 
-	private $_sections = null,
+	private $_plugin = null,
+			$_sections = null,
 			$_channels = null,
 			$_structures = null,
 			$_categoryGroups = null;
+
+	public function getPlugin()
+	{
+		if ( $this->_plugin === null ) {
+			$this->_plugin = craft()->plugins->getPlugin( 'dashCols' );
+		}
+		return $this->_plugin;
+	}
 
 	/*
 	* Return CP section tabs
@@ -25,21 +34,26 @@ class DashColsService extends BaseApplicationComponent
 	*/
 	public function getCpTabs()
 	{
-
-		$tabs = array();
-
-		$tabs[ 'dashColsIndex' ] = array(
-			'label' => '',
-			'url' => UrlHelper::getUrl( 'dashcols' ),
+		return array(
+			'dashColsIndex' => array(
+				'label' => '',
+				'url' => UrlHelper::getUrl( 'dashcols' ),
+			),
+			'about' => array(
+				'label' => Craft::t( 'About DashCols' ),
+				'url' => UrlHelper::getUrl( 'dashcols/about' ),
+			),
+			'settings' => array(
+				'label' => Craft::t( 'Settings' ),
+				'url' => UrlHelper::getUrl( 'settings/plugins/dashcols' ),
+			),
 		);
+	}
 
-		$tabs[ 'about' ] = array(
-			'label' => Craft::t( 'About DashCols' ),
-			'url' => UrlHelper::getUrl( 'dashcols/about' ),
-		);
-
-		return $tabs;
-
+	public function isCpSectionDisabled()
+	{
+		$settings = $this->getPlugin()->getSettings();
+        return isset( $settings[ 'cpSectionDisabled' ] ) && $settings[ 'cpSectionDisabled' ];
 	}
 
 	/*

@@ -14,7 +14,10 @@
 class DashColsVariable
 {
 
-	protected $_plugin = null;
+	public function getPlugin()
+	{
+		return craft()->dashCols->getPlugin();
+	}
 
 	public function getCpTabs()
 	{
@@ -29,14 +32,6 @@ class DashColsVariable
 	public function version()
 	{
 		return $this->getPlugin()->getVersion();
-	}
-
-	protected function getPlugin()
-	{
-		if ( $this->_plugin === null ) {
-			$this->_plugin = craft()->plugins->getPlugin( 'dashCols' );
-		}
-		return $this->_plugin;
 	}
 
 }

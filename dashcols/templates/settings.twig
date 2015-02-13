@@ -1,0 +1,15 @@
+{% import '_includes/forms' as forms %}
+
+<div class="field" id="cpSectionDisabled-field">
+	<div class="heading">
+		<label for="cpSectionDisabled">Undercover mode</label>
+		<p class="instructions">Keeps DashCols running, but disables access to the CP section and layout editing for <strong>all users</strong>.</p>
+		{{ forms.lightswitch({
+			id: 'cpSectionDisabled',
+			name: 'cpSectionDisabled',
+			on : settings.cpSectionDisabled,
+		}) }}
+	</div>
+</div>
+
+<hr />

@@ -13,6 +13,10 @@ After installing, visit _DashCols’_ CP section. Using the built-in Field Layou
 
 Please note that not all FieldTypes are supported – look below for the complete list.
 
+## Options
+
+* Undercover mode: Keeps DashCols running, but disables access to the CP section and layout editing for _all users_.
+
 ### Supported FieldTypes
 
 * Categories
@@ -71,6 +75,10 @@ _DashCols_ is provided free of charge. The author is not responsible for any dat
 Please report any bugs, feature requests or other issues here. As _DashCols_ is a hobby project, no promises are made regarding response time, feature implementations or bug amendments.
 
 ### Changelog
+
+#### 1.1.4
+
+* Added settings page and the _Undercover mode_ setting to hide the CP section and disable layout editing
 
 #### 1.1.3
 

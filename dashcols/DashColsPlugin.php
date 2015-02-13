@@ -16,7 +16,7 @@ class DashColsPlugin extends BasePlugin
 
     public      $unsupportedFieldTypes = array( 'Rich Text', 'Table', 'Matrix' );
 
-    protected   $_version = '1.1.3',
+    protected   $_version = '1.1.4',
                 $_developer = 'Mats Mikkel Rummelhoff',
                 $_developerUrl = 'http://mmikkel.no',
                 $_pluginUrl = 'https://github.com/mmikkel/DashCols-Craft';
@@ -48,17 +48,30 @@ class DashColsPlugin extends BasePlugin
 
     public function hasCpSection()
     {
-        return true;
+        return craft()->dashCols->isCpSectionDisabled() ? false : true;
     }
 
-    public function init () {
+    protected function defineSettings()
+    {
+        return array(
+            'cpSectionDisabled' => array( AttributeType::Bool, 'default' => false ),
+        );
+    }
 
-        parent::init();
+    public function getSettingsHtml()
+    {
+        return craft()->templates->render( 'dashcols/settings', array(
+            'settings' => $this->getSettings(),
+        ) );
+    }
 
-        if ( craft()->request->isCpRequest() ) {
-            craft()->templates->includeCssResource( 'dashcols/css/dashcols.min.css' );
+    public function prepSettings( $settings )
+    {
+        if ( isset( $settings[ 'cpSectionDisabled' ] ) )
+        {
+
         }
-
+        return $settings;
     }
 
     public function registerCpRoutes()
@@ -71,6 +84,16 @@ class DashColsPlugin extends BasePlugin
             'dashcols/layouts/category-group/(?P<categoryGroupHandle>[-\w]+)' => array( 'action' => 'dashCols/layouts/editCategoryGroupLayout' ),
             'dashcols/layouts/listing/(?P<listingHandle>[-\w]+)' => array( 'action' => 'dashCols/layouts/editListingLayout' ),
         );
+
+    }
+
+    public function init () {
+
+        parent::init();
+
+        if ( craft()->request->isCpRequest() ) {
+            craft()->templates->includeCssResource( 'dashcols/css/dashcols.min.css' );
+        }
 
     }
 

@@ -21,6 +21,10 @@ class DashCols_LayoutsController extends BaseController
 	public function actionGetIndex( array $variables = array() )
 	{
 
+		if ( craft()->dashCols->isCpSectionDisabled() ) {
+			throw new HttpException( 404 );
+		}
+
 		// Layout targets
 		$variables[ 'listings' ] = array(
 			'entries' => Craft::t( 'All entries' ),
@@ -169,6 +173,10 @@ class DashCols_LayoutsController extends BaseController
 	protected function renderEditLayout( array $variables = array() )
 	{
 
+		if ( craft()->dashCols->isCpSectionDisabled() ) {
+			throw new HttpException( 404 );
+		}
+
 		// Get tabs & breadcrumbs
 		$variables[ 'tabs' ] = array_merge( craft()->dashCols->getCpTabs(), $variables[ 'tabs' ] );
 
@@ -228,6 +236,10 @@ class DashCols_LayoutsController extends BaseController
 
 	public function actionSaveLayout()
 	{
+
+		if ( craft()->dashCols->isCpSectionDisabled() ) {
+			throw new HttpException( 404 );
+		}
 
 		$this->requirePostRequest();
 
