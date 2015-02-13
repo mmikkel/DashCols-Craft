@@ -70,30 +70,30 @@ _DashCols_ is provided free of charge. The author is not responsible for any dat
 
 Please report any bugs, feature requests or other issues here. As _DashCols_ is a hobby project, no promises are made regarding response time, feature implementations or bug amendments.
 
-## Changelog
+### Changelog
 
-### Version 1.1.3
+#### 1.1.3
 
 * Fixed issue w/ redirect on All entries layout save
 * Edit template only displays relevant default fields
 * Added footer to CP section
 * Removed editing for individual Single sections
 
-### Version 1.1.2
+#### 1.1.2
 
 * Fixed issue with Singles layout redirect on save
 
-### Version 1.1.1
+#### 1.1.1
 
 * Hotfixed an annoying issue w/ move icons not being vertically centered in tall table rows
 
-### Version 1.1
+#### 1.1
 
 * Added option to hide default fields (postDate, expiryDate, URI and section)
 * (Hopefully) improved CP section sub nav
 * DashCols now redirects to index table upon saving a layout
 * Some minor CSS fixes here and there
 
-### Version 1.0
+#### 1.0
 
 Initial public release.
