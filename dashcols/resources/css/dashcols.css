@@ -64,3 +64,11 @@
 .elements.datatablesorthelper .move.icon, .elementindex .move.icon {
   top: 50% !important;
   margin-top: -12px !important; }
+
+#dashCols-colophone {
+  width: 100%;
+  float: left;
+  clear: both;
+  font-size: 11px;
+  color: #8f98a3;
+  text-align: right; }

@@ -1,5 +1,5 @@
 {% extends '_layouts/cp' %}
-{% import "_includes/forms" as forms %}
+{% import '_includes/forms' as forms %}
 
 {% set title = 'DashCols' | t %}
 
@@ -18,7 +18,7 @@
 	<div id="dashCols-sectionEdit">
 		<form method="post" accept-charset="UTF-8" data-saveshortcut="1">
 
-			{% include "_includes/fieldlayoutdesigner" with {
+			{% include '_includes/fieldlayoutdesigner' with {
 				fieldLayout : layout.getFieldLayout(),
 				customizableTabs : false,
 				pretendTabName : 'Columns' | t
@@ -68,5 +68,7 @@
 
 		</form>
 	</div>
+
+	{% include 'dashcols/_partials/_footer.twig' %}
 
 {% endblock %}

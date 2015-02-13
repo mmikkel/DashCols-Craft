@@ -72,6 +72,12 @@ Please report any bugs, feature requests or other issues here. As _DashCols_ is 
 
 ## Changelog
 
+### Version 1.1.3
+
+* Edit template only displays relevant default fields
+* Added footer to CP section
+* Removed editing for individual Single sections
+
 ### Version 1.1.2
 
 * Fixed issue with Singles layout redirect on save
