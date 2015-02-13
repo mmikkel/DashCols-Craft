@@ -32,7 +32,7 @@ class DashCols_LayoutsController extends BaseController
 
 		// Get tabs
 		$variables[ 'tabs' ] = craft()->dashCols->getCpTabs();
-		$variables[ 'selectedTab' ] = 'layouts';
+		$variables[ 'selectedTab' ] = 'dashColsIndex';
 
 		// Render
 		return $this->renderTemplate( 'dashCols/_layouts', $variables );
