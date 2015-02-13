@@ -42,6 +42,48 @@ class DashColsService extends BaseApplicationComponent
 
 	}
 
+	/*
+	* Return map of default fields in Craft
+	*
+	*/
+	public function getDefaultFields( $target = false )
+	{
+
+		$defaultFields = array(
+			'uri' => Craft::t( 'URI' ),
+			'postDate' => Craft::t( 'Post Date' ),
+			'expiryDate' => Craft::t( 'Expiry Date' ),
+			'section' => Craft::t( 'Section' ),
+		);
+
+		switch ( $target ) {
+
+			case 'entries' :
+
+				return $defaultFields;
+
+				break;
+
+			case 'singles' :
+			case 'categoryGroup' :
+
+				return array_intersect_key( $defaultFields, array_flip( array( 'uri' ) ) );
+
+				break;
+
+			case 'section' :
+
+				return array_intersect_key( $defaultFields, array_flip( array( 'uri', 'postDate', 'expiryDate' ) ) );
+
+				break;
+
+			default :
+
+				return $defaultFields;
+
+		}
+	}
+
 	public function getSections()
 	{
 		if ( $this->_sections === null ) {

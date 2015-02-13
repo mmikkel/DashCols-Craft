@@ -24,11 +24,11 @@
 
 			<hr />
 
-			{% if hiddenFields is defined %}
+			{% if defaultFields is defined and defaultFields | length > 0 and defaultFields != false %}
 			<h3>Hide/show default fields</h3>
 			<table class="dashCols-defaultFields data fullwidth collapsible">
 				<tbody>
-					{% for hiddenFieldKey,hiddenFieldValue in hiddenFields %}
+					{% for hiddenFieldKey,hiddenFieldValue in defaultFields %}
 					<tr>
 						<td class="dashCols-switch thin">
 							<div class="dashCols-defaultField">

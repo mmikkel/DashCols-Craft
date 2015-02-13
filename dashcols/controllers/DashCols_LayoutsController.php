@@ -74,6 +74,9 @@ class DashCols_LayoutsController extends BaseController
 		);
 		$variables[ 'selectedTab' ] = $variables[ 'section' ]->handle;
 
+		// Get default fields
+		$variables[ 'defaultFields' ] = craft()->dashCols->getDefaultFields( 'section' );
+
 		return $this->renderEditLayout( $variables );
 
 	}
@@ -113,6 +116,9 @@ class DashCols_LayoutsController extends BaseController
 		);
 		$variables[ 'selectedTab' ] = $variables[ 'section' ]->handle;
 
+		// Get default fields
+		$variables[ 'defaultFields' ] = craft()->dashCols->getDefaultFields( 'categoryGroup' );
+
 		return $this->renderEditLayout( $variables );
 
 	}
@@ -149,6 +155,9 @@ class DashCols_LayoutsController extends BaseController
 		);
 		$variables[ 'selectedTab' ] = $variables[ 'listingHandle' ];
 
+		// Get default fields
+		$variables[ 'defaultFields' ] = craft()->dashCols->getDefaultFields( $variables[ 'listingHandle' ] );
+
 		return $this->renderEditLayout( $variables );
 
 	}
@@ -159,14 +168,6 @@ class DashCols_LayoutsController extends BaseController
 	 */
 	protected function renderEditLayout( array $variables = array() )
 	{
-
-		// Set hidden fields
-		$variables[ 'hiddenFields' ] = array(
-			'uri' => Craft::t( 'URI' ),
-			'postDate' => Craft::t( 'Post Date' ),
-			'expiryDate' => Craft::t( 'Expiry Date' ),
-			'section' => Craft::t( 'Section' ),
-		);
 
 		// Get tabs & breadcrumbs
 		$variables[ 'tabs' ] = array_merge( craft()->dashCols->getCpTabs(), $variables[ 'tabs' ] );
