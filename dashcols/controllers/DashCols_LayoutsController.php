@@ -51,7 +51,7 @@ class DashCols_LayoutsController extends BaseController
 		}
 
 		$variables[ 'section' ] = craft()->dashCols->getSectionByHandle( $variables[ 'sectionHandle' ] );
-		if ( ! $variables[ 'section' ] ) {
+		if ( ! $variables[ 'section' ] || $variables[ 'section' ]->type === 'single' ) {
 			throw new HttpException( 404 );
 		}
 
@@ -185,7 +185,8 @@ class DashCols_LayoutsController extends BaseController
 		$variables[ 'crumbs' ][] = $variables[ 'crumb' ];
 		unset( $variables[ 'crumb' ] );
 
-		$variables[ 'layoutTabs' ] = array(
+		// Get layout URLs
+		$variables[ 'layoutUrls' ] = array(
 			array(
 				'label' => Craft::t( 'All entries' ),
 				'url' => UrlHelper::getUrl( 'dashcols/layouts/listing/entries' ),
@@ -201,11 +202,17 @@ class DashCols_LayoutsController extends BaseController
 		$layouts = array_merge( craft()->dashCols->getSections(), craft()->dashCols->getCategoryGroups() );
 
 		foreach ( $layouts as $section ) {
-			$variables[ 'layoutTabs' ][ $section->handle ] = array(
+
+			if ( isset( $section->type ) && $section->type === 'single' ) {
+				continue;
+			}
+
+			$variables[ 'layoutUrls' ][ $section->handle ] = array(
 				'label' => $section->name,
 				'url' => UrlHelper::getUrl( 'dashcols/layouts/section/' . $section->handle ),
 				'active' => $variables[ 'section' ]->handle === $section->handle,
 			);
+
 		}
 
 		// Render

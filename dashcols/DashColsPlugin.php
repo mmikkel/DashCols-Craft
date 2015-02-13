@@ -16,7 +16,7 @@ class DashColsPlugin extends BasePlugin
 
     public      $unsupportedFieldTypes = array( 'Rich Text', 'Table', 'Matrix' );
 
-    protected   $_version = '1.1.3',
+    protected   $_version = '1.1.4',
                 $_developer = 'Mats Mikkel Rummelhoff',
                 $_developerUrl = 'http://mmikkel.no',
                 $_pluginUrl = 'https://github.com/mmikkel/DashCols-Craft';
