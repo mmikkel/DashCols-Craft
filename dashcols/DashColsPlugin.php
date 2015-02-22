@@ -14,9 +14,7 @@
 class DashColsPlugin extends BasePlugin
 {
 
-    public      $unsupportedFieldTypes = array( 'Rich Text', 'Table', 'Matrix' );
-
-    protected   $_version = '1.1.5',
+    protected   $_version = '1.1.6',
                 $_developer = 'Mats Mikkel Rummelhoff',
                 $_developerUrl = 'http://mmikkel.no',
                 $_pluginUrl = 'https://github.com/mmikkel/DashCols-Craft';
@@ -93,85 +91,16 @@ class DashColsPlugin extends BasePlugin
 
     }
 
-    /*
-    * Adds and removes entry table attributes based on settings
-    *
-    */
     public function modifyEntryTableAttributes( &$attributes, $source )
     {
-
-        $dashColsLayout = false;
-        $fieldLayoutId = false;
-
-        switch ( $source ) {
-
-            case '*' : case 'singles' :
-
-                // Listing
-                if ( $source === '*' ) {
-                    $source = 'entries';
-                }
-                if ( $dashColsLayout = craft()->dashCols->getLayoutByListingHandle( $source ) ) {
-                    $fieldLayoutId = $dashColsLayout->fieldLayoutId;
-                }
-
-                break;
-
-            default :
-
-                // Section
-                $temp = explode( ':', $source );
-                if ( $temp[ 0 ] != 'section' || ! isset( $temp[ 1 ] ) || ! is_numeric( $temp[ 1 ] ) ) {
-                    return false;
-                }
-                if ( $dashColsLayout = craft()->dashCols->getLayoutBySectionId( $temp[ 1 ] ) ) {
-                    $fieldLayoutId = $dashColsLayout->fieldLayoutId;
-                }
-
-        }
-
-        if ( $dashColsLayout ) {
-            $this->_removeDefaultAttributes( $dashColsLayout, $attributes );
-        }
-
-        if ( $fieldLayoutId ) {
-            $this->_addFieldLayoutAttributes( $fieldLayoutId, $attributes );
-        }
-
+        craft()->dashCols_attributes->modifyEntryTableAttributes( $attributes, $source );
         craft()->templates->includeJsResource( 'dashcols/js/entryTable.min.js' );
-
     }
 
-    /*
-    * Adds and removes entry table attributes based on settings
-    *
-    */
     public function modifyCategoryTableAttributes( &$attributes, $source )
     {
-
-        $dashColsLayout = false;
-        $fieldLayoutId = false;
-
-        // Category group
-        $temp = explode( ':', $source );
-        if ( $temp[ 0 ] != 'group' || ! isset( $temp[ 1 ] ) || ! is_numeric( $temp[ 1 ] ) ) {
-            return false;
-        }
-
-        if ( $dashColsLayout = craft()->dashCols->getLayoutByCategoryGroupId( $temp[ 1 ] ) ) {
-            $fieldLayoutId = $dashColsLayout->fieldLayoutId;
-        }
-
-        if ( $dashColsLayout ) {
-            $this->_removeDefaultAttributes( $dashColsLayout, $attributes );
-        }
-
-        if ( $fieldLayoutId ) {
-            $this->_addFieldLayoutAttributes( $fieldLayoutId, $attributes );
-        }
-
+        craft()->dashCols_attributes->modifyCategoryTableAttributes( $attributes, $source );
         craft()->templates->includeJsResource( 'dashcols/js/entryTable.min.js' );
-
     }
 
     public function getEntryTableAttributeHtml( EntryModel $entry, $attribute )
@@ -182,44 +111,6 @@ class DashColsPlugin extends BasePlugin
     public function getCategoryTableAttributeHtml( CategoryModel $category, $attribute )
     {
         return craft()->dashCols_attributeHtml->getAttributeHtml( $category, $attribute );
-    }
-
-    protected function _removeDefaultAttributes( DashCols_LayoutModel $dashColsLayout, &$attributes )
-    {
-        if ( ! is_array( $dashColsLayout->hiddenFields ) ) {
-            return false;
-        }
-        foreach ( $dashColsLayout->hiddenFields as $attribute ) {
-            if ( isset( $attributes[ $attribute ] ) ) {
-                unset( $attributes[ $attribute ] );
-            }
-        }
-    }
-
-    protected function _addFieldLayoutAttributes( $fieldLayoutId, &$attributes )
-    {
-
-        if ( ! $fieldLayoutId ) {
-            return false;
-        }
-
-        if ( ! $fieldLayout = craft()->fields->getLayoutById( $fieldLayoutId ) ) {
-            return false;
-        }
-
-        $fieldLayoutFieldModels = $fieldLayout->getFields();
-        $fields = array();
-
-        foreach ( $fieldLayoutFieldModels as $fieldLayoutFieldModel ) {
-            if ( ! in_array( $fieldLayoutFieldModel->field->getFieldType()->name, $this->unsupportedFieldTypes ) ) {
-                $attributes[ $fieldLayoutFieldModel->field->handle ] = Craft::t( $fieldLayoutFieldModel->field->name );
-                $fields[] = $fieldLayoutFieldModel->field;
-            }
-        }
-
-        // Cache fields (used for lookups by the AttributeHtml service)
-        craft()->dashCols_fields->setFields( $fields );
-
     }
 
 }

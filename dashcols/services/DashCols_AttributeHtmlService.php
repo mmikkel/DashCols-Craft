@@ -25,10 +25,11 @@ class DashCols_AttributeHtmlService extends BaseApplicationComponent
 	public function getAttributeHtml( $element, $attribute )
 	{
 
-		// Don't do anything for default attributes TODO
-		if ( in_array( $attribute, array( 'uri', 'section', 'postDate', 'expiryDate' ) ) ) {
-			return null;
-		}
+		// Don't do anything for default attributes
+		$defaultFields = craft()->dashCols_fields->getDefaultFields();
+        if ( in_array( $attribute, array_keys( $defaultFields ) ) ) {
+            return null;
+        }
 
 		// Return early if element doesn't have the attribute
 		if ( ! $elementAttribute = @$element->$attribute ) {
@@ -53,6 +54,8 @@ class DashCols_AttributeHtmlService extends BaseApplicationComponent
 	 *
 	 */
 	private function _getStringValueTableAttributeHtml() {
+
+		// TODO: Check type of field for color and lightswitch!
 
 		if ( filter_var( $this->_attribute, FILTER_VALIDATE_URL ) ) {
 			// URL

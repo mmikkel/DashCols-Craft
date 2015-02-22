@@ -79,7 +79,7 @@ class DashCols_LayoutsController extends BaseController
 		$variables[ 'selectedTab' ] = $variables[ 'section' ]->handle;
 
 		// Get default fields
-		$variables[ 'defaultFields' ] = craft()->dashCols->getDefaultFields( 'section' );
+		$variables[ 'defaultFields' ] = craft()->dashCols_fields->getDefaultFields( 'section' );
 
 		return $this->renderEditLayout( $variables );
 
@@ -121,7 +121,7 @@ class DashCols_LayoutsController extends BaseController
 		$variables[ 'selectedTab' ] = $variables[ 'section' ]->handle;
 
 		// Get default fields
-		$variables[ 'defaultFields' ] = craft()->dashCols->getDefaultFields( 'categoryGroup' );
+		$variables[ 'defaultFields' ] = craft()->dashCols_fields->getDefaultFields( 'categoryGroup' );
 
 		return $this->renderEditLayout( $variables );
 
@@ -160,7 +160,7 @@ class DashCols_LayoutsController extends BaseController
 		$variables[ 'selectedTab' ] = $variables[ 'listingHandle' ];
 
 		// Get default fields
-		$variables[ 'defaultFields' ] = craft()->dashCols->getDefaultFields( $variables[ 'listingHandle' ] );
+		$variables[ 'defaultFields' ] = craft()->dashCols_fields->getDefaultFields( $variables[ 'listingHandle' ] );
 
 		return $this->renderEditLayout( $variables );
 

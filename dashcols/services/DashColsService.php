@@ -56,48 +56,6 @@ class DashColsService extends BaseApplicationComponent
         return isset( $settings[ 'cpSectionDisabled' ] ) && $settings[ 'cpSectionDisabled' ];
 	}
 
-	/*
-	* Return map of default fields in Craft
-	*
-	*/
-	public function getDefaultFields( $target = false )
-	{
-
-		$defaultFields = array(
-			'uri' => Craft::t( 'URI' ),
-			'postDate' => Craft::t( 'Post Date' ),
-			'expiryDate' => Craft::t( 'Expiry Date' ),
-			'section' => Craft::t( 'Section' ),
-		);
-
-		switch ( $target ) {
-
-			case 'entries' :
-
-				return $defaultFields;
-
-				break;
-
-			case 'singles' :
-			case 'categoryGroup' :
-
-				return array_intersect_key( $defaultFields, array_flip( array( 'uri' ) ) );
-
-				break;
-
-			case 'section' :
-
-				return array_intersect_key( $defaultFields, array_flip( array( 'uri', 'postDate', 'expiryDate' ) ) );
-
-				break;
-
-			default :
-
-				return $defaultFields;
-
-		}
-	}
-
 	public function getSections()
 	{
 		if ( $this->_sections === null ) {
@@ -202,6 +160,37 @@ class DashColsService extends BaseApplicationComponent
 		}
 		return $listing;
 	}
+
+	public function getLayoutFromEntrySource( $source )
+    {
+        switch ( $source ) {
+            case '*' : case 'singles' :
+                // Listing
+                if ( $source === '*' ) {
+                    $source = 'entries';
+                }
+                $dashColsLayout = $this->getLayoutByListingHandle( $source );
+                break;
+            default :
+                // Section
+                $temp = explode( ':', $source );
+                if ( $temp[ 0 ] != 'section' || ! isset( $temp[ 1 ] ) || ! is_numeric( $temp[ 1 ] ) ) {
+                    return false;
+                }
+                $dashColsLayout = $this->getLayoutBySectionId( $temp[ 1 ] );
+        }
+        return $dashColsLayout;
+    }
+
+    public function getLayoutFromCategorySource( $source )
+    {
+    	// Category group
+        $temp = explode( ':', $source );
+        if ( $temp[ 0 ] != 'group' || ! isset( $temp[ 1 ] ) || ! is_numeric( $temp[ 1 ] ) ) {
+            return false;
+        }
+        return $this->getLayoutByCategoryGroupId( $temp[ 1 ] );
+    }
 
 	public function getLayoutBySectionId( $sectionId )
 	{

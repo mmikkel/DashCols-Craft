@@ -76,9 +76,14 @@ Please report any bugs, feature requests or other issues here. As _DashCols_ is 
 
 ### Changelog
 
+#### 1.1.6
+
+_Minor refactor_
+
 #### 1.1.5
 
 * Fixed issue where the Edit Columns button would not be added to non-managed index tables
+* Date/Time columns now display date and/or time based on field settings
 
 #### 1.1.4
 
