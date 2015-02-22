@@ -207,15 +207,22 @@ class DashColsPlugin extends BasePlugin
             return false;
         }
 
-        // Get field layout and fields
-        $fieldLayout = craft()->fields->getLayoutById( $fieldLayoutId );
-        $fields = $fieldLayout->getFields();
+        if ( ! $fieldLayout = craft()->fields->getLayoutById( $fieldLayoutId ) ) {
+            return false;
+        }
 
-        foreach ( $fields as $field ) {
-            if ( ! in_array( $field->field->getFieldType()->name, $this->unsupportedFieldTypes ) ) {
-                $attributes[ $field->field->handle ] = Craft::t( $field->field->name );
+        $fieldLayoutFieldModels = $fieldLayout->getFields();
+        $fields = array();
+
+        foreach ( $fieldLayoutFieldModels as $fieldLayoutFieldModel ) {
+            if ( ! in_array( $fieldLayoutFieldModel->field->getFieldType()->name, $this->unsupportedFieldTypes ) ) {
+                $attributes[ $fieldLayoutFieldModel->field->handle ] = Craft::t( $fieldLayoutFieldModel->field->name );
+                $fields[] = $fieldLayoutFieldModel->field;
             }
         }
+
+        // Cache fields (used for lookups by the AttributeHtml service)
+        craft()->dashCols_fields->setFields( $fields );
 
     }
 
