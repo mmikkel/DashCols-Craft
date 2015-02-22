@@ -16,7 +16,7 @@ class DashColsPlugin extends BasePlugin
 
     public      $unsupportedFieldTypes = array( 'Rich Text', 'Table', 'Matrix' );
 
-    protected   $_version = '1.1.4',
+    protected   $_version = '1.1.5',
                 $_developer = 'Mats Mikkel Rummelhoff',
                 $_developerUrl = 'http://mmikkel.no',
                 $_pluginUrl = 'https://github.com/mmikkel/DashCols-Craft';
@@ -104,6 +104,7 @@ class DashColsPlugin extends BasePlugin
     public function modifyEntryTableAttributes( &$attributes, $source )
     {
 
+        $dashColsLayout = false;
         $fieldLayoutId = false;
 
         switch ( $source ) {
@@ -133,8 +134,13 @@ class DashColsPlugin extends BasePlugin
 
         }
 
-        $this->_removeDefaultAttributes( $dashColsLayout, $attributes );
-        $this->_addFieldLayoutAttributes( $fieldLayoutId, $attributes );
+        if ( $dashColsLayout ) {
+            $this->_removeDefaultAttributes( $dashColsLayout, $attributes );
+        }
+
+        if ( $fieldLayoutId ) {
+            $this->_addFieldLayoutAttributes( $fieldLayoutId, $attributes );
+        }
 
         craft()->templates->includeJsResource( 'dashcols/js/entryTable.min.js' );
 
@@ -147,6 +153,7 @@ class DashColsPlugin extends BasePlugin
     public function modifyCategoryTableAttributes( &$attributes, $source )
     {
 
+        $dashColsLayout = false;
         $fieldLayoutId = false;
 
         // Category group
@@ -159,12 +166,13 @@ class DashColsPlugin extends BasePlugin
             $fieldLayoutId = $dashColsLayout->fieldLayoutId;
         }
 
-        if ( ! $fieldLayoutId ) {
-            return false;
+        if ( $dashColsLayout ) {
+            $this->_removeDefaultAttributes( $dashColsLayout, $attributes );
         }
 
-        $this->_removeDefaultAttributes( $dashColsLayout, $attributes );
-        $this->_addFieldLayoutAttributes( $fieldLayoutId, $attributes );
+        if ( $fieldLayoutId ) {
+            $this->_addFieldLayoutAttributes( $fieldLayoutId, $attributes );
+        }
 
         craft()->templates->includeJsResource( 'dashcols/js/entryTable.min.js' );
 
@@ -180,9 +188,9 @@ class DashColsPlugin extends BasePlugin
         return craft()->dashCols_attributeHtml->getAttributeHtml( $category, $attribute );
     }
 
-    protected function _removeDefaultAttributes( $dashColsLayout, &$attributes )
+    protected function _removeDefaultAttributes( DashCols_LayoutModel $dashColsLayout, &$attributes )
     {
-        if ( ! $dashColsLayout || ! is_array( $dashColsLayout->hiddenFields ) ) {
+        if ( ! is_array( $dashColsLayout->hiddenFields ) ) {
             return false;
         }
         foreach ( $dashColsLayout->hiddenFields as $attribute ) {

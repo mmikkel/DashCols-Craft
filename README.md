@@ -76,6 +76,10 @@ Please report any bugs, feature requests or other issues here. As _DashCols_ is 
 
 ### Changelog
 
+#### 1.1.5
+
+* Fixed issue where the Edit Columns button would not be added to non-managed index tables
+
 #### 1.1.4
 
 * Added settings page and the _Undercover mode_ setting to hide the CP section and disable layout editing
