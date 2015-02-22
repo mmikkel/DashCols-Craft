@@ -76,7 +76,6 @@ class DashColsPlugin extends BasePlugin
 
     public function registerCpRoutes()
     {
-
         return array(
             'dashcols' => array( 'action' => 'dashCols/layouts/getIndex' ),
             'dashcols/layouts' => array( 'action' => 'dashCols/layouts/getIndex' ),
@@ -84,7 +83,6 @@ class DashColsPlugin extends BasePlugin
             'dashcols/layouts/category-group/(?P<categoryGroupHandle>[-\w]+)' => array( 'action' => 'dashCols/layouts/editCategoryGroupLayout' ),
             'dashcols/layouts/listing/(?P<listingHandle>[-\w]+)' => array( 'action' => 'dashCols/layouts/editListingLayout' ),
         );
-
     }
 
     public function init () {
@@ -92,7 +90,14 @@ class DashColsPlugin extends BasePlugin
         parent::init();
 
         if ( craft()->request->isCpRequest() ) {
-            craft()->templates->includeCssResource( 'dashcols/css/dashcols.min.css' );
+
+            $dashColsSegments = array( 'entries', 'categories', 'dashcols' );
+            $segments = craft()->request->segments;
+
+            if ( in_array( $segments[ 0 ], $dashColsSegments ) ) {
+                craft()->templates->includeCssResource( 'dashcols/css/dashcols.min.css' );
+            }
+
         }
 
     }
