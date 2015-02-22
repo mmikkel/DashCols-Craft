@@ -65,15 +65,6 @@ class DashColsPlugin extends BasePlugin
         ) );
     }
 
-    public function prepSettings( $settings )
-    {
-        if ( isset( $settings[ 'cpSectionDisabled' ] ) )
-        {
-
-        }
-        return $settings;
-    }
-
     public function registerCpRoutes()
     {
         return array(
