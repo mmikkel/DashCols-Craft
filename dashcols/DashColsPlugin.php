@@ -83,7 +83,7 @@ class DashColsPlugin extends BasePlugin
             $dashColsSegments = array( 'entries', 'categories', 'dashcols' );
             $segments = craft()->request->segments;
 
-            if ( in_array( $segments[ 0 ], $dashColsSegments ) ) {
+            if ( is_array( $segments ) && isset( $segments[ 0 ] ) && in_array( $segments[ 0 ], $dashColsSegments ) ) {
                 craft()->templates->includeCssResource( 'dashcols/css/dashcols.min.css' );
             }
 
