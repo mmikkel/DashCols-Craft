@@ -1,4 +1,4 @@
-# DashCols Craft CMS Plugin v. 1.1.6
+# DashCols Craft CMS Plugin v. 1.1.7
 
 DashCols makes it easy to add custom fields to element index tables.
 That’s right, if you ever wanted to display a “featured image” or the like in your entry listings – fret no more.
@@ -75,6 +75,10 @@ _DashCols_ is provided free of charge. The author is not responsible for any dat
 Please report any bugs, feature requests or other issues here. As _DashCols_ is a hobby project, no promises are made regarding response time, feature implementations or bug amendments.
 
 ### Changelog
+
+#### 1.1.7
+
+Fixed issue where layouts would not save if CSRF is enabled
 
 #### 1.1.6
 

@@ -66,6 +66,8 @@
 			{% endif %}
 			{% if layout.id %}<input type="hidden" name="layoutId" value="{{ layout.id }}" />{% endif %}
 
+			<input type="hidden" name="{{ craft.config.csrfTokenName }}" value="{{ craft.request.csrfToken }}">
+
 		</form>
 	</div>
 
