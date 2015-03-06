@@ -125,7 +125,7 @@
 						<td width="25%">
 							<a href="http://buildwithcraft.com/docs/assets-fields" class="go">Assets</a>
 						</td>
-						<td class="desc">DashCols will only output images, and only 1 per field (i.e. the first one)</td>
+						<td class="desc">DashCols will only display the first Asset in a field in full (thumbnail if image, icon + filename if file), in addition to the the total filecount (if more than 1 Asset in field)</td>
 					</tr>
 				</tbody>
 			</table>
@@ -167,6 +167,12 @@
 		<section>
 
 			<h3 class="dashCols-title">{{ 'Changelog' | t }}</h3>
+
+			<h5>Version 1.1.8 - 03.06.15</h5>
+			<ul>
+				<li>_Asset_ columns will now display total number of files (if more than 1)</li>
+				<li>_Asset_ columns now display icon + filename for files.</li>
+			</ul>
 
 			<h5>Version 1.1.7 - 02.25.15</h5>
 
@@ -232,7 +238,6 @@
 			<p>Look for the following in future updates:</p>
 
 			<ul>
-				<li>Output of non-image Asset fields (icon and/or filename, haven't decided yet)</li>
 				<li>Sorting/ordering options</li>
 				<li>Support for User tables</li>
 				<li>Inline editing of sections/listings/category groups</li>
