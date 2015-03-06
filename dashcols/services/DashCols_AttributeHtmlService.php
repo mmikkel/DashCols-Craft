@@ -176,37 +176,42 @@ class DashCols_AttributeHtmlService extends BaseApplicationComponent
 	private function _getAssetTableAttributeHtml()
 	{
 
-		 // Just one asset, mmkay
-		if ( $asset = $this->_attribute[ 0 ] ) {
+		if ( ! $asset = $this->_attribute[ 0 ] ) {
+			return false;
+		}
 
-			$temp = '<a href="' . $this->_element->cpEditUrl .'">';
+		$totalCount = count( $this->_attribute );
 
-			switch ( $asset->kind ) {
+		if ( $asset->kind === 'image' && strtolower( $asset->extension ) !== 'svg' ) {
 
-				case 'image' :
+			// Image
+			$assetWidth = 60;
+			$assetHeight = 60;
 
-					$asset_width = 60;
-					$asset_height = 60;
+			$attributeHtmlClass = 'image';
 
-					$temp .= '<img src="' . $asset->getThumbUrl( $asset_width, $asset_height ) . '" width="' . $asset_width . '" height="' . $asset_height . '" alt="' . $asset->title . '" style="border-radius: 2px;" />';
+			$attributeHtml = '<img src="' . $asset->getThumbUrl( $assetWidth, $assetHeight ) . '" width="' . $assetWidth . '" height="' . $assetHeight . '" alt="' . $asset->title . '" />';
 
-					break;
-
-				default :
-
-					$temp = $asset->filename;
-
-					// TODO: Return something better for files than just the name
-
-					break;
-
+			if ( $totalCount > 1 ) {
+				$attributeHtml .= '<div class="dashCols-assetFileCount">' . $totalCount . ' ' . Craft::t( 'files' ) . '</div>';
 			}
 
-			return $temp .= '</a>';
+		} else {
+
+			// File
+			$iconSize = 20;
+
+			$attributeHtmlClass = 'file';
+
+			$attributeHtml = '<div class="dashCols-assetFile"><img src="' . $asset->getIconUrl( $iconSize ) . '" alt="" class="dashCols-assetFileIcon" />&nbsp;<span class="dashCols-assetFilename">'.$asset->filename . '</span></div>';
+
+			if ( $totalCount > 1 ) {
+				$attributeHtml .= '<div class="dashCols-assetFileCount">+ ' . ( $totalCount - 1 ) . ' ' . Craft::t( 'more' ) . '</div>';
+			}
 
 		}
 
-		return false;
+		return '<div class="dashCols-assetField' . ucfirst( $attributeHtmlClass ) . '">' . $attributeHtml . '</div>';
 
 	}
 
