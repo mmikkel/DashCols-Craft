@@ -76,6 +76,14 @@ Please report any bugs, feature requests or other issues here. As _DashCols_ is 
 
 ### Changelog
 
+#### 1.1.9
+
+* **Added option to output element metadata (Updated Date, ID and Author) as columns**
+* Fixed issue where string values "1" and "0" would always render as a Lightswitch attribute – thanks Fred, you're a champ.
+* Fixed issue where string values starting with "#" would sometimes render as a Color attribute
+* String values interpreted as external links will now open in a new tab
+* Added setting for renaming _DashCols_
+
 #### 1.1.8
 
 * _Asset_ columns will now display total number of files (if more than 1)
