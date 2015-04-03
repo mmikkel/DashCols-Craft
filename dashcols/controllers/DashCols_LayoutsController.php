@@ -81,6 +81,9 @@ class DashCols_LayoutsController extends BaseController
 		// Get default fields
 		$variables[ 'defaultFields' ] = craft()->dashCols_fields->getDefaultFields( 'section' );
 
+		// Get meta fields
+		$variables[ 'metaFields' ] = craft()->dashCols_fields->getMetaFields( 'section' );
+
 		return $this->renderEditLayout( $variables );
 
 	}
@@ -123,6 +126,9 @@ class DashCols_LayoutsController extends BaseController
 		// Get default fields
 		$variables[ 'defaultFields' ] = craft()->dashCols_fields->getDefaultFields( 'categoryGroup' );
 
+		// Get meta fields
+		$variables[ 'metaFields' ] = craft()->dashCols_fields->getMetaFields( 'categoryGroup' );
+
 		return $this->renderEditLayout( $variables );
 
 	}
@@ -161,6 +167,9 @@ class DashCols_LayoutsController extends BaseController
 
 		// Get default fields
 		$variables[ 'defaultFields' ] = craft()->dashCols_fields->getDefaultFields( $variables[ 'listingHandle' ] );
+
+		// Get meta fields
+		$variables[ 'metaFields' ] = craft()->dashCols_fields->getMetaFields( $variables[ 'listingHandle' ] );
 
 		return $this->renderEditLayout( $variables );
 
@@ -272,6 +281,15 @@ class DashCols_LayoutsController extends BaseController
 			}
 		}
 		$layout->hiddenFields = ! empty( $hiddenFields ) ? $hiddenFields : false;
+
+		// Get meta fields
+		$metaFields = array();
+		foreach ( $request->getPost( 'metaFields' ) as $key => $value ) {
+			if ( $value === '1' ) {
+				$metaFields[] = $key;
+			}
+		}
+		$layout->metaFields = ! empty( $metaFields ) ? $metaFields : false;
 
 		if ( craft()->dashCols->saveLayout( $layout ) ) {
 			craft()->userSession->setNotice( Craft::t( 'Layout for ' . $section->name . ' saved!' ) );

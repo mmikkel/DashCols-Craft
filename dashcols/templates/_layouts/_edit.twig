@@ -49,6 +49,29 @@
 			<hr />
 			{% endif %}
 
+			{% if metaFields is defined and metaFields | length > 0 and metaFields != false %}
+			<h3>Show/hide metadata</h3>
+			<table id="dashCols-metaFields" class="data fullwidth collapsible">
+				<tbody>
+					{% for metaFieldKey,metaFieldValue in metaFields %}
+					<tr>
+						<td class="dashCols-switch thin">
+							<div class="dashCols-defaultField">
+								{{ forms.lightswitch({
+									id: metaFieldKey,
+									name: 'metaFields[' ~ metaFieldKey ~ ']',
+									on : metaFieldKey in layout.metaFields ? true : false,
+								}) }}
+							</div>
+						</td>
+						<td class="dashCols-fieldName"><label for="{{ metaFieldKey }}">{{ metaFieldValue }}</label></td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			<hr />
+			{% endif %}
+
 			<div id="dashCols-actions">
 				<input type="submit" class="btn submit" value="{{ 'Save' | t }}" />
 			</div>

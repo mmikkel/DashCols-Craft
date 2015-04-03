@@ -1,5 +1,9 @@
 ( function ( window ) {
 
+    if ( ! window.$ ) {
+        return;
+    }
+
     var DashCols_CpSection = {};
 
     DashCols_CpSection.init = function () {

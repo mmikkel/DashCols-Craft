@@ -16,6 +16,11 @@ class DashCols_FieldsService extends BaseApplicationComponent
 
     protected $_fields = null;
 
+    public function getUnsupportedFieldTypes()
+    {
+        return array( 'Rich Text', 'Table', 'Matrix' );
+    }
+
     /*
     * Return map of default fields in Craft
     *
@@ -58,9 +63,33 @@ class DashCols_FieldsService extends BaseApplicationComponent
         }
     }
 
-    public function getUnsupportedFieldTypes()
+    /*
+    * Return map of metadata fields in Craft
+    *
+    */
+    public function getMetaFields( $target = false )
     {
-        return array( 'Rich Text', 'Table', 'Matrix' );
+        
+        $metaFields = array(
+            'id' => Craft::t( 'ID' ),
+            'dateUpdated' => Craft::t( 'Updated Date' ),
+            'authorId' => Craft::t( 'Author' ),
+        );
+
+        switch ( $target ) {
+
+            case 'categoryGroup' :
+
+                return array_intersect_key( $metaFields, array_flip( array( 'id', 'dateUpdated' ) ) );
+
+                break;
+
+            default :
+
+                return $metaFields;
+
+        }
+
     }
 
     public function setFields( $fields )

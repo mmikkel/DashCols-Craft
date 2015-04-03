@@ -1,5 +1,9 @@
 ( function( window ) {
 
+	if ( ! window.$ ) {
+        return;
+    }
+
 	var DashCols_Index = {};
 
 	DashCols_Index.init = function () {

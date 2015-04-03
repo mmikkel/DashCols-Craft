@@ -273,6 +273,7 @@ class DashColsService extends BaseApplicationComponent
 		}
 
 		$dashColsLayoutRecord->hiddenFields = $dashColsLayout->hiddenFields;
+		$dashColsLayoutRecord->metaFields = $dashColsLayout->metaFields;
 
 		$dashColsLayoutRecord->validate();
 

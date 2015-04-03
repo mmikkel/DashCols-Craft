@@ -33,7 +33,22 @@ class DashCols_AttributesService extends BaseApplicationComponent
 	protected function modifyTableAttributes( &$attributes, DashCols_LayoutModel $dashColsLayout )
 	{
 
-		// Get custom fields
+		// Add meta fields
+		if ( ( $metaFields = $dashColsLayout->metaFields ) && is_array( $metaFields ) ) {
+
+			$allMetaFields = craft()->dashCols_fields->getMetaFields();
+
+			foreach ( $metaFields as $attribute ) {
+
+				if ( isset( $allMetaFields[ $attribute ] ) ) {
+					$attributes[ $attribute ] = $allMetaFields[ $attribute ];
+				}
+
+			}
+
+		}
+
+		// Add custom fields
 		if ( $dashColsLayout->fieldLayoutId && $fieldLayout = craft()->fields->getLayoutById( $dashColsLayout->fieldLayoutId ) ) {
 
 			$fieldLayoutFieldModels = $fieldLayout->getFields();

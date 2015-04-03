@@ -30,6 +30,7 @@ class DashCols_LayoutRecord extends BaseRecord
 			'listingHandle' => AttributeType::String,
 			'fieldLayoutId' => AttributeType::Number,
 			'hiddenFields' => AttributeType::Mixed,
+			'metaFields' => AttributeType::Mixed,
 		);
 	}
 

@@ -27,6 +27,7 @@ class DashCols_LayoutModel extends BaseModel
 			'listingHandle' => AttributeType::String,
 			'fieldLayoutId' => AttributeType::Number,
 			'hiddenFields' => AttributeType::Mixed,
+			'metaFields' => AttributeType::Mixed,
 		);
 	}
 
