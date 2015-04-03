@@ -14,6 +14,8 @@
 class DashColsVariable
 {
 
+	private $_plugin = null;
+
 	public function getPlugin()
 	{
 		return craft()->dashCols->getPlugin();
@@ -27,6 +29,11 @@ class DashColsVariable
 	public function getPluginUrl()
 	{
 		return $this->getPlugin()->getPluginUrl();
+	}
+
+	public function getPluginName()
+	{
+		return $this->getPlugin()->getName();
 	}
 
 	public function version()

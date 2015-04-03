@@ -14,8 +14,12 @@
 class DashCols_FieldsService extends BaseApplicationComponent
 {
 
-    protected $_fields = null;
+    protected $_customFields = null;
 
+    /*
+    * Get FieldTypes that aren't supported by DashCols
+    *
+    */
     public function getUnsupportedFieldTypes()
     {
         return array( 'Rich Text', 'Table', 'Matrix' );
@@ -37,12 +41,6 @@ class DashCols_FieldsService extends BaseApplicationComponent
 
         switch ( $target ) {
 
-            case 'entries' :
-
-                return $defaultFields;
-
-                break;
-
             case 'singles' :
             case 'categoryGroup' :
 
@@ -61,6 +59,7 @@ class DashCols_FieldsService extends BaseApplicationComponent
                 return $defaultFields;
 
         }
+
     }
 
     /*
@@ -92,28 +91,42 @@ class DashCols_FieldsService extends BaseApplicationComponent
 
     }
 
-    public function setFields( $fields )
+    public function getCustomFields()
+    {
+        return $this->_customFields ?: array();
+    }
+
+    public function getCustomFieldByHandle( $handle )
+    {
+        return isset( $this->_customFields[ $handle ] ) ? $this->_customFields[ $handle ] : false;
+    }
+
+    /*
+    * Gets and caches fields from a DashCols layout's FieldLayoutModel
+    *
+    */
+    public function setLayout( $dashColsLayout )
     {
 
-        $this->_fields = array();
+        $this->_customFields = array();
 
-        // Cache fields by handle
-        if ( is_array( $fields ) ) {
-            foreach ( $fields as $field ) {
-                $this->_fields[ $field->handle ] = $field;
+        if (
+            ! $dashColsLayout
+            || ! $dashColsLayout->fieldLayoutId
+            || ! $fieldLayout = craft()->fields->getLayoutById( $dashColsLayout->fieldLayoutId )
+        ) {
+            return false;
+        }
+
+        $fieldLayoutFieldModels = $fieldLayout->getFields();
+        $fields = array();
+        
+        foreach ( $fieldLayoutFieldModels as $fieldLayoutFieldModel ) {
+            if ( ! in_array( $fieldLayoutFieldModel->field->getFieldType()->name, $this->getUnsupportedFieldTypes() ) ) {
+                $this->_customFields[ $fieldLayoutFieldModel->field->handle ] = $fieldLayoutFieldModel->field;
             }
         }
 
-    }
-
-    public function getFields()
-    {
-        return $this->_fields ?: array();
-    }
-
-    public function getFieldByHandle( $handle )
-    {
-        return isset( $this->_fields[ $handle ] ) ? $this->_fields[ $handle ] : false;
     }
 
 }

@@ -17,11 +17,12 @@ class DashColsPlugin extends BasePlugin
     protected   $_version = '1.1.9',
                 $_developer = 'Mats Mikkel Rummelhoff',
                 $_developerUrl = 'http://mmikkel.no',
+                $_pluginName = 'DashCols',
                 $_pluginUrl = 'https://github.com/mmikkel/DashCols-Craft';
 
     public function getName()
     {
-         return Craft::t( 'DashCols' );
+         return $this->getSettings()->name ?: $this->_pluginName;
     }
 
     public function getVersion()
@@ -53,6 +54,7 @@ class DashColsPlugin extends BasePlugin
     {
         return array(
             'cpSectionDisabled' => array( AttributeType::Bool, 'default' => false ),
+            'name' => array( AttributeType::String, 'default' => $this->_pluginName ),
         );
     }
 
@@ -78,7 +80,7 @@ class DashColsPlugin extends BasePlugin
 
         parent::init();
 
-        if ( craft()->request->isCpRequest() ) {
+        if ( craft()->request->isCpRequest() && ! craft()->request->isAjaxRequest() ) {
             $this->includeResources();
         }
 
@@ -86,10 +88,6 @@ class DashColsPlugin extends BasePlugin
 
     protected function includeResources()
     {
-
-        if ( craft()->request->isAjaxRequest() ) {
-            return false;
-        }
 
         $segments = craft()->request->segments;
 
@@ -101,6 +99,7 @@ class DashColsPlugin extends BasePlugin
 
             case 'entries' : case 'categories' :
 
+                // Index tables
                 craft()->templates->includeCssResource( 'dashcols/css/dashcols.index.css' );
                 craft()->templates->includeJsResource( 'dashcols/js/dashcols.index.js' );
 
@@ -108,6 +107,7 @@ class DashColsPlugin extends BasePlugin
 
             case 'dashcols' :
 
+                // DashCols' CP section
                 craft()->templates->includeCssResource( 'dashcols/css/dashcols.cp.css' );
                 craft()->templates->includeJsResource( 'dashcols/js/dashcols.cp.js' );
 
@@ -119,22 +119,24 @@ class DashColsPlugin extends BasePlugin
 
     public function modifyEntryTableAttributes( &$attributes, $source )
     {
-        craft()->dashCols_attributes->modifyEntryTableAttributes( $attributes, $source );
+        craft()->dashCols_layouts->setLayoutFromEntrySource( $source );
+        craft()->dashCols_attributes->modifyIndexTableAttributes( $attributes );
     }
 
     public function modifyCategoryTableAttributes( &$attributes, $source )
     {
-        craft()->dashCols_attributes->modifyCategoryTableAttributes( $attributes, $source );
+        craft()->dashCols_layouts->setLayoutFromCategorySource( $source );
+        craft()->dashCols_attributes->modifyIndexTableAttributes( $attributes );
     }
 
     public function getEntryTableAttributeHtml( EntryModel $entry, $attribute )
     {
-        return craft()->dashCols_attributeHtml->getAttributeHtml( $entry, $attribute );
+        return craft()->dashCols_attributes->getAttributeHtml( $entry, $attribute );
     }
 
     public function getCategoryTableAttributeHtml( CategoryModel $category, $attribute )
     {
-        return craft()->dashCols_attributeHtml->getAttributeHtml( $category, $attribute );
+        return craft()->dashCols_attributes->getAttributeHtml( $category, $attribute );
     }
 
 }

@@ -62,7 +62,7 @@ class DashCols_LayoutsController extends BaseController
 		$variables[ 'sectionId' ] = $variables[ 'section' ]->id;
 
 		// Get layout model
-		if ( ! $variables[ 'layout' ] = craft()->dashCols->getLayoutBySectionId( $variables[ 'sectionId' ] ) ) {
+		if ( ! $variables[ 'layout' ] = craft()->dashCols_layouts->getLayoutBySectionId( $variables[ 'sectionId' ] ) ) {
 			$variables[ 'layout' ] = new DashCols_LayoutModel();
 		}
 
@@ -107,7 +107,7 @@ class DashCols_LayoutsController extends BaseController
 		$variables[ 'categoryGroupId' ] = $variables[ 'section' ]->id;
 
 		// Get layout model
-		if ( ! $variables[ 'layout' ] = craft()->dashCols->getLayoutByCategoryGroupId( $variables[ 'categoryGroupId' ] ) ) {
+		if ( ! $variables[ 'layout' ] = craft()->dashCols_layouts->getLayoutByCategoryGroupId( $variables[ 'categoryGroupId' ] ) ) {
 			$variables[ 'layout' ] = new DashCols_LayoutModel();
 		}
 
@@ -150,7 +150,7 @@ class DashCols_LayoutsController extends BaseController
 		}
 
 		// Get layout model
-		if ( ! $variables[ 'layout' ] = craft()->dashCols->getLayoutByListingHandle( $variables[ 'listingHandle' ] ) ) {
+		if ( ! $variables[ 'layout' ] = craft()->dashCols_layouts->getLayoutByListingHandle( $variables[ 'listingHandle' ] ) ) {
 			$variables[ 'layout' ] = new DashCols_LayoutModel();
 		}
 
@@ -291,7 +291,7 @@ class DashCols_LayoutsController extends BaseController
 		}
 		$layout->metaFields = ! empty( $metaFields ) ? $metaFields : false;
 
-		if ( craft()->dashCols->saveLayout( $layout ) ) {
+		if ( craft()->dashCols_layouts->saveLayout( $layout ) ) {
 			craft()->userSession->setNotice( Craft::t( 'Layout for ' . $section->name . ' saved!' ) );
 			$this->redirectToPostedUrl( $layout );
 		} else {

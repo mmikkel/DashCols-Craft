@@ -1,9 +1,26 @@
 {% import '_includes/forms' as forms %}
 
+<div class="field" id="name-field">
+	<div class="heading">
+		{{ forms.textField( {
+	        first: true,
+	        label: 'Plugin Name' | t,
+	        instructions: 'Yeah... the DashCols name is <em>pretty dumb</em>. Fortunately, now you can name it *whatever you like*!' | t,
+	        id: 'name',
+	        name: 'name',
+	        value: settings.name
+	    } ) }}
+	</div>
+</div>
+
+<hr />
+
 <div class="field" id="cpSectionDisabled-field">
 	<div class="heading">
 		<label for="cpSectionDisabled">Undercover mode</label>
-		<p class="instructions">Keeps DashCols running, but disables access to the CP section and layout editing for <strong>all users</strong>.</p>
+		<div class="instructions">
+			<p>Keeps DashCols running, but disables access to the CP section and layout editing for <strong>all users</strong>.</p>
+		</div>
 		{{ forms.lightswitch({
 			id: 'cpSectionDisabled',
 			name: 'cpSectionDisabled',
@@ -11,5 +28,3 @@
 		}) }}
 	</div>
 </div>
-
-<hr />

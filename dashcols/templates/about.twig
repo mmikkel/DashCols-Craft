@@ -1,6 +1,6 @@
 {% extends '_layouts/cp' %}
 
-{% set title = 'DashCols' | t %}
+{% set title = craft.dashCols.getPluginName | t %}
 {% set tabs = craft.dashCols.getCpTabs %}
 {% set selectedTab = 'about' %}
 
@@ -168,10 +168,19 @@
 
 			<h3 class="dashCols-title">{{ 'Changelog' | t }}</h3>
 
+			<h5>Version 1.1.9 – 04.03.15</h5>
+			<ul>
+				<li><strong>Added option to output element metadata (Updated Date, ID and Author) as columns</strong></li>
+				<li>Fixed issue where string values "1" and "0" would always render as a Lightswitch attribute – thanks Fred, you're a champ.</li>
+				<li>Fixed issue where string values starting with "#" would sometimes render as a Color attribute</li>
+				<li>String values interpreted as external links will now open in a new tab</li>
+				<li>Added setting for renaming <em>DashCols</em></li>
+			</li>
+
 			<h5>Version 1.1.8 - 03.06.15</h5>
 			<ul>
-				<li>_Asset_ columns will now display total number of files (if more than 1)</li>
-				<li>_Asset_ columns now display icon + filename for files.</li>
+				<li><em>Asset</em> columns will now display total number of files (if more than 1)</li>
+				<li><em>Asset</em> columns now display icon + filename for files.</li>
 			</ul>
 
 			<h5>Version 1.1.7 - 02.25.15</h5>
