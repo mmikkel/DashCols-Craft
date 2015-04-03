@@ -14,7 +14,7 @@
 class DashColsPlugin extends BasePlugin
 {
 
-    protected   $_version = '1.1.8',
+    protected   $_version = '1.1.8.1',
                 $_developer = 'Mats Mikkel Rummelhoff',
                 $_developerUrl = 'http://mmikkel.no',
                 $_pluginUrl = 'https://github.com/mmikkel/DashCols-Craft';
@@ -79,13 +79,39 @@ class DashColsPlugin extends BasePlugin
         parent::init();
 
         if ( craft()->request->isCpRequest() ) {
+            $this->includeResources();
+        }
 
-            $dashColsSegments = array( 'entries', 'categories', 'dashcols' );
-            $segments = craft()->request->segments;
+    }
 
-            if ( is_array( $segments ) && isset( $segments[ 0 ] ) && in_array( $segments[ 0 ], $dashColsSegments ) ) {
-                craft()->templates->includeCssResource( 'dashcols/css/dashcols.min.css' );
-            }
+    protected function includeResources()
+    {
+
+        if ( craft()->request->isAjaxRequest() ) {
+            return false;
+        }
+
+        $segments = craft()->request->segments;
+
+        if ( ! is_array( $segments ) || empty( $segments ) ) {
+            return false;
+        }
+
+        switch ( $segments[ 0 ] ) {
+
+            case 'entries' : case 'categories' :
+
+                craft()->templates->includeCssResource( 'dashcols/css/dashcols.index.css' );
+                craft()->templates->includeJsResource( 'dashcols/js/dashcols.index.js' );
+
+                break;
+
+            case 'dashcols' :
+
+                craft()->templates->includeCssResource( 'dashcols/css/dashcols.cp.css' );
+                craft()->templates->includeJsResource( 'dashcols/js/dashcols.cp.js' );
+
+                break;
 
         }
 
@@ -94,13 +120,11 @@ class DashColsPlugin extends BasePlugin
     public function modifyEntryTableAttributes( &$attributes, $source )
     {
         craft()->dashCols_attributes->modifyEntryTableAttributes( $attributes, $source );
-        craft()->templates->includeJsResource( 'dashcols/js/entryTable.min.js' );
     }
 
     public function modifyCategoryTableAttributes( &$attributes, $source )
     {
         craft()->dashCols_attributes->modifyCategoryTableAttributes( $attributes, $source );
-        craft()->templates->includeJsResource( 'dashcols/js/entryTable.min.js' );
     }
 
     public function getEntryTableAttributeHtml( EntryModel $entry, $attribute )

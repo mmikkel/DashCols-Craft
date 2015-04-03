@@ -1,8 +1,8 @@
 ( function ( window ) {
 
-    var DashColsEditLayout = {};
+    var DashCols_CpSection = {};
 
-    DashColsEditLayout.init = function () {
+    DashCols_CpSection.init = function () {
 
         var $submitBtn = $( '#dashCols-actions .submit:first' );
 
@@ -29,6 +29,6 @@
 
     }
 
-    $( document ).ready( $.proxy( DashColsEditLayout.init, DashColsEditLayout ) );
+    $( document ).ready( $.proxy( DashCols_CpSection.init, DashCols_CpSection ) );
 
 } ( window ) );

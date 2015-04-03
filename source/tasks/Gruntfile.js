@@ -67,9 +67,9 @@ module.exports = function ( grunt ) {
 
 		grunt.task.run( [ 'sass', 'autoprefixer' ] );
 
-		if ( ! options.isDev ) {
-			grunt.task.run( [ 'cssmin' ] );
-		}
+		// if ( ! options.isDev ) {
+		// 	grunt.task.run( [ 'cssmin' ] );
+		// }
 
 	} );
 
@@ -82,9 +82,9 @@ module.exports = function ( grunt ) {
 
 		grunt.task.run( [ 'lint:js', 'copy:js' ] );
 
-		if ( ! options.isDev ) {
-			grunt.task.run( [ 'uglify' ] );
-		}
+		// if ( ! options.isDev ) {
+		// 	grunt.task.run( [ 'uglify' ] );
+		// }
 
 	} );
 

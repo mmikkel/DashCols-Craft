@@ -1,0 +1,96 @@
+/*
+* Index table styles
+*
+*/
+.dashCols-editButton {
+  margin-top: 10px; }
+
+.dashCols-scrollable {
+  overflow-x: scroll; }
+
+.elements.datatablesorthelper .move.icon, .elementindex .move.icon {
+  top: 50% !important;
+  margin-top: -12px !important; }
+
+.elementindex .data td a {
+  white-space: nowrap; }
+
+/*
+*  Fields
+*
+*/
+.dashCols-lightswitch {
+  font-weight: bold;
+  padding-left: 20px;
+  font-size: 12px; }
+
+.dashCols-lightswitchOn:before {
+  content: "✔"; }
+
+.dashCols-lightswitchOff:before {
+  content: "x"; }
+
+.dashCols-color {
+  display: block;
+  border-radius: 2px;
+  width: 15px;
+  height: 15px;
+  border: 1px solid #DDDFE0;
+  padding: 2px;
+  overflow: hidden; }
+
+.dashCols-color .dashCols-hex {
+  display: block;
+  width: 100%;
+  height: 100%; }
+
+.dashCols-positionSelect {
+  text-transform: capitalize; }
+
+.dashCols-assetFieldImage {
+  width: auto;
+  float: left;
+  max-width: 100%;
+  position: relative;
+  border-radius: 2px;
+  overflow: hidden; }
+
+.dashCols-assetFieldImage img {
+  display: block;
+  float: left; }
+
+.dashCols-assetFieldImage .dashCols-assetFileCount {
+  box-sizing: border-box;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  background-color: #333F4D;
+  top: auto;
+  color: #d7d9db;
+  padding: 2px 2px 4px 4px; }
+
+.dashCols-assetFile {
+  width: 100%;
+  float: left;
+  clear: both; }
+
+.dashCols-assetFileIcon {
+  display: inline-block;
+  margin-right: 2px; }
+
+.dashCols-assetFilename {
+  font-family: "Lucida Console", Monaco, monospace;
+  font-size: 10px;
+  position: relative;
+  top: -6px; }
+
+.dashCols-assetFileCount {
+  display: block;
+  width: 100%;
+  clear: both;
+  font-size: 10px;
+  color: rgba(0, 0, 0, 0.5);
+  line-height: 1;
+  position: relative;
+  top: -2px; }

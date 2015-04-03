@@ -226,9 +226,6 @@ class DashCols_LayoutsController extends BaseController
 			);
 		}
 
-		// Include some JS
-		craft()->templates->includeJsResource( 'dashcols/js/editLayout.min.js' );
-
 		// Render
 		return $this->renderTemplate( 'dashCols/_layouts/_edit', $variables );
 

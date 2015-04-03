@@ -1,0 +1,79 @@
+/*
+*  CP section header/branding
+*
+*/
+.tab#tab-dashColsIndex:before {
+  content: "home";
+  font-family: 'Craft';
+  speak: none;
+  -webkit-font-feature-settings: "liga", "dlig";
+     -moz-font-feature-settings: "liga", "dlig";
+          font-feature-settings: "liga", "dlig";
+  text-rendering: optimizeLegibility;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  -webkit-font-smoothing: anti-aliased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  word-wrap: normal !important;
+  line-height: 1;
+  position: relative;
+  top: 1px; }
+
+/*
+*  About page
+*
+*/
+.dashCols-aboutPage td.desc {
+  color: rgba(0, 0, 0, 0.5); }
+
+/*
+*  Edit template
+*
+*/
+#dashCols-sectionEdit, #dashCols-defaultFields {
+  width: 100%;
+  float: left;
+  clear: both;
+  margin-bottom: 20px; }
+
+#dashCols-actions {
+  width: 100%;
+  float: left;
+  clear: both; }
+
+#dashCols-sections {
+  width: 100%;
+  clear: both;
+  float: left; }
+  #dashCols-sections ul {
+    list-style: none;
+    margin: 0;
+    padding: 0; }
+  #dashCols-sections li {
+    display: inline-block;
+    width: auto;
+    float: left;
+    margin: 0 10px 10px 0; }
+
+#dashCols-sectionEdit {
+  width: 100%;
+  clear: both;
+  float: left; }
+
+/*
+*  CP section footer
+*
+*/
+#dashCols-colophone {
+  width: 100%;
+  float: left;
+  clear: both;
+  font-size: 11px;
+  color: #8f98a3;
+  text-align: right;
+  margin-top: 20px; }
