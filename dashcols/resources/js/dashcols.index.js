@@ -4,7 +4,9 @@
         return;
     }
 
-	var DashCols_Index = {};
+	var DashCols_Index = {
+		$sortButton : null
+	};
 
 	DashCols_Index.init = function () {
 
@@ -18,17 +20,18 @@
 
 	DashCols_Index.evalResponsiveTable = function () {
 
-		var $tableview = $( '#content .tableview:first' ),
+		// Get DOM elements
+		var $tableView = $( '#content .tableview:first' ),
 			$table = $( '#content .tableview:first table:first' );
 
-		if ( $tableview.length === 0 || $table.length === 0 ) {
+		if ( $tableView.length === 0 || $table.length === 0 ) {
 			return false;
 		}
 
-		if ( $table.outerWidth() > $tableview.outerWidth() ) {
-			$tableview.addClass( 'dashCols-scrollable' );
+		if ( $table.outerWidth() > $tableView.outerWidth() ) {
+			$tableView.addClass( 'dashCols-scrollable' );
 		} else {
-			$tableview.removeClass( 'dashCols-scrollable' );
+			$tableView.removeClass( 'dashCols-scrollable' );
 		}
 
 	}
@@ -50,14 +53,53 @@
 
 	}
 
-	/*
-	* TODO Update the sort button manually, because Craft won't refresh it on AJAX
-	*
-	*/
-	// DashCols_Index.updateSortButton = function ()
-	// {
+	DashCols_Index.updateSortButton = function ()
+	{
 
-	// }
+		if ( this.$sortButton === null ) {
+			this.$sortButton = $( '.sortmenubtn:first' );
+			if ( this.$sortButton.length > 0 ) {
+				this.$sortButton.on( 'click', $.proxy( onSortMenuButtonClick, this ) );
+			}
+		}
+		
+		if ( this.$sortButton.length === 0 ) {
+			return false;
+		}
+
+		this.updateSortMenu();
+
+	}
+
+	DashCols_Index.updateSortMenu = function () {
+
+		var $sortAttributes = $( '.menu ul.sort-attributes:first' );
+
+		if ( $sortAttributes.length === 0 ) {
+			return false;
+		}
+
+		var $sortAttributesItems = $sortAttributes.find( 'li' ),
+			$sortAttributeItem,
+			$indexTableColumns = $( '.tableview .data th' ),
+			attribute,
+			attributes = [];
+
+		$indexTableColumns.each( function () {
+			attribute = $( this ).data( 'attribute' ) || false;
+			if ( attribute ) {
+				attributes.push( attribute );
+			}
+		} );
+
+		$sortAttributesItems.show().each( function () {
+			$sortAttributeItem = $( this );
+			if ( $.inArray( $sortAttributeItem.find( 'a:first' ).data( 'attr' ), attributes ) === -1 ) {
+				$sortAttributeItem.hide();
+			}
+		} );
+
+	}
 
 	function onUpdate( e, status, requestData ) {
 
@@ -105,14 +147,18 @@
 		this.evalResponsiveTable();
 
 		if ( $( '#nav-dashcols' ).length > 0 ) {
-			//this.updateSortButton();
 			this.updateEditButton();
+			this.updateSortButton();
 		}
 
 	}
 
 	function onResize ( e ) {
 		this.evalResponsiveTable();
+	}
+
+	function onSortMenuButtonClick( e ) {
+		this.updateSortMenu();
 	}
 
 	$( document ).ready( $.proxy( DashCols_Index.init, DashCols_Index ) );

@@ -66,8 +66,7 @@ class DashCols_AttributesService extends BaseApplicationComponent
 	public function modifyIndexSortableAttributes( &$attributes )
 	{
 		$sortableFields = craft()->dashCols_fields->getSortableFields();
-		$attributes = $attributes + $sortableFields;
-
+		$attributes += $sortableFields;
 	}
 
 	 /**
@@ -100,7 +99,7 @@ class DashCols_AttributesService extends BaseApplicationComponent
 
 		// Cache data about the attribute's field
 		$customFields = craft()->dashCols_fields->getCustomFields();
-		$this->_attributeField = isset( $customFields[ $this->_attributeHandle ] ) ? $customFields[ $this->_attributeHandle ] : false;
+		$this->_attributeField = craft()->dashCols_fields->getCustomFieldByHandle( $this->_attributeHandle );
 
 		// Return html from string or object value
 		$attributeValue = is_object( $elementAttribute ) ? $this->_getObjectAttributeHtml() : $this->_getStringValueTableAttributeHtml();

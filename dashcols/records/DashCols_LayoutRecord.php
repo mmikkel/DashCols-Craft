@@ -42,10 +42,10 @@ class DashCols_LayoutRecord extends BaseRecord
 	{
 		return array(
 			'section' => array(
-					static::BELONGS_TO,
-					'SectionRecord',
-					'sectionId',
-					'onDelete' => static::CASCADE,
+				static::BELONGS_TO,
+				'SectionRecord',
+				'sectionId',
+				'onDelete' => static::CASCADE,
 			),
 			'categoryGroup' => array(
 				static::BELONGS_TO,
@@ -54,9 +54,9 @@ class DashCols_LayoutRecord extends BaseRecord
 				'onDelete' => static::CASCADE,
 			),
 			'fieldLayout' => array(
-					static::BELONGS_TO,
-					'FieldLayoutRecord',
-					'onDelete' => static::SET_NULL
+				static::BELONGS_TO,
+				'FieldLayoutRecord',
+				'onDelete' => static::SET_NULL
 			),
 		);
 	}

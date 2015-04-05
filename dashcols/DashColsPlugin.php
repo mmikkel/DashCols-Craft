@@ -80,12 +80,15 @@ class DashColsPlugin extends BasePlugin
 
         parent::init();
 
-        if ( ! craft()->request->isCpRequest() ) {
-            return false;
-        }
+        // Flush the session variable when the user logs out
+        craft()->on( 'userSession.onLogout', function( Event $event ) {
+            craft()->dashCols_layouts->flushSessionVariable();
+        });
 
-        craft()->dashCols_layouts->init();
-        $this->includeResources();
+        if ( craft()->request->isCpRequest() && craft()->userSession->getUser() ) {
+            craft()->dashCols_layouts->init();
+            $this->includeResources();
+        }
 
     }
 

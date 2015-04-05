@@ -21,18 +21,34 @@ class DashCols_LayoutsService extends BaseApplicationComponent
 	public function init()
 	{
 
-		if ( $layouts = craft()->httpSession->get( $this->_sessionKey ) ) {
-			$layouts = unserialize( $layouts );
-		} else {
+		if ( ! $layouts = $this->getSessionVariable() ) {
 			$layouts = $this->getLayouts();
-			craft()->httpSession->add( $this->_sessionKey, serialize( $layouts ) );
+			$this->addSessionVariable();
 		}
-		
+
+		// Cache the layout's fields to the FieldsService
 		foreach ( $layouts as $layout ) {
-			// Cache the layout's fields to the FieldsService
 			craft()->dashCols_fields->addCustomFields( $layout->customFields );
 		}
 
+	}
+
+	public function getSessionVariable()
+	{
+		if ( $layouts = craft()->httpSession->get( $this->_sessionKey ) ) {
+			return unserialize( $layouts );
+		}
+		return false;
+	}
+
+	public function flushSessionVariable()
+	{
+		craft()->httpSession->add( $this->_sessionKey, null );
+	}
+
+	public function addSessionVariable()
+	{
+		craft()->httpSession->add( $this->_sessionKey, serialize( $this->_layouts ) );
 	}
 
 	public function getLayouts()
@@ -307,8 +323,7 @@ class DashCols_LayoutsService extends BaseApplicationComponent
 
 			}
 
-			// Null layouts stored in session
-			craft()->httpSession->add( $this->_sessionKey, null );
+			$this->flushSessionVariable();
 			return true;
 
 		}
