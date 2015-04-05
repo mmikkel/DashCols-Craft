@@ -14,8 +14,52 @@
 class DashCols_LayoutsService extends BaseApplicationComponent
 {
 
-	protected $_currentLayout = null;
+	protected 	$_sessionKey = '_dashCols_layouts',
+				$_layouts = null,
+				$_currentLayout = null;
 
+	public function init()
+	{
+
+		if ( $layouts = craft()->httpSession->get( $this->_sessionKey ) ) {
+			$layouts = unserialize( $layouts );
+		} else {
+			$layouts = $this->getLayouts();
+			craft()->httpSession->add( $this->_sessionKey, serialize( $layouts ) );
+		}
+		
+		foreach ( $layouts as $layout ) {
+			// Cache the layout's fields to the FieldsService
+			craft()->dashCols_fields->addCustomFields( $layout->customFields );
+		}
+
+	}
+
+	public function getLayouts()
+	{
+		if ( $this->_layouts === null ) {
+			
+			$layouts = array();
+			$records = DashCols_LayoutRecord::model()->findAll();
+			
+			foreach ( $records as $record ) {
+				
+				$layout = DashCols_LayoutModel::populateModel( $record );
+
+				// Get the layouts' fields
+				$layout->customFields = craft()->dashCols_fields->getCustomFieldsFromFieldLayout( $layout->getFieldLayout() );
+				
+				$layouts[] = $layout;
+
+			}
+
+			$this->_layouts = $layouts;
+
+		}
+		
+		return $this->_layouts;
+
+	}
 
 	/*
 	*  Returns the current layout
@@ -27,49 +71,38 @@ class DashCols_LayoutsService extends BaseApplicationComponent
 	}
 
 	/*
-	*  Cache current layout and its fieldLayout
+	*  Sets current layout
 	*
 	*/
 	public function setLayout( $dashColsLayout )
 	{
-
 		$this->_currentLayout = $dashColsLayout;
-		craft()->dashCols_fields->setLayout( $dashColsLayout );
-
 	}
 
 	/*
-	*  Set layout from entry source
+	*  Sets current layout from entry source
 	*
 	*/
 	public function setLayoutFromEntrySource( $source )
 	{
-
-		if ( $this->_currentLayout !== null ) {
-			return false;
-		}
-
 		$layout = $this->getLayoutFromEntrySource( $source );
         $this->setLayout( $layout ?: false );
-
 	}
 
 	/*
-	*  Set layout from category source
+	*  Sets current layout from category source
 	*
 	*/
     public function setLayoutFromCategorySource( $source )
     {
-
-    	if ( $this->_currentLayout !== null ) {
-			return false;
-		}
-
     	$layout = $this->getLayoutFromCategorySource( $source );
     	$this->setLayout( $layout ?: false );
-
     }
 
+    /*
+    *	Returns layout from entry source
+    *
+    */
     public function getLayoutFromEntrySource( $source )
 	{
 
@@ -120,6 +153,10 @@ class DashCols_LayoutsService extends BaseApplicationComponent
 
 	}
 
+	/*
+    *	Returns layout from category source
+    *
+    */
 	public function getLayoutFromCategorySource( $source )
 	{
 
@@ -150,56 +187,47 @@ class DashCols_LayoutsService extends BaseApplicationComponent
 
 	}
 
+	/*
+    *	Returns layout from section ID
+    *
+    */
 	public function getLayoutBySectionId( $sectionId )
 	{
-		$dashColsLayoutRecord = DashCols_LayoutRecord::model()->findByAttributes( array(
-			'sectionId' => $sectionId,
-		) );
-		return $dashColsLayoutRecord ? DashCols_LayoutModel::populateModel( $dashColsLayoutRecord ) : false;
+		$layouts = $this->getLayouts();
+		foreach ( $layouts as $layout ) {
+			if ( $layout->sectionId === $sectionId ) {
+				return $layout;
+			}
+		}
+		return false;
 	}
 
+	/*
+    *	Returns layout from category group ID
+    *
+    */
 	public function getLayoutByCategoryGroupId( $categoryGroupId )
 	{
-		$dashColsLayoutRecord = DashCols_LayoutRecord::model()->findByAttributes( array(
-			'categoryGroupId' => $categoryGroupId,
-		) );
-		return $dashColsLayoutRecord ? DashCols_LayoutModel::populateModel( $dashColsLayoutRecord ) : false;
+		$layouts = $this->getLayouts();
+		foreach ( $layouts as $layout ) {
+			if ( $layout->categoryGroupId === $categoryGroupId ) {
+				return $layout;
+			}
+		}
+		return false;
 	}
 
+	/*
+    *	Returns layout from listing handle
+    *
+    */
 	public function getLayoutByListingHandle( $listingHandle )
 	{
-		$dashColsLayoutRecord = DashCols_LayoutRecord::model()->findByAttributes( array(
-			'listingHandle' => $listingHandle,
-		) );
-		return $dashColsLayoutRecord ? DashCols_LayoutModel::populateModel( $dashColsLayoutRecord ) : false;
-	}
-
-	public function getFieldLayoutBySectionId( $sectionId )
-	{
-		if ( $dashColsLayoutRecord = $this->getLayoutBySectionId( $sectionId ) ) {
-			$dashColsLayout = DashCols_LayoutModel::populateModel( $dashColsLayoutRecord );
-			return $dashColsLayout->getFieldLayout();
-
-		}
-		return false;
-	}
-
-	public function getFieldLayoutByCategoryGroupId( $categoryGroupId )
-	{
-		if ( $dashColsLayoutRecord = $this->getLayoutByCategoryGroupId( $categoryGroupId ) ) {
-			$dashColsLayout = DashCols_LayoutModel::populateModel( $dashColsLayoutRecord );
-			return $dashColsLayout->getFieldLayout();
-
-		}
-		return false;
-	}
-
-	public function getFieldLayoutByListingHandle( $listingHandle )
-	{
-		if ( $dashColsLayoutRecord = $this->getLayoutByListingHandle( $listingHandle ) ) {
-			$dashColsLayout = DashCols_LayoutModel::populateModel( $dashColsLayoutRecord );
-			return $dashColsLayout->getFieldLayout();
-
+		$layouts = $this->getLayouts();
+		foreach ( $layouts as $layout ) {
+			if ( $layout->listingHandle === $listingHandle ) {
+				return $layout;
+			}
 		}
 		return false;
 	}
@@ -279,6 +307,8 @@ class DashCols_LayoutsService extends BaseApplicationComponent
 
 			}
 
+			// Null layouts stored in session
+			craft()->httpSession->add( $this->_sessionKey, null );
 			return true;
 
 		}

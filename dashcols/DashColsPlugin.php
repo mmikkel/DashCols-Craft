@@ -80,14 +80,21 @@ class DashColsPlugin extends BasePlugin
 
         parent::init();
 
-        if ( craft()->request->isCpRequest() && ! craft()->request->isAjaxRequest() ) {
-            $this->includeResources();
+        if ( ! craft()->request->isCpRequest() ) {
+            return false;
         }
+
+        craft()->dashCols_layouts->init();
+        $this->includeResources();
 
     }
 
     protected function includeResources()
     {
+
+        if ( craft()->request->isAjaxRequest() ) {
+            return false;
+        }
 
         $segments = craft()->request->segments;
 
@@ -117,18 +124,44 @@ class DashColsPlugin extends BasePlugin
 
     }
 
+    /*
+    *   Modify entry table attributes
+    *
+    */
     public function modifyEntryTableAttributes( &$attributes, $source )
     {
         craft()->dashCols_layouts->setLayoutFromEntrySource( $source );
         craft()->dashCols_attributes->modifyIndexTableAttributes( $attributes );
     }
 
+    /*
+    *   Modify category table attributes
+    *
+    */
     public function modifyCategoryTableAttributes( &$attributes, $source )
     {
         craft()->dashCols_layouts->setLayoutFromCategorySource( $source );
         craft()->dashCols_attributes->modifyIndexTableAttributes( $attributes );
     }
 
+    /*
+    *   Modify sortable attributes
+    *
+    */
+    public function modifyEntrySortableAttributes( &$attributes )
+    {
+        craft()->dashCols_attributes->modifyIndexSortableAttributes( $attributes );
+    }
+
+    public function modifyCategorySortableAttributes( &$attributes )
+    {
+        craft()->dashCols_attributes->modifyIndexSortableAttributes( $attributes );
+    }
+
+    /*
+    *   Get table attribute HTML
+    *
+    */
     public function getEntryTableAttributeHtml( EntryModel $entry, $attribute )
     {
         return craft()->dashCols_attributes->getAttributeHtml( $entry, $attribute );

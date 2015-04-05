@@ -43,7 +43,7 @@ class DashCols_AttributesService extends BaseApplicationComponent
 		}
 
 		// Add custom fields
-		if ( $customFields = craft()->dashCols_fields->getCustomFields() ) {
+		if ( $customFields = $dashColsLayout->customFields ) {
 			foreach ( $customFields as $customFieldHandle => $customField ) {
 				$attributes[ $customFieldHandle ] = $customField;
 			}
@@ -65,64 +65,8 @@ class DashCols_AttributesService extends BaseApplicationComponent
 
 	public function modifyIndexSortableAttributes( &$attributes )
 	{
-
-		// Get layout
-		if ( ! $dashColsLayout = craft()->dashCols_layouts->getLayout() ) {
-			return false;
-		}
-
-		// Add meta fields
-		if ( ( $metaFields = $dashColsLayout->metaFields ) && is_array( $metaFields ) ) {
-
-			$allMetaFields = craft()->dashCols_fields->getMetaFields();
-
-			foreach ( $metaFields as $attribute ) {
-
-				if ( isset( $allMetaFields[ $attribute ] ) ) {
-					$attributes[ $attribute ] = $allMetaFields[ $attribute ];
-				}
-
-			}
-
-		}
-
-		// Any numeric value can be sorted on
-		if ( $customFields = craft()->dashCols_fields->getCustomFields() ) {
-
-			$sortableAttributeTypes = array( 
-				AttributeType::Number,
-				AttributeType::DateTime,
-				AttributeType::String,
-				AttributeType::Bool,
-			);
-
-			foreach ( $customFields as $customFieldHandle => $customField ) {
-
-				$fieldTypeContentAttribute = $customField->fieldType->defineContentAttribute();
-
-				if ( is_array( $fieldTypeContentAttribute ) ) {
-					$fieldTypeContentAttribute = array_shift( $fieldTypeContentAttribute );
-				}
-
-				if ( in_array( $fieldTypeContentAttribute, $sortableAttributeTypes ) ) {
-					$attributes[ $customFieldHandle ] = $customField;
-				}
-
-
-			}
-
-		}
-
-		// Remove hidden fields
-		if ( $dashColsLayout->hiddenFields && is_array( $dashColsLayout->hiddenFields ) ) {
-
-			foreach ( $dashColsLayout->hiddenFields as $attribute ) {
-				if ( isset( $attributes[ $attribute ] ) ) {
-					unset( $attributes[ $attribute ] );
-				}
-			}
-
-		}
+		$sortableFields = craft()->dashCols_fields->getSortableFields();
+		$attributes = $attributes + $sortableFields;
 
 	}
 

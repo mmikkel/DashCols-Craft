@@ -14,6 +14,7 @@
 class DashCols_FieldsService extends BaseApplicationComponent
 {
 
+    // Cache all custom fields here
     protected $_customFields = null;
 
     /*
@@ -91,42 +92,97 @@ class DashCols_FieldsService extends BaseApplicationComponent
 
     }
 
+    /*
+    *   Get all custom fields
+    *
+    */
     public function getCustomFields()
     {
         return $this->_customFields ?: array();
     }
 
+    /*
+    *   Add custom fields to the cache
+    *
+    */
+    public function addCustomFields( $fields )
+    {
+
+        $customFields = $this->getCustomFields();
+
+        foreach ( $fields as $field ) {
+
+            if ( ! isset( $customFields[ $field->handle ] ) ) {
+                $customFields[ $field->handle ] = $field;
+            }
+
+        }
+
+        $this->_customFields = $customFields;
+
+    }
+
+    /*
+    *   Get custom field by handle
+    *
+    */
     public function getCustomFieldByHandle( $handle )
     {
         return isset( $this->_customFields[ $handle ] ) ? $this->_customFields[ $handle ] : false;
     }
 
     /*
-    * Gets and caches fields from a DashCols layout's FieldLayoutModel
+    *   Add a FieldLayoutModel's fields to the cache
     *
     */
-    public function setLayout( $dashColsLayout )
+    public function getCustomFieldsFromFieldLayout( FieldLayoutModel $fieldLayout )
     {
 
-        $this->_customFields = array();
-
-        if (
-            ! $dashColsLayout
-            || ! $dashColsLayout->fieldLayoutId
-            || ! $fieldLayout = craft()->fields->getLayoutById( $dashColsLayout->fieldLayoutId )
-        ) {
-            return false;
-        }
-
-        $fieldLayoutFieldModels = $fieldLayout->getFields();
         $fields = array();
-        
+        $fieldLayoutFieldModels = $fieldLayout->getFields();
+
         foreach ( $fieldLayoutFieldModels as $fieldLayoutFieldModel ) {
             if ( ! in_array( $fieldLayoutFieldModel->field->getFieldType()->name, $this->getUnsupportedFieldTypes() ) ) {
-                $this->_customFields[ $fieldLayoutFieldModel->field->handle ] = $fieldLayoutFieldModel->field;
+                $fields[ $fieldLayoutFieldModel->field->handle ] = $fieldLayoutFieldModel->field;
             }
         }
 
+        return $fields;
+
+    }
+
+    /*
+    *   Get all sortable fields
+    *
+    */
+    public function getSortableFields()
+    {
+
+        $sortableAttributeTypes = array( 
+            AttributeType::Number,
+            AttributeType::DateTime,
+            AttributeType::String,
+            AttributeType::Bool,
+        );
+
+        $sortableFields = $this->getMetaFields();
+        $customFields = $this->getCustomFields();
+
+        foreach ( $customFields as $handle => $field ) {
+
+            $fieldTypeContentAttribute = $field->fieldType->defineContentAttribute();
+
+            if ( is_array( $fieldTypeContentAttribute ) ) {
+                $fieldTypeContentAttribute = array_shift( $fieldTypeContentAttribute );
+            }
+
+            if ( in_array( $fieldTypeContentAttribute, $sortableAttributeTypes ) ) {
+                $sortableFields[ $handle ] = $field;
+            }
+
+        }
+
+        return $sortableFields;
     }
 
 }
