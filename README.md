@@ -1,7 +1,14 @@
-# DashCols Craft CMS Plugin v. 1.1.9
+# DashCols Craft CMS Plugin v. 1.2
 
-DashCols makes it easy to add custom fields to element index tables.
-That’s right, if you ever wanted to display a “featured image” or the like in your entry listings – fret no more.
+_Now with sorting abilities!_
+
+**Your element index tables lists all your content, but let's face it – they're kind of sparse. DashCols makes it easy to add (almost) any custom field to your index tables.**  
+
+In addition, DashCols will also:  
+
+* Enable you to show/hide _default columns_ (URI, section, expiry date etc.) and _element metadata_ (ID, author and last updated date)
+* Enable you to _sort_ index tables on most columns
+* Improve the responsiveness of your index tables
 
 ## Installation and setup
 
@@ -9,13 +16,14 @@ That’s right, if you ever wanted to display a “featured image” or the like
 * Move the /dashcols folder to craft/plugins
 * Install
 
-After installing, visit _DashCols’_ CP section. Using the built-in Field Layout designer, DashCols enables you to easily add almost any field to your Entry and Category index tables _(support for Users coming soon)_.
+After installing, visit _DashCols’_ CP section and use the built-in Field Layout Designer to add custom fields to entry and category index tables, and configure the output of default columns and/or element metadata.
 
 Please note that not all FieldTypes are supported – look below for the complete list.
 
 ## Options
 
-* Undercover mode: Keeps DashCols running, but disables access to the CP section and layout editing for _all users_.
+* Custom naming: You want to keep the nav tab around, but give it another name.
+* Undercover mode: You want to keep DashCols running, but completely hide the nav tab.
 
 ### Supported FieldTypes
 
@@ -44,20 +52,18 @@ Please note that not all FieldTypes are supported – look below for the complet
 * Rich Text
 * Table
 
-### …but what about my awesome custom FieldType?
+### …but what about my awesome _custom_ FieldType?
 
-For now, any String based attribute will display more or less as-is (some formatting is applied to stuff like URLs, Hex color codes etc.). More complex stuff needs to be built in; I’m currently exploring options for enabling users to easily add support for their own custom FieldTypes.
+For now, any String based attribute will display more or less as-is (some formatting is applied to stuff like URLs, Hex color codes etc.), and string values are truncated to a maximum of 50 characters. More complex stuff needs to be built in; I’m currently exploring options for enabling users to easily add support for their own custom FieldTypes.
 
 If you have a publicly available FieldType plugin you wish to see supported, please file a feature request!
 
-### What's next?
+### Roadmap
 
 Look for the following in coming updates:
 
-* Output of non-image Asset fields (icon and/or filename, haven't decided yet)
-* Sorting/ordering options
 * Support for User tables
-* Inline editing of sections/listings/category groups
+* Support for popular, custom FieldTypes
 * Option to clear a layout w/ a single button
 
 ## Bugs, feature requests, support
@@ -72,9 +78,14 @@ Note that _DashCols_ is a hobby project – unfortunately I can’t make any pro
 
 _DashCols_ is provided free of charge. The author is not responsible for any data loss or other problems resulting from the use of this plugin.
 
-Please report any bugs, feature requests or other issues here. As _DashCols_ is a hobby project, no promises are made regarding response time, feature implementations or bug amendments.
+Please report any bugs, feature requests or other issues [here](https://github.com/mmikkel/dashcols-craft/issues). Note that _DashCols_ is a hobby project and I can offer no promises regarding response time, feature implementations or bug amendments.
 
 ### Changelog
+
+#### 1.2
+
+* **Added sorting capabilities for FieldTypes of Boolean, String, Number or DateTime value**
+* DashCols has a logo
 
 #### 1.1.9
 
