@@ -2,7 +2,7 @@
 
 _Now with sorting abilities!_
 
-**Your element index tables lists all your content, but let's face it – they're kind of sparse. DashCols makes it easy to add (almost) any custom field to your index tables.**  
+**The element index tables lists all your content, but let's face it – they're kind of sparse. DashCols makes it easy to add (almost) any custom field to your tables.**  
 
 In addition, DashCols will also:  
 
