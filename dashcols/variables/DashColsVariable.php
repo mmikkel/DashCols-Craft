@@ -41,4 +41,14 @@ class DashColsVariable
 		return $this->getPlugin()->getVersion();
 	}
 
+	public function requiredCraftVersion()
+	{
+		return $this->getPlugin()->getCraftRequiredVersion();
+	}
+
+	public function isCraftRequiredVersion()
+	{
+		return $this->getPlugin()->isCraftRequiredVersion();
+	}
+
 }

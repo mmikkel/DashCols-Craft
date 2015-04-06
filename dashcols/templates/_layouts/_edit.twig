@@ -5,94 +5,102 @@
 
 {% block content %}
 
-	{% if layoutUrls is defined and layoutUrls | length > 0 %}
-	<nav id="dashCols-sections">
-		<ul>
-		{% for item in layoutUrls %}
-			<li><a href="{{ item.url }}" class="btn{% if item.active %} active{% endif %}">{{ item.label }}</a></li>
-		{% endfor %}
-		</ul>
-	</nav>
+	{% if craft.dashCols.isCraftRequiredVersion %}
+
+		{% if layoutUrls is defined and layoutUrls | length > 0 %}
+		<nav id="dashCols-sections">
+			<ul>
+			{% for item in layoutUrls %}
+				<li><a href="{{ item.url }}" class="btn{% if item.active %} active{% endif %}">{{ item.label }}</a></li>
+			{% endfor %}
+			</ul>
+		</nav>
+		{% endif %}
+
+		<div id="dashCols-sectionEdit">
+			<form method="post" accept-charset="UTF-8" data-saveshortcut="1">
+
+				{% include '_includes/fieldlayoutdesigner' with {
+					fieldLayout : layout.getFieldLayout(),
+					customizableTabs : false,
+					pretendTabName : 'Columns' | t
+				} only %}
+
+				<hr />
+
+				{% if defaultFields is defined and defaultFields | length > 0 and defaultFields != false %}
+				<h3>Hide/show default fields</h3>
+				<table id="dashCols-defaultFields" class="data fullwidth collapsible">
+					<tbody>
+						{% for hiddenFieldKey,hiddenFieldValue in defaultFields %}
+						<tr>
+							<td class="dashCols-switch thin">
+								<div class="dashCols-defaultField">
+									{{ forms.lightswitch({
+										id: hiddenFieldKey,
+										name: 'hiddenFields[' ~ hiddenFieldKey ~ ']',
+										on : hiddenFieldKey in layout.hiddenFields ? false : true,
+									}) }}
+								</div>
+							</td>
+							<td class="dashCols-fieldName"><label for="{{ hiddenFieldKey }}">{{ hiddenFieldValue }}</label></td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+				<hr />
+				{% endif %}
+
+				{% if metaFields is defined and metaFields | length > 0 and metaFields != false %}
+				<h3>Show/hide metadata</h3>
+				<table id="dashCols-metaFields" class="data fullwidth collapsible">
+					<tbody>
+						{% for metaFieldKey,metaFieldValue in metaFields %}
+						<tr>
+							<td class="dashCols-switch thin">
+								<div class="dashCols-defaultField">
+									{{ forms.lightswitch({
+										id: metaFieldKey,
+										name: 'metaFields[' ~ metaFieldKey ~ ']',
+										on : metaFieldKey in layout.metaFields ? true : false,
+									}) }}
+								</div>
+							</td>
+							<td class="dashCols-fieldName"><label for="{{ metaFieldKey }}">{{ metaFieldValue }}</label></td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+				<hr />
+				{% endif %}
+
+				<div id="dashCols-actions">
+					<input type="submit" class="btn submit" value="{{ 'Save' | t }}" />
+				</div>
+
+				<input type="hidden" name="action" value="dashCols/layouts/saveLayout">
+				{% if sectionId is defined %}
+					<input type="hidden" name="sectionId" value="{{ sectionId }}" />
+					<input type="hidden" name="redirect" value="{{ url( 'entries/' ~ section.handle ) }}" />
+				{% elseif categoryGroupId is defined %}
+					<input type="hidden" name="categoryGroupId" value="{{ categoryGroupId }}" />
+					<input type="hidden" name="redirect" value="{{ url( 'categories/' ~ section.handle ) }}" />
+				{% elseif listingHandle is defined %}
+					<input type="hidden" name="listingHandle" value="{{ listingHandle }}" />
+					<input type="hidden" name="redirect" value="{{ url( 'entries/' ~ ( listingHandle == 'entries' ? '' : listingHandle ) ) }}" />
+				{% endif %}
+				{% if layout.id %}<input type="hidden" name="layoutId" value="{{ layout.id }}" />{% endif %}
+
+				<input type="hidden" name="{{ craft.config.csrfTokenName }}" value="{{ craft.request.csrfToken }}">
+
+			</form>
+		</div>
+
+	{% else %}
+
+		<p class="error">Sorry, you need to run Craft {{ craft.dashCols.requiredCraftVersion }} or newer to use DashCols.<br/><strong>Please update Craft and try again!</strong></p>
+
 	{% endif %}
-
-	<div id="dashCols-sectionEdit">
-		<form method="post" accept-charset="UTF-8" data-saveshortcut="1">
-
-			{% include '_includes/fieldlayoutdesigner' with {
-				fieldLayout : layout.getFieldLayout(),
-				customizableTabs : false,
-				pretendTabName : 'Columns' | t
-			} only %}
-
-			<hr />
-
-			{% if defaultFields is defined and defaultFields | length > 0 and defaultFields != false %}
-			<h3>Hide/show default fields</h3>
-			<table id="dashCols-defaultFields" class="data fullwidth collapsible">
-				<tbody>
-					{% for hiddenFieldKey,hiddenFieldValue in defaultFields %}
-					<tr>
-						<td class="dashCols-switch thin">
-							<div class="dashCols-defaultField">
-								{{ forms.lightswitch({
-									id: hiddenFieldKey,
-									name: 'hiddenFields[' ~ hiddenFieldKey ~ ']',
-									on : hiddenFieldKey in layout.hiddenFields ? false : true,
-								}) }}
-							</div>
-						</td>
-						<td class="dashCols-fieldName"><label for="{{ hiddenFieldKey }}">{{ hiddenFieldValue }}</label></td>
-					</tr>
-					{% endfor %}
-				</tbody>
-			</table>
-			<hr />
-			{% endif %}
-
-			{% if metaFields is defined and metaFields | length > 0 and metaFields != false %}
-			<h3>Show/hide metadata</h3>
-			<table id="dashCols-metaFields" class="data fullwidth collapsible">
-				<tbody>
-					{% for metaFieldKey,metaFieldValue in metaFields %}
-					<tr>
-						<td class="dashCols-switch thin">
-							<div class="dashCols-defaultField">
-								{{ forms.lightswitch({
-									id: metaFieldKey,
-									name: 'metaFields[' ~ metaFieldKey ~ ']',
-									on : metaFieldKey in layout.metaFields ? true : false,
-								}) }}
-							</div>
-						</td>
-						<td class="dashCols-fieldName"><label for="{{ metaFieldKey }}">{{ metaFieldValue }}</label></td>
-					</tr>
-					{% endfor %}
-				</tbody>
-			</table>
-			<hr />
-			{% endif %}
-
-			<div id="dashCols-actions">
-				<input type="submit" class="btn submit" value="{{ 'Save' | t }}" />
-			</div>
-
-			<input type="hidden" name="action" value="dashCols/layouts/saveLayout">
-			{% if sectionId is defined %}
-				<input type="hidden" name="sectionId" value="{{ sectionId }}" />
-				<input type="hidden" name="redirect" value="{{ url( 'entries/' ~ section.handle ) }}" />
-			{% elseif categoryGroupId is defined %}
-				<input type="hidden" name="categoryGroupId" value="{{ categoryGroupId }}" />
-				<input type="hidden" name="redirect" value="{{ url( 'categories/' ~ section.handle ) }}" />
-			{% elseif listingHandle is defined %}
-				<input type="hidden" name="listingHandle" value="{{ listingHandle }}" />
-				<input type="hidden" name="redirect" value="{{ url( 'entries/' ~ ( listingHandle == 'entries' ? '' : listingHandle ) ) }}" />
-			{% endif %}
-			{% if layout.id %}<input type="hidden" name="layoutId" value="{{ layout.id }}" />{% endif %}
-
-			<input type="hidden" name="{{ craft.config.csrfTokenName }}" value="{{ craft.request.csrfToken }}">
-
-		</form>
-	</div>
 
 	{% include 'dashcols/_partials/_footer.twig' %}
 

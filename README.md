@@ -85,7 +85,6 @@ Please report any bugs, feature requests or other issues [here](https://github.c
 #### 1.2
 
 * **Added sorting capabilities for FieldTypes of Boolean, String, Number or DateTime value**
-* DashCols has a logo
 
 #### 1.1.9
 

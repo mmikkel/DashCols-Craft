@@ -5,6 +5,12 @@
 
 {% set content %}
 
+	{% if craft.dashCols.isCraftRequiredVersion == false %}
+	
+	<p class="error">Sorry, you need to run Craft {{ craft.dashCols.requiredCraftVersion }} or newer to use DashCols.<br/><strong>Please update your Craft installation.</strong></p>
+	
+	{% endif %}
+	
 	<table id="dashCols-listings" class="data fullwidth collapsible">
 		<thead>
 			<th scope="col">{{ 'Listings' | t }}</th>

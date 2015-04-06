@@ -18,7 +18,8 @@ class DashColsPlugin extends BasePlugin
                 $_developer = 'Mats Mikkel Rummelhoff',
                 $_developerUrl = 'http://mmikkel.no',
                 $_pluginName = 'DashCols',
-                $_pluginUrl = 'https://github.com/mmikkel/DashCols-Craft';
+                $_pluginUrl = 'https://github.com/mmikkel/DashCols-Craft',
+                $_minVersion = '2.3';
 
     public function getName()
     {
@@ -80,6 +81,10 @@ class DashColsPlugin extends BasePlugin
 
         parent::init();
 
+        if ( ! $this->isCraftRequiredVersion() ) {
+            return false;
+        }
+
         // Flush the session variable when the user logs out
         craft()->on( 'userSession.onLogout', function( Event $event ) {
             craft()->dashCols_layouts->flushSessionVariable();
@@ -90,6 +95,16 @@ class DashColsPlugin extends BasePlugin
             $this->includeResources();
         }
 
+    }
+
+    public function getCraftRequiredVersion()
+    {
+        return $this->_minVersion;
+    }
+
+    public function isCraftRequiredVersion()
+    {
+        return version_compare( craft()->getVersion(), $this->getCraftRequiredVersion(), '>=' );
     }
 
     protected function includeResources()
