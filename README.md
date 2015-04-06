@@ -4,7 +4,7 @@ _Now with sorting abilities!_
 
 **The element index tables lists all your content, but let's face it – they're kind of sparse. DashCols makes it easy to add (almost) any custom field to your tables.**  
 
-![Screenshot of index table customized using DashCols](/source/demo/cp.jpg?raw=true "Index table customized w/ DashCols")
+![Screenshot of index table customized using DashCols](/source/demo/index.jpg?raw=true "Index table customized w/ DashCols")
 
 In addition, DashCols will also:  
 
@@ -26,6 +26,8 @@ Please note that not all FieldTypes are supported – look below for the complet
 
 * Custom naming: You want to keep the nav tab around, but give it another name.
 * Undercover mode: You want to keep DashCols running, but completely hide the nav tab.
+
+![CP section](/source/demo/cp.jpg?raw=true)
 
 ### Supported FieldTypes
 
