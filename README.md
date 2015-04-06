@@ -4,6 +4,8 @@ _Now with sorting abilities!_
 
 **The element index tables lists all your content, but let's face it – they're kind of sparse. DashCols makes it easy to add (almost) any custom field to your tables.**  
 
+![Screenshot of index table customized using DashCols](/source/demo/cp.jpg?raw=true "Index table customized w/ DashCols")
+
 In addition, DashCols will also:  
 
 * Enable you to show/hide _default columns_ (URI, section, expiry date etc.) and _element metadata_ (ID, author and last updated date)
