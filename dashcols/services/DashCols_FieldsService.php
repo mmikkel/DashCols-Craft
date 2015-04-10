@@ -74,6 +74,7 @@ class DashCols_FieldsService extends BaseApplicationComponent
             'id' => Craft::t( 'ID' ),
             'dateUpdated' => Craft::t( 'Updated Date' ),
             'authorId' => Craft::t( 'Author' ),
+            'typeId' => Craft::t( 'Entry Type' ),
         );
 
         switch ( $target ) {

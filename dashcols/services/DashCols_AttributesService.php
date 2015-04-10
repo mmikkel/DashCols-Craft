@@ -85,6 +85,8 @@ class DashCols_AttributesService extends BaseApplicationComponent
         // A little hack to retrieve the full author from the author ID
 		if ( $attribute === 'authorId' ) {
 			$attribute = 'author';
+		} else if ( $attribute === 'typeId' ) {
+			$attribute = 'type';
 		}
 
 		// Return early if element doesn't have the attribute
@@ -212,6 +214,10 @@ class DashCols_AttributesService extends BaseApplicationComponent
 					return $this->_getUserTableAttributeHtml();
 
 					break;
+
+				case 'Craft\EntryTypeModel' :
+
+					return $this->_getEntryTypeTableAttributeHtml();
 
 				default :
 
@@ -393,6 +399,18 @@ class DashCols_AttributesService extends BaseApplicationComponent
 
 		return ! empty( $temp ) ? implode( ', ', $temp ) : false;
 
+	}
+
+	/**
+	 * @access private
+	 * @return string
+	 *
+	 * Method returns attribute HTML for Users
+	 *
+	 */
+	private function _getEntryTypeTableAttributeHtml()
+	{
+		return $this->_attribute->name ?: '';
 	}
 
 	/**
