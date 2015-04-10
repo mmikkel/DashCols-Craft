@@ -1,4 +1,4 @@
-# DashCols Craft CMS Plugin v. 1.2
+# DashCols Craft CMS Plugin v. 1.2.1
 
 _Now with sorting abilities!_
 
@@ -85,6 +85,10 @@ _DashCols_ is provided free of charge. The author is not responsible for any dat
 Please report any bugs, feature requests or other issues [here](https://github.com/mmikkel/dashcols-craft/issues). Note that _DashCols_ is a hobby project and I can offer no promises regarding response time, feature implementations or bug amendments.
 
 ### Changelog
+
+#### 1.2.1
+
+* **Added Entry Type metadata column**
 
 #### 1.2
 
