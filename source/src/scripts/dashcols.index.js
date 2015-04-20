@@ -42,7 +42,7 @@
 
 		if ( $editButton.length === 0 && this.editUrl ) {
 			var editButtonHtml = '<a href="' + this.editUrl + '" class="btn dashCols-editButton">Edit columns</a>';
-			$( '#content' ).append( editButtonHtml );	
+			$( '#content' ).append( editButtonHtml );
 		} else {
 			if ( ! this.editUrl ) {
 				$editButton.remove();
@@ -62,7 +62,7 @@
 				this.$sortButton.on( 'click', $.proxy( onSortMenuButtonClick, this ) );
 			}
 		}
-		
+
 		if ( this.$sortButton.length === 0 ) {
 			return false;
 		}
@@ -83,6 +83,7 @@
 			$sortAttributeItem,
 			$indexTableColumns = $( '.tableview .data th' ),
 			attribute,
+			attributeValue,
 			attributes = [];
 
 		$indexTableColumns.each( function () {
@@ -94,7 +95,8 @@
 
 		$sortAttributesItems.show().each( function () {
 			$sortAttributeItem = $( this );
-			if ( $.inArray( $sortAttributeItem.find( 'a:first' ).data( 'attr' ), attributes ) === -1 ) {
+			attributeValue = $sortAttributeItem.find( 'a:first' ).data( 'attr' );
+			if ( attributeValue !== 'structure' && $.inArray( attributeValue, attributes ) === -1 ) {
 				$sortAttributeItem.hide();
 			}
 		} );
@@ -132,7 +134,7 @@
 				}
 
 				this.entryIndex = Craft.EntryIndex || false;
-		
+
 				break;
 
 			case 'categories' :

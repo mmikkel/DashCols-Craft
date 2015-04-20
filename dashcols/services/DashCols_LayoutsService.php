@@ -14,17 +14,13 @@
 class DashCols_LayoutsService extends BaseApplicationComponent
 {
 
-	protected 	$_sessionKey = '_dashCols_layouts',
-				$_layouts = null,
+	protected 	$_layouts = null,
 				$_currentLayout = null;
 
 	public function init()
 	{
 
-		if ( ! $layouts = $this->getSessionVariable() ) {
-			$layouts = $this->getLayouts();
-			$this->addSessionVariable();
-		}
+		$layouts = $this->getLayouts();
 
 		// Cache the layout's fields to the FieldsService
 		foreach ( $layouts as $layout ) {
@@ -33,38 +29,20 @@ class DashCols_LayoutsService extends BaseApplicationComponent
 
 	}
 
-	public function getSessionVariable()
-	{
-		if ( $layouts = craft()->httpSession->get( $this->_sessionKey ) ) {
-			return unserialize( $layouts );
-		}
-		return false;
-	}
-
-	public function flushSessionVariable()
-	{
-		craft()->httpSession->add( $this->_sessionKey, null );
-	}
-
-	public function addSessionVariable()
-	{
-		craft()->httpSession->add( $this->_sessionKey, serialize( $this->_layouts ) );
-	}
-
 	public function getLayouts()
 	{
 		if ( $this->_layouts === null ) {
-			
+
 			$layouts = array();
 			$records = DashCols_LayoutRecord::model()->findAll();
-			
+
 			foreach ( $records as $record ) {
-				
+
 				$layout = DashCols_LayoutModel::populateModel( $record );
 
 				// Get the layouts' fields
 				$layout->customFields = craft()->dashCols_fields->getCustomFieldsFromFieldLayout( $layout->getFieldLayout() );
-				
+
 				$layouts[] = $layout;
 
 			}
@@ -72,7 +50,7 @@ class DashCols_LayoutsService extends BaseApplicationComponent
 			$this->_layouts = $layouts;
 
 		}
-		
+
 		return $this->_layouts;
 
 	}
@@ -125,39 +103,39 @@ class DashCols_LayoutsService extends BaseApplicationComponent
 		$layout = false;
 
 		switch ( $source ) {
-            
+
             case '*' : case 'entries' : case 'singles' :
-                
+
                 // Listing
                 if ( $source === '*' ) {
                     $source = 'entries';
                 }
-                
+
                 $layout = $this->getLayoutByListingHandle( $source );
 
                 break;
 
             default :
-                
+
                 if ( strpos( $source, ':' ) === false ) {
-            	
+
             		// Let's hope this is a valid handle
             		if ( ! $section = craft()->sections->getSectionByHandle( $source ) ) {
             			return false;
             		}
-            	
+
             		$sectionId = $section->id;
-            	
+
             	} else {
-            	
+
             		// Section ID
 	        		$temp = explode( ':', $source );
-	            
+
 	                if ( $temp[ 0 ] != 'section' || ! isset( $temp[ 1 ] ) || ! is_numeric( $temp[ 1 ] ) ) {
 	                    return false;
 	                }
 
-	                $sectionId = $temp[ 1 ];	
+	                $sectionId = $temp[ 1 ];
 
             	}
 
@@ -177,26 +155,26 @@ class DashCols_LayoutsService extends BaseApplicationComponent
 	{
 
 		if ( strpos( $source, ':' ) === false ) {
-    	
+
     		// Let's hope this is a valid handle
     		if ( ! $categoryGroup = craft()->categories->getCategoryGroupByHandle( $source ) ) {
     			return false;
     		}
-    	
+
     		$categoryGroupId = $categoryGroup->id;
-    	
+
     	} else {
-    	
+
     		$temp = explode( ':', $source );
-	    
+
 	        if ( $temp[ 0 ] != 'group' || ! isset( $temp[ 1 ] ) || ! is_numeric( $temp[ 1 ] ) ) {
 	            return false;
 	        }
-	    
+
 	        $categoryGroupId = $temp[ 1 ];
 
     	}
-    	
+
     	$layout = $this->getLayoutByCategoryGroupId( $categoryGroupId );
 
     	return $layout;
@@ -323,7 +301,6 @@ class DashCols_LayoutsService extends BaseApplicationComponent
 
 			}
 
-			$this->flushSessionVariable();
 			return true;
 
 		}
