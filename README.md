@@ -2,11 +2,11 @@
 
 _Now with sorting abilities!_
 
-**The element index tables lists all your content, but let's face it – they're kind of sparse. DashCols makes it easy to add (almost) any custom field to your tables.**  
+**The element index tables lists all your content, but let's face it – they're kind of sparse. DashCols makes it easy to add (almost) any custom field to your tables.**
 
 ![Screenshot of index table customized using DashCols](/source/demo/index.jpg?raw=true "Index table customized w/ DashCols")
 
-In addition, DashCols will also:  
+In addition, DashCols will also:
 
 * Enable you to show/hide _default columns_ (URI, section, expiry date etc.) and _element metadata_ (ID, author and last updated date)
 * Enable you to _sort_ index tables on most columns
@@ -85,6 +85,10 @@ _DashCols_ is provided free of charge. The author is not responsible for any dat
 Please report any bugs, feature requests or other issues [here](https://github.com/mmikkel/dashcols-craft/issues). Note that _DashCols_ is a hobby project and I can offer no promises regarding response time, feature implementations or bug amendments.
 
 ### Changelog
+
+#### 1.2.1
+
+* Fixed bug where the _Structure_ sorting option was hidden
 
 #### 1.2
 

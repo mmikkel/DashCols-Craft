@@ -14,7 +14,7 @@
 class DashColsPlugin extends BasePlugin
 {
 
-    protected   $_version = '1.2',
+    protected   $_version = '1.2.1',
                 $_developer = 'Mats Mikkel Rummelhoff',
                 $_developerUrl = 'http://mmikkel.no',
                 $_pluginName = 'DashCols',
@@ -84,11 +84,6 @@ class DashColsPlugin extends BasePlugin
         if ( ! $this->isCraftRequiredVersion() ) {
             return false;
         }
-
-        // Flush the session variable when the user logs out
-        craft()->on( 'userSession.onLogout', function( Event $event ) {
-            craft()->dashCols_layouts->flushSessionVariable();
-        });
 
         if ( craft()->request->isCpRequest() && craft()->userSession->getUser() ) {
             craft()->dashCols_layouts->init();
