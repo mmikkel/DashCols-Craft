@@ -1,4 +1,4 @@
-# DashCols Craft CMS Plugin v. 1.2
+# DashCols Craft CMS Plugin v. 1.2.1
 
 _Now with sorting abilities!_
 
