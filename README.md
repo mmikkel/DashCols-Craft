@@ -1,4 +1,4 @@
-# DashCols Craft CMS Plugin v. 1.2.2
+# DashCols Craft CMS Plugin v. 1.2.3
 
 _Now with sorting abilities!_
 
@@ -85,6 +85,10 @@ _DashCols_ is provided free of charge. The author is not responsible for any dat
 Please report any bugs, feature requests or other issues [here](https://github.com/mmikkel/dashcols-craft/issues). Note that _DashCols_ is a hobby project and I can offer no promises regarding response time, feature implementations or bug amendments.
 
 ### Changelog
+
+#### 1.2.3
+
+* SVG assets now display as thumbnails for Craft 2.4 builds (only where ImageMagick is installed)
 
 #### 1.2.2
 

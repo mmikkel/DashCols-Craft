@@ -295,7 +295,10 @@ class DashCols_AttributesService extends BaseApplicationComponent
 
 		$totalCount = count( $this->_attribute );
 
-		if ( $asset->kind === 'image' && strtolower( $asset->extension ) !== 'svg' ) {
+		// I can haz SVG transforms?
+		$svgTransformSupport = version_compare( craft()->getVersion(), '2.4', '>=' ) && craft()->images->isImagick();
+
+		if ( $asset->kind === 'image' && ( strtolower( $asset->extension ) !== 'svg' || $svgTransformSupport ) ) {
 
 			// Image
 			$assetWidth = 60;
