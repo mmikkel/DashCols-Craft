@@ -162,8 +162,8 @@ class DashCols_AttributesService extends BaseApplicationComponent
 					
 					// Ye olde generic string, I guess.
 					$attributeHtml = trim( strip_tags( $this->_attribute ) );
-					if ( strlen( $attributeHtml ) > 47 ) {
-						$attributeHtml = substr( $attributeHtml, 0, 47 ) . '...';
+					if ( mb_strlen( $attributeHtml ) > 47 ) {
+						$attributeHtml = mb_substr( $attributeHtml, 0, 47 ) . '...';
 					}
 
 				}
