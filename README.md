@@ -46,6 +46,10 @@ Please note that not all FieldTypes are supported – look below for the complet
 * Tags
 * Users
 
+### Supported Custom FieldTypes
+
+* Address (Smart Map)
+
 ### Partially supported FieldTypes
 
 * Assets
