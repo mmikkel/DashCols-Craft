@@ -219,6 +219,10 @@ class DashCols_AttributesService extends BaseApplicationComponent
 
 					return $this->_getEntryTypeTableAttributeHtml();
 
+				case 'Craft\SmartMap_AddressModel' :
+
+					return (string) $this->_attribute;
+
 				default :
 
 					return 'Unknown class: ' . $class;
