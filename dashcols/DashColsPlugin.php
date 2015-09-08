@@ -23,7 +23,7 @@ class DashColsPlugin extends BasePlugin
 
     public function getName()
     {
-         return $this->getSettings()->name ?: $this->_pluginName;
+         return $this->_pluginName;
     }
 
     public function getVersion()
@@ -55,7 +55,6 @@ class DashColsPlugin extends BasePlugin
     {
         return array(
             'cpSectionDisabled' => array( AttributeType::Bool, 'default' => false ),
-            'name' => array( AttributeType::String, 'default' => $this->_pluginName ),
         );
     }
 
