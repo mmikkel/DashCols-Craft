@@ -49,7 +49,7 @@ class DashCols_AttributesService extends BaseApplicationComponent
 			}
 
 		}
-		
+
 		// Remove hidden fields
 		if ( $dashColsLayout->hiddenFields && is_array( $dashColsLayout->hiddenFields ) ) {
 
@@ -130,22 +130,22 @@ class DashCols_AttributesService extends BaseApplicationComponent
 		switch ( $classHandle ) {
 
 			case 'Lightswitch' :
-				
+
 				$attributeHtml = $this->_getLightswitchTableAttributeHtml();
-				
+
 				break;
 
 			case 'Color' :
-				
+
 				$attributeHtml = $this->_getColorTableAttributeHtml();
-				
+
 				break;
 
 			default :
 
 				// Could be a URL!
 				if ( filter_var( $this->_attribute, FILTER_VALIDATE_URL ) ) {
-					
+
 					// ...but is it an external URL?
 					$siteUrl = craft()->urlHelper->getSiteUrl();
 					$url = $this->_attribute;
@@ -159,12 +159,9 @@ class DashCols_AttributesService extends BaseApplicationComponent
 					}
 
 				} else {
-					
+
 					// Ye olde generic string, I guess.
-					$attributeHtml = trim( strip_tags( $this->_attribute ) );
-					if ( mb_strlen( $attributeHtml ) > 47 ) {
-						$attributeHtml = mb_substr( $attributeHtml, 0, 47 ) . '...';
-					}
+					return $this->_getYeOldeGenericStringValue($this->_attribute);
 
 				}
 
@@ -194,26 +191,18 @@ class DashCols_AttributesService extends BaseApplicationComponent
 
 					return $this->_getElementCriteriaTableAttributeHtml();
 
-					break;
-
 				case 'Craft\DateTime' :
 
 					return $this->_getDateTimeTableAttributeHtml();
-
-					break;
 
 				case 'Craft\MultiOptionsFieldData' :
 				case 'Craft\SingleOptionFieldData' :
 
 					return $this->_getOptionsFieldDataTableAttributeHtml();
 
-					break;
-
 				case 'Craft\UserModel' :
 
 					return $this->_getUserTableAttributeHtml();
-
-					break;
 
 				case 'Craft\EntryTypeModel' :
 
@@ -223,9 +212,25 @@ class DashCols_AttributesService extends BaseApplicationComponent
 
 					return (string) $this->_attribute;
 
+				case 'Craft\DoxterModel' :
+
+					$attributeValue = (string) $this->_attribute;
+					if (isset(craft()->doxter)) {
+						$attributeValue = craft()->doxter->parse($attributeValue);
+					}
+					return $this->_getYeOldeGenericStringValue($attributeValue);
+
 				default :
 
-					return 'Unknown class: ' . $class;
+					$contentAttribute = $this->_attributeField->fieldType->defineContentAttribute();
+					$contentColumn = $contentAttribute && isset($contentAttribute['column']) ? $contentAttribute['column'] : false;
+
+					if ($contentColumn === 'text' || $contentColumn === 'longtext') {
+						$attributeValue = (string) $this->_attribute;
+						return $this->_getYeOldeGenericStringValue($attributeValue);
+					}
+
+					DashColsPlugin::log('Uknown class: ' . $class);
 
 			}
 
@@ -277,7 +282,7 @@ class DashCols_AttributesService extends BaseApplicationComponent
 
 			default :
 
-				return 'ElementClass: ' . $classHandle;
+				DashColsPlugin::log('Uknown element: ' . $classHandle);
 
 		}
 
@@ -520,6 +525,14 @@ class DashCols_AttributesService extends BaseApplicationComponent
 	private function _getLightswitchTableAttributeHtml()
 	{
 		return $this->_attribute === '1' ? '<span class="dashCols-lightswitchOn"></span>' : '';
+	}
+
+	private function _getYeOldeGenericStringValue($attribute) {
+		$attributeHtml = trim(strip_tags($attribute));
+		if (mb_strlen($attributeHtml) > 47) {
+			$attributeHtml = mb_substr($attributeHtml, 0, 47) . '...';
+		}
+		return $attributeHtml;
 	}
 
 }
