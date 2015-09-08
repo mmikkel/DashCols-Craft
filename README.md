@@ -48,7 +48,9 @@ Please note that not all FieldTypes are supported – look below for the complet
 
 ### Supported Custom FieldTypes
 
-* Address (Smart Map)
+* Address (Smart Map) by @lindseydiloreto
+* Doxter by @selvinortiz
+* Preparse Field by @aelvan
 
 ### Partially supported FieldTypes
 
