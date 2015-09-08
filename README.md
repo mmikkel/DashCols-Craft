@@ -90,6 +90,12 @@ Please report any bugs, feature requests or other issues [here](https://github.c
 
 ### Changelog
 
+#### 1.2.4
+
+* Added support for Doxter
+* Slightly improved support for complex custom fieldtypes in general
+* Removed custom plugin name setting
+
 #### 1.2.3
 
 * SVG assets now display as thumbnails for Craft 2.4 builds (only where ImageMagick is installed)
