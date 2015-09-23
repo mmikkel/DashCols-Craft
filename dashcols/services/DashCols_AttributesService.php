@@ -17,7 +17,8 @@ class DashCols_AttributesService extends BaseApplicationComponent
 	private $_element,
 			$_attribute,
 			$_attributeHandle,
-			$_attributeField;
+			$_attributeField,
+			$_attributeClass;
 
 	public function modifyIndexTableAttributes( &$attributes )
 	{
@@ -89,25 +90,34 @@ class DashCols_AttributesService extends BaseApplicationComponent
 			$attribute = 'type';
 		}
 
-		// Return early if element doesn't have the attribute
-		if ( ! $elementAttribute = @$element->$attribute ) {
-			return false;
+		// Cache data about the attribute's field
+		//$customFields = craft()->dashCols_fields->getCustomFields();
+		$this->_attributeHandle = $attribute;
+		$this->_attributeField = craft()->dashCols_fields->getCustomFieldByHandle( $this->_attributeHandle );
+		$this->_attributeClass = $this->_attributeField ? $this->_attributeField->fieldType->classHandle : '';
+
+		// Handle null values
+		if (!$elementAttribute = @$element->$attribute) {
+			switch ($this->_attributeClass)
+			{
+				case 'Number' :
+					// Zeros are returned as null, so we'll need to hack in a zero :) Thanks Lindsey!
+					$elementAttribute = '0';
+					break;
+				default :
+					return false;
+			}
 		}
 
 		// Cache the element and attribute value
 		$this->_element = $element;
 		$this->_attribute = $elementAttribute;
-		$this->_attributeHandle = $attribute;
-
-		// Cache data about the attribute's field
-		$customFields = craft()->dashCols_fields->getCustomFields();
-		$this->_attributeField = craft()->dashCols_fields->getCustomFieldByHandle( $this->_attributeHandle );
 
 		// Return html from string or object value
 		$attributeValue = is_object( $elementAttribute ) ? $this->_getObjectAttributeHtml() : $this->_getStringValueTableAttributeHtml();
 
+		// Set attribute classes
 		$attributeCssClasses = array( 'dashCols-attribute' );
-
 		if ( $this->_attributeField ) {
 			$attributeCssClasses[] = 'dashCols-' . lcfirst( $this->_attributeField->fieldType->classHandle );
 		}
@@ -125,9 +135,7 @@ class DashCols_AttributesService extends BaseApplicationComponent
 	 */
 	private function _getStringValueTableAttributeHtml() {
 
-		$classHandle = $this->_attributeField ? $this->_attributeField->fieldType->classHandle : '';
-
-		switch ( $classHandle ) {
+		switch ( $this->_attributeClass ) {
 
 			case 'Lightswitch' :
 

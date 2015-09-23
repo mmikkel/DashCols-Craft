@@ -1,4 +1,4 @@
-# DashCols Craft CMS Plugin v. 1.2.4
+# DashCols Craft CMS Plugin v. 1.2.5
 
 _Now with sorting abilities!_
 
@@ -91,6 +91,10 @@ _DashCols_ is provided free of charge. The author is not responsible for any dat
 Please report any bugs, feature requests or other issues [here](https://github.com/mmikkel/dashcols-craft/issues). Note that _DashCols_ is a hobby project and I can offer no promises regarding response time, feature implementations or bug amendments.
 
 ### Changelog
+
+#### 1.2.5
+
+* Fixed issue where numeric columns wouldn't render zeros. Fixes #24
 
 #### 1.2.4
 

@@ -14,7 +14,7 @@
 class DashColsPlugin extends BasePlugin
 {
 
-    protected   $_version = '1.2.4',
+    protected   $_version = '1.2.5',
                 $_developer = 'Mats Mikkel Rummelhoff',
                 $_developerUrl = 'http://mmikkel.no',
                 $_pluginName = 'DashCols',
