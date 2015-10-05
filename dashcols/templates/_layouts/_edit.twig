@@ -85,6 +85,9 @@
 				{% elseif categoryGroupId is defined %}
 					<input type="hidden" name="categoryGroupId" value="{{ categoryGroupId }}" />
 					<input type="hidden" name="redirect" value="{{ url( 'categories/' ~ section.handle ) }}" />
+				{% elseif userGroupId is defined %}
+					<input type="hidden" name="userGroupId" value="{{ userGroupId }}" />
+					<input type="hidden" name="redirect" value="{{ url( 'users' ) }}" />
 				{% elseif listingHandle is defined %}
 					<input type="hidden" name="listingHandle" value="{{ listingHandle }}" />
 					<input type="hidden" name="redirect" value="{{ url( 'entries/' ~ ( listingHandle == 'entries' ? '' : listingHandle ) ) }}" />

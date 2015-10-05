@@ -93,6 +93,16 @@ class DashCols_LayoutsService extends BaseApplicationComponent
     	$this->setLayout( $layout ?: false );
     }
 
+	/*
+	*  Sets current layout from user source
+	*
+	*/
+    public function setLayoutFromUserSource( $source )
+    {
+    	$layout = $this->getLayoutFromUserSource( $source );
+    	$this->setLayout( $layout ?: false );
+    }
+
     /*
     *	Returns layout from entry source
     *
@@ -182,6 +192,40 @@ class DashCols_LayoutsService extends BaseApplicationComponent
 	}
 
 	/*
+    *	Returns layout from user source
+    *
+    */
+	public function getLayoutFromUserSource( $source )
+	{
+
+		if ( strpos( $source, ':' ) === false ) {
+
+    		// Let's hope this is a valid handle
+    		if ( ! $userGroup = craft()->userGroups->getGroupByHandle( $source ) ) {
+    			return false;
+    		}
+
+    		$userGroupId = $userGroup->id;
+
+    	} else {
+
+    		$temp = explode( ':', $source );
+
+	        if ( $temp[ 0 ] != 'group' || ! isset( $temp[ 1 ] ) || ! is_numeric( $temp[ 1 ] ) ) {
+	            return false;
+	        }
+
+	        $userGroupId = $temp[ 1 ];
+
+    	}
+
+    	$layout = $this->getLayoutByUserGroupId( $userGroupId );
+
+    	return $layout;
+
+	}
+
+	/*
     *	Returns layout from section ID
     *
     */
@@ -205,6 +249,21 @@ class DashCols_LayoutsService extends BaseApplicationComponent
 		$layouts = $this->getLayouts();
 		foreach ( $layouts as $layout ) {
 			if ( $layout->categoryGroupId === $categoryGroupId ) {
+				return $layout;
+			}
+		}
+		return false;
+	}
+
+	/*
+    *	Returns layout from user group ID
+    *
+    */
+	public function getLayoutByUserGroupId( $userGroupId )
+	{
+		$layouts = $this->getLayouts();
+		foreach ( $layouts as $layout ) {
+			if ( $layout->userGroupId === $userGroupId ) {
 				return $layout;
 			}
 		}
@@ -250,6 +309,8 @@ class DashCols_LayoutsService extends BaseApplicationComponent
 			$dashColsLayoutRecord->sectionId = $dashColsLayout->sectionId;
 		} else if ( $dashColsLayout->categoryGroupId ) {
 			$dashColsLayoutRecord->categoryGroupId = $dashColsLayout->categoryGroupId;
+		} else if ( $dashColsLayout->userGroupId ) {
+			$dashColsLayoutRecord->userGroupId = $dashColsLayout->userGroupId;
 		} else if ( $dashColsLayout->listingHandle ) {
 			$dashColsLayoutRecord->listingHandle = $dashColsLayout->listingHandle;
 		} else {

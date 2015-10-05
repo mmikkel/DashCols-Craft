@@ -33,31 +33,47 @@ class DashCols_FieldsService extends BaseApplicationComponent
     public function getDefaultFields( $target = false )
     {
 
-        $defaultFields = array(
-            'uri' => Craft::t( 'URI' ),
-            'postDate' => Craft::t( 'Post Date' ),
-            'expiryDate' => Craft::t( 'Expiry Date' ),
-            'section' => Craft::t( 'Section' ),
-        );
-
         switch ( $target ) {
 
             case 'singles' :
             case 'categoryGroup' :
 
-                return array_intersect_key( $defaultFields, array_flip( array( 'uri' ) ) );
+                return array(
+                    'uri' => Craft::t( 'URI' ),
+                );
 
                 break;
 
             case 'section' :
 
-                return array_intersect_key( $defaultFields, array_flip( array( 'uri', 'postDate', 'expiryDate' ) ) );
+                return array(
+                    'uri' => Craft::t( 'URI' ),
+                    'postDate' => Craft::t( 'Post Date' ),
+                    'expiryDate' => Craft::t( 'Expiry Date' ),
+                );
+
+                break;
+
+            case 'userGroup' :
+
+                return array(
+                    'firstName' => Craft::t( 'First Name' ),
+                    'lastName' => Craft::t( 'Last Name' ),
+                    'email' => Craft::t( 'Email' ),
+                    'dateCreated' => Craft::t( 'Join Date' ),
+                    'lastLoginDate' => Craft::t( 'Last Login' ),
+                );
 
                 break;
 
             default :
 
-                return $defaultFields;
+                return array(
+                    'uri' => Craft::t( 'URI' ),
+                    'postDate' => Craft::t( 'Post Date' ),
+                    'expiryDate' => Craft::t( 'Expiry Date' ),
+                    'section' => Craft::t( 'Section' ),
+                );
 
         }
 
@@ -69,25 +85,34 @@ class DashCols_FieldsService extends BaseApplicationComponent
     */
     public function getMetaFields( $target = false )
     {
-        
-        $metaFields = array(
-            'id' => Craft::t( 'ID' ),
-            'dateUpdated' => Craft::t( 'Updated Date' ),
-            'authorId' => Craft::t( 'Author' ),
-            'typeId' => Craft::t( 'Entry Type' ),
-        );
 
         switch ( $target ) {
 
             case 'categoryGroup' :
 
-                return array_intersect_key( $metaFields, array_flip( array( 'id', 'dateUpdated' ) ) );
+                return array(
+                    'id' => Craft::t( 'ID' ),
+                    'dateUpdated' => Craft::t( 'Updated Date' ),
+                );
+
+                break;
+
+            case 'userGroup' :
+
+                return array(
+                    'id' => Craft::t( 'ID' ),
+                );
 
                 break;
 
             default :
 
-                return $metaFields;
+                return array(
+                    'id' => Craft::t( 'ID' ),
+                    'dateUpdated' => Craft::t( 'Updated Date' ),
+                    'authorId' => Craft::t( 'Author' ),
+                    'typeId' => Craft::t( 'Entry Type' ),
+                );
 
         }
 

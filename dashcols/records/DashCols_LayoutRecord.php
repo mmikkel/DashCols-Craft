@@ -27,6 +27,7 @@ class DashCols_LayoutRecord extends BaseRecord
 		return array(
 			'sectionId' => AttributeType::Number,
 			'categoryGroupId' => AttributeType::Number,
+			'userGroupId' => AttributeType::Number,
 			'listingHandle' => AttributeType::String,
 			'fieldLayoutId' => AttributeType::Number,
 			'hiddenFields' => AttributeType::Mixed,
@@ -51,6 +52,12 @@ class DashCols_LayoutRecord extends BaseRecord
 				static::BELONGS_TO,
 				'CategoryGroupRecord',
 				'categoryGroupId',
+				'onDelete' => static::CASCADE,
+			),
+			'userGroup' => array(
+				static::BELONGS_TO,
+				'UserGroupRecord',
+				'userGroupId',
 				'onDelete' => static::CASCADE,
 			),
 			'fieldLayout' => array(

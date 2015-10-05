@@ -14,7 +14,7 @@
 class DashColsPlugin extends BasePlugin
 {
 
-    protected   $_version = '1.2.5',
+    protected   $_version = '1.2.6',
                 $_developer = 'Mats Mikkel Rummelhoff',
                 $_developerUrl = 'http://mmikkel.no',
                 $_pluginName = 'DashCols',
@@ -72,6 +72,8 @@ class DashColsPlugin extends BasePlugin
             'dashcols/layouts' => array( 'action' => 'dashCols/layouts/getIndex' ),
             'dashcols/layouts/section/(?P<sectionHandle>[-\w]+)' => array( 'action' => 'dashCols/layouts/editSectionLayout' ),
             'dashcols/layouts/category-group/(?P<categoryGroupHandle>[-\w]+)' => array( 'action' => 'dashCols/layouts/editCategoryGroupLayout' ),
+            'dashcols/layouts/users' => array( 'action' => 'dashCols/layouts/editUserGroupLayout' ),
+            'dashcols/layouts/users/(?P<userGroupHandle>[-\w]+)' => array( 'action' => 'dashCols/layouts/editUserGroupLayout' ),
             'dashcols/layouts/listing/(?P<listingHandle>[-\w]+)' => array( 'action' => 'dashCols/layouts/editListingLayout' ),
         );
     }
@@ -116,7 +118,7 @@ class DashColsPlugin extends BasePlugin
 
         switch ( $segments[ 0 ] ) {
 
-            case 'entries' : case 'categories' :
+            case 'entries' : case 'categories' : case 'users' :
 
                 // Index tables
                 craft()->templates->includeCssResource( 'dashcols/css/dashcols.index.css' );
@@ -157,6 +159,16 @@ class DashColsPlugin extends BasePlugin
     }
 
     /*
+    *   Modify user table attributes
+    *
+    */
+    public function modifyUserTableAttributes( &$attributes, $source )
+    {
+        craft()->dashCols_layouts->setLayoutFromUserSource( $source );
+        craft()->dashCols_attributes->modifyIndexTableAttributes( $attributes );
+    }
+
+    /*
     *   Modify sortable attributes
     *
     */
@@ -166,6 +178,11 @@ class DashColsPlugin extends BasePlugin
     }
 
     public function modifyCategorySortableAttributes( &$attributes )
+    {
+        craft()->dashCols_attributes->modifyIndexSortableAttributes( $attributes );
+    }
+
+    public function modifyUserSortableAttributes( &$attributes )
     {
         craft()->dashCols_attributes->modifyIndexSortableAttributes( $attributes );
     }
@@ -182,6 +199,11 @@ class DashColsPlugin extends BasePlugin
     public function getCategoryTableAttributeHtml( CategoryModel $category, $attribute )
     {
         return craft()->dashCols_attributes->getAttributeHtml( $category, $attribute );
+    }
+
+    public function getUserTableAttributeHtml( UserModel $user, $attribute )
+    {
+        return craft()->dashCols_attributes->getAttributeHtml( $user, $attribute );
     }
 
 }

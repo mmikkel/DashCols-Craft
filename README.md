@@ -1,4 +1,4 @@
-# DashCols Craft CMS Plugin v. 1.2.5
+# DashCols Craft CMS Plugin v. 1.2.6
 
 _Now with sorting abilities!_
 
@@ -72,7 +72,6 @@ If you have a publicly available FieldType plugin you wish to see supported, ple
 
 Look for the following in coming updates:
 
-* Support for User tables
 * Support for popular, custom FieldTypes
 * Option to clear a layout w/ a single button
 
@@ -91,6 +90,10 @@ _DashCols_ is provided free of charge. The author is not responsible for any dat
 Please report any bugs, feature requests or other issues [here](https://github.com/mmikkel/dashcols-craft/issues). Note that _DashCols_ is a hobby project and I can offer no promises regarding response time, feature implementations or bug amendments.
 
 ### Changelog
+
+#### 1.2.6
+
+* Now supports editing columns for _Users_
 
 #### 1.2.5
 

@@ -144,6 +144,34 @@
 
 				break;
 
+			case 'users' :
+
+				// TEMP
+				var userGroupHandles = {
+					1 : 'accountManagers',
+					2 : 'investedUsers',
+					3 : 'publicUsers',
+					4 : 'level1',
+					5 : 'level2',
+					6 : 'level3',
+					7 : 'level4',
+					8 : 'level5'
+				}
+				// END TEMP
+
+				var key = $('#sidebar nav a.sel').data('key');
+				var groupId = key.replace(/^group:/, '');
+
+				if (!isNaN(groupId)) {
+					this.editUrl += 'users/' + userGroupHandles[groupId];
+				} else {
+					this.editUrl += 'listing/users';
+				}
+
+				this.entryIndex = Craft.UserIndex || false;
+
+				break;
+
 		}
 
 		this.evalResponsiveTable();

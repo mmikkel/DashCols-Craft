@@ -18,7 +18,8 @@ class DashColsService extends BaseApplicationComponent
 			$_sections = null,
 			$_channels = null,
 			$_structures = null,
-			$_categoryGroups = null;
+			$_categoryGroups = null,
+			$_userGroups = null;
 
 	/*
 	* Returns the DashCols plugin for use in variables and the like
@@ -146,6 +147,19 @@ class DashColsService extends BaseApplicationComponent
 			}
 		}
 		return false;
+	}
+
+	public function getUserGroups()
+	{
+		if ( $this->_userGroups === null ) {
+			$this->_userGroups = craft()->userGroups->allGroups;
+		}
+		return $this->_userGroups;
+	}
+
+	public function getUserGroupById( $userGroupId )
+	{
+		return craft()->userGroups->getGroupById($userGroupId);
 	}
 
 	public function getListingByHandle( $listingHandle )

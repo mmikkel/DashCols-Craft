@@ -33,6 +33,7 @@ class DashCols_LayoutsController extends BaseController
 		$variables[ 'channels' ] = craft()->dashCols->getChannels();
 		$variables[ 'structures' ] = craft()->dashCols->getStructures();
 		$variables[ 'categoryGroups' ] = craft()->dashCols->getCategoryGroups();
+		$variables[ 'userGroups' ] = craft()->dashCols->getUserGroups();
 
 		// Get tabs
 		$variables[ 'tabs' ] = craft()->dashCols->getCpTabs();
@@ -74,7 +75,7 @@ class DashCols_LayoutsController extends BaseController
 		// Set selected tab
 		$variables[ 'tabs' ][ $variables[ 'section' ]->handle ] = array(
 			'label' => Craft::t( 'Edit layout' ),
-			'url' => UrlHelper::getUrl( 'dashcols/layouts/section/ ' . $variables[ 'section' ]->handle ),
+			'url' => UrlHelper::getUrl( 'dashcols/layouts/section/' . $variables[ 'section' ]->handle ),
 		);
 		$variables[ 'selectedTab' ] = $variables[ 'section' ]->handle;
 
@@ -119,7 +120,7 @@ class DashCols_LayoutsController extends BaseController
 		// Set selected tab
 		$variables[ 'tabs' ][ $variables[ 'section' ]->handle ] = array(
 			'label' => Craft::t( 'Edit layout' ),
-			'url' => UrlHelper::getUrl( 'dashcols/layouts/category-group/ ' . $variables[ 'section' ]->handle ),
+			'url' => UrlHelper::getUrl( 'dashcols/layouts/category-group/' . $variables[ 'section' ]->handle ),
 		);
 		$variables[ 'selectedTab' ] = $variables[ 'section' ]->handle;
 
@@ -128,6 +129,51 @@ class DashCols_LayoutsController extends BaseController
 
 		// Get meta fields
 		$variables[ 'metaFields' ] = craft()->dashCols_fields->getMetaFields( 'categoryGroup' );
+
+		return $this->renderEditLayout( $variables );
+
+	}
+
+	/**
+	 * @access public
+	 * @return mixed
+	 */
+	public function actionEditUserGroupLayout( array $variables = array() )
+	{
+
+		if ( ! isset( $variables[ 'userGroupHandle' ] ) ) {
+			throw new HttpException( 404 );
+		}
+
+		$variables[ 'section' ] = craft()->userGroups->getGroupByHandle( $variables[ 'userGroupHandle' ] );
+		if ( ! $variables[ 'section' ] ) {
+			throw new HttpException( 404 );
+		}
+
+		$variables[ 'userGroupId' ] = $variables[ 'section' ]->id;
+
+		// Get layout model
+		if ( ! $variables[ 'layout' ] = craft()->dashCols_layouts->getLayoutByUserGroupId( $variables[ 'userGroupId' ] ) ) {
+			$variables[ 'layout' ] = new DashCols_LayoutModel();
+		}
+
+		$variables[ 'crumb' ] = array(
+			'label' => Craft::t( $variables[ 'section' ]->name ),
+			'url' => UrlHelper::getUrl( 'dashcols/layouts/users/' . $variables[ 'section' ]->handle ),
+		);
+
+		// Set selected tab
+		$variables[ 'tabs' ][ $variables[ 'section' ]->handle ] = array(
+			'label' => Craft::t( 'Edit layout' ),
+			'url' => UrlHelper::getUrl( 'dashcols/layouts/users/' . $variables[ 'section' ]->handle ),
+		);
+		$variables[ 'selectedTab' ] = $variables[ 'section' ]->handle;
+
+		// Get default fields
+		$variables[ 'defaultFields' ] = craft()->dashCols_fields->getDefaultFields( 'userGroup' );
+
+		// Get meta fields
+		$variables[ 'metaFields' ] = craft()->dashCols_fields->getMetaFields( 'userGroup' );
 
 		return $this->renderEditLayout( $variables );
 
@@ -214,6 +260,11 @@ class DashCols_LayoutsController extends BaseController
 				'url' => UrlHelper::getUrl( 'dashcols/layouts/listing/singles' ),
 				'active' => $variables[ 'selectedTab' ] === 'singles',
 			),
+			array(
+				'label' => Craft::t( 'All users' ),
+				'url' => UrlHelper::getUrl( 'dashcols/layouts/users' ),
+				'active' => $variables[ 'selectedTab' ] === 'users',
+			),
 		);
 
 		foreach ( craft()->dashCols->getSections() as $section ) {
@@ -223,7 +274,8 @@ class DashCols_LayoutsController extends BaseController
 			$variables[ 'layoutUrls' ][ $section->handle ] = array(
 				'label' => $section->name,
 				'url' => UrlHelper::getUrl( 'dashcols/layouts/section/' . $section->handle ),
-				'active' => $variables[ 'section' ]->handle === $section->handle,
+				// 'active' => $variables[ 'section' ]->handle === $section->handle,
+				'active' => false,
 			);
 		}
 
@@ -231,7 +283,17 @@ class DashCols_LayoutsController extends BaseController
 			$variables[ 'layoutUrls' ][ $categoryGroup->handle ] = array(
 				'label' => $categoryGroup->name,
 				'url' => UrlHelper::getUrl( 'dashcols/layouts/category-group/' . $categoryGroup->handle ),
-				'active' => $variables[ 'section' ]->handle === $categoryGroup->handle,
+				// 'active' => $variables[ 'section' ]->handle === $categoryGroup->handle,
+				'active' => false,
+			);
+		}
+
+		foreach ( craft()->dashCols->getUserGroups() as $userGroup ) {
+			$variables[ 'layoutUrls' ][ $userGroup->handle ] = array(
+				'label' => $userGroup->name,
+				'url' => UrlHelper::getUrl( 'dashcols/layouts/users/' . $userGroup->handle ),
+				// 'active' => $variables[ 'section' ]->handle === $userGroup->handle,
+				'active' => false,
 			);
 		}
 
@@ -256,12 +318,15 @@ class DashCols_LayoutsController extends BaseController
 
 		$layout->sectionId = $request->getPost( 'sectionId' );
 		$layout->categoryGroupId = $request->getPost( 'categoryGroupId' );
+		$layout->userGroupId = $request->getPost( 'userGroupId' );
 		$layout->listingHandle = $request->getPost( 'listingHandle' );
 
 		if ( $layout->sectionId ) {
 			$section = craft()->dashCols->getSectionById( $layout->sectionId );
 		} else if ( $layout->categoryGroupId ) {
 			$section = craft()->dashCols->getCategoryGroupById( $layout->categoryGroupId );
+		} else if ( $layout->userGroupId ) {
+			$section = craft()->dashCols->getUserGroupById( $layout->userGroupId );
 		} else if ( $layout->listingHandle ) {
 			$section = craft()->dashCols->getListingByHandle( $layout->listingHandle );
 		} else {

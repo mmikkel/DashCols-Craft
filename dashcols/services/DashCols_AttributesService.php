@@ -238,7 +238,7 @@ class DashCols_AttributesService extends BaseApplicationComponent
 						return $this->_getYeOldeGenericStringValue($attributeValue);
 					}
 
-					DashColsPlugin::log('Uknown class: ' . $class);
+					DashColsPlugin::log('Unknown class: ' . $class);
 
 			}
 
@@ -290,7 +290,7 @@ class DashCols_AttributesService extends BaseApplicationComponent
 
 			default :
 
-				DashColsPlugin::log('Uknown element: ' . $classHandle);
+				DashColsPlugin::log('Unknown element: ' . $classHandle);
 
 		}
 

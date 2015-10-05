@@ -75,6 +75,26 @@
 	</table>
 	{% endif %}
 
+	{% if userGroups %}
+	<br />
+
+	<table id="dashCols-users" class="data fullwidth collapsible">
+		<thead>
+			<th scope="col">{{ 'User groups' | t }}</th>
+		</thead>
+		<tbody>
+			<tr data-name="All Users">
+				<th scope="row" data-title="{{ 'User groups' | t }}"><a href="{{ url( 'dashcols/layouts/users' ) }}">{{ 'All Users' | t }}</a></th>
+			</tr>
+			{% for userGroup in userGroups %}
+			<tr data-id="{{ userGroup.id }}" data-name="{{ userGroup.name|t }}">
+				<th scope="row" data-title="{{ 'User groups' | t }}"><a href="{{ url( 'dashcols/layouts/users/' ~ userGroup.id ) }}">{{ userGroup.name | t }}</a></th>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	{% endif %}
+
 	{% include 'dashcols/_partials/_footer.twig' %}
 
 {% endset %}
