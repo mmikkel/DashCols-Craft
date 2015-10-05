@@ -274,8 +274,7 @@ class DashCols_LayoutsController extends BaseController
 			$variables[ 'layoutUrls' ][ $section->handle ] = array(
 				'label' => $section->name,
 				'url' => UrlHelper::getUrl( 'dashcols/layouts/section/' . $section->handle ),
-				// 'active' => $variables[ 'section' ]->handle === $section->handle,
-				'active' => false,
+				'active' => $variables[ 'section' ]->handle === $section->handle,
 			);
 		}
 
@@ -283,8 +282,7 @@ class DashCols_LayoutsController extends BaseController
 			$variables[ 'layoutUrls' ][ $categoryGroup->handle ] = array(
 				'label' => $categoryGroup->name,
 				'url' => UrlHelper::getUrl( 'dashcols/layouts/category-group/' . $categoryGroup->handle ),
-				// 'active' => $variables[ 'section' ]->handle === $categoryGroup->handle,
-				'active' => false,
+				'active' => $variables[ 'section' ]->handle === $categoryGroup->handle,
 			);
 		}
 
@@ -292,8 +290,7 @@ class DashCols_LayoutsController extends BaseController
 			$variables[ 'layoutUrls' ][ $userGroup->handle ] = array(
 				'label' => $userGroup->name,
 				'url' => UrlHelper::getUrl( 'dashcols/layouts/users/' . $userGroup->handle ),
-				// 'active' => $variables[ 'section' ]->handle === $userGroup->handle,
-				'active' => false,
+				'active' => $variables[ 'section' ]->handle === $userGroup->handle,
 			);
 		}
 
