@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /*
 * Index table styles
 *
@@ -8,7 +9,8 @@
 .dashCols-scrollable {
   overflow-x: scroll; }
 
-.elements.datatablesorthelper .move.icon, .elementindex .move.icon {
+.elements.datatablesorthelper .move.icon,
+.elementindex .move.icon {
   top: 50% !important;
   margin-top: -12px !important; }
 
