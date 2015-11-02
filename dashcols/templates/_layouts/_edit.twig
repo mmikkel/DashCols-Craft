@@ -81,19 +81,22 @@
 				<input type="hidden" name="action" value="dashCols/layouts/saveLayout">
 				{% if sectionId is defined %}
 					<input type="hidden" name="sectionId" value="{{ sectionId }}" />
-					<input type="hidden" name="redirect" value="{{ url( 'entries/' ~ section.handle ) }}" />
 				{% elseif categoryGroupId is defined %}
 					<input type="hidden" name="categoryGroupId" value="{{ categoryGroupId }}" />
-					<input type="hidden" name="redirect" value="{{ url( 'categories/' ~ section.handle ) }}" />
-				{% elseif userGroupId is defined %}
-					<input type="hidden" name="userGroupId" value="{{ userGroupId }}" />
-					<input type="hidden" name="redirect" value="{{ url( 'users' ) }}" />
+				{% elseif userGroup is defined %}
+					<input type="hidden" name="userGroupId" value="{{ userGroup.id }}" />
 				{% elseif listingHandle is defined %}
 					<input type="hidden" name="listingHandle" value="{{ listingHandle }}" />
-					<input type="hidden" name="redirect" value="{{ url( 'entries/' ~ ( listingHandle == 'entries' ? '' : listingHandle ) ) }}" />
 				{% endif %}
-				{% if layout.id %}<input type="hidden" name="layoutId" value="{{ layout.id }}" />{% endif %}
+				
+				{% if layout.id %}
+				<input type="hidden" name="layoutId" value="{{ layout.id }}" />
+				{% endif %}
 
+				{% if redirectUrl %}
+				<input type="hidden" name="redirect" value="{{ redirectUrl }}" />
+				{% endif %}
+				
 				<input type="hidden" name="{{ craft.config.csrfTokenName }}" value="{{ craft.request.csrfToken }}">
 
 			</form>

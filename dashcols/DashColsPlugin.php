@@ -68,13 +68,22 @@ class DashColsPlugin extends BasePlugin
     public function registerCpRoutes()
     {
         return array(
+            
             'dashcols' => array( 'action' => 'dashCols/layouts/getIndex' ),
             'dashcols/layouts' => array( 'action' => 'dashCols/layouts/getIndex' ),
+            
+            // Entries
             'dashcols/layouts/section/(?P<sectionHandle>[-\w]+)' => array( 'action' => 'dashCols/layouts/editSectionLayout' ),
+            
+            // Category group
             'dashcols/layouts/category-group/(?P<categoryGroupHandle>[-\w]+)' => array( 'action' => 'dashCols/layouts/editCategoryGroupLayout' ),
-            'dashcols/layouts/users' => array( 'action' => 'dashCols/layouts/editUserGroupLayout' ),
-            'dashcols/layouts/users/(?P<userGroupHandle>[-\w]+)' => array( 'action' => 'dashCols/layouts/editUserGroupLayout' ),
-            'dashcols/layouts/listing/(?P<listingHandle>[-\w]+)' => array( 'action' => 'dashCols/layouts/editListingLayout' ),
+            
+            // User groups
+            'dashcols/layouts/users(/(?P<userGroupHandleOrId>[-\w]+))?' => array( 'action' => 'dashCols/layouts/editUserGroupLayout' ),
+
+
+            // Listings
+            //'dashcols/layouts/listing/(?P<listingHandle>[-\w]+)' => array( 'action' => 'dashCols/layouts/editListingLayout' ),
         );
     }
 

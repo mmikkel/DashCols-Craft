@@ -61,6 +61,10 @@ class DashColsService extends BaseApplicationComponent
         return isset( $settings[ 'cpSectionDisabled' ] ) && $settings[ 'cpSectionDisabled' ];
 	}
 
+	/*
+	*	Entries
+	*
+	*/
 	public function getSections()
 	{
 		if ( $this->_sections === null ) {
@@ -121,6 +125,10 @@ class DashColsService extends BaseApplicationComponent
 		return false;
 	}
 
+	/*
+	*	Category groups
+	*
+	*/
 	public function getCategoryGroups()
 	{
 		if ( $this->_categoryGroups === null ) {
@@ -149,6 +157,10 @@ class DashColsService extends BaseApplicationComponent
 		return false;
 	}
 
+	/*
+	*	User groups
+	*
+	*/
 	public function getUserGroups()
 	{
 		if ( $this->_userGroups === null ) {
@@ -157,21 +169,45 @@ class DashColsService extends BaseApplicationComponent
 		return $this->_userGroups;
 	}
 
-	public function getUserGroupById( $userGroupId )
+	public function getUserGroupByHandleOrId( $userGroupHandleOrId )
 	{
-		return craft()->userGroups->getGroupById($userGroupId);
+		return ctype_digit($userGroupHandleOrId) ? $this->getUserGroupById($userGroupHandleOrId) : $this->getUserGroupByHandle($userGroupHandleOrId);
 	}
 
+	public function getUserGroupById( $userGroupId )
+	{
+		foreach ($this->getUserGroups() as $userGroup)
+		{
+			if ($userGroup->id === $userGroupId) return $userGroup;
+		}
+		return false;
+	}
+
+	public function getUserGroupByHandle( $userGroupHandle )
+	{
+		foreach ($this->getUserGroups() as $userGroup)
+		{
+			if ($userGroup->handle === $userGroupHandle) return $userGroup;
+		}
+		return false;
+	}
+
+	/*
+	*	Listings
+	*
+	*/
 	public function getListingByHandle( $listingHandle )
 	{
-		$listing = new SectionModel();
-		switch ( $listingHandle ) {
-			case 'singles' :
-				$listing->name = 'Singles';
+		$listing = (object) array();
+		switch ($listingHandle) {
+			case '*' : case 'entries' :
+				$listing->name = Craft::t('All entries');
 				break;
-			case '*' :
-			case 'entries' :
-				$listing->name = 'All entries';
+			case 'singles' :
+				$listing->name = Craft::t('Singles');
+				break;
+			case 'users' :
+				$listing->name = Craft::t('All users');
 				break;
 			default :
 				return false;

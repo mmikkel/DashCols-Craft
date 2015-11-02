@@ -54,7 +54,7 @@ class DashCols_FieldsService extends BaseApplicationComponent
 
                 break;
 
-            case 'userGroup' :
+            case 'userGroup' : case 'users' :
 
                 return array(
                     'firstName' => Craft::t( 'First Name' ),
@@ -97,7 +97,7 @@ class DashCols_FieldsService extends BaseApplicationComponent
 
                 break;
 
-            case 'userGroup' :
+            case 'userGroup' : case 'users' :
 
                 return array(
                     'id' => Craft::t( 'ID' ),

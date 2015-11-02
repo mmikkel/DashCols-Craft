@@ -27,6 +27,19 @@
             case 'category-group' :
                 Craft.setLocalStorage( 'elementindex.Category', '' );
                 break;
+            case 'users' :
+                var groupId = $('input[name="userGroupId"]').val();
+                if (groupId !== undefined)
+                {
+                    Craft.setLocalStorage( 'elementindex.User', {
+                        selectedSource : 'group:' + groupId
+                    } );
+                }
+                else
+                {
+                    Craft.setLocalStorage( 'elementindex.User', '' );    
+                }
+                break;
             default :
                 Craft.setLocalStorage( 'elementindex.Entry', '' );
         }

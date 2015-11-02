@@ -198,28 +198,42 @@ class DashCols_LayoutsService extends BaseApplicationComponent
 	public function getLayoutFromUserSource( $source )
 	{
 
-		if ( strpos( $source, ':' ) === false ) {
+		$layout = false;
 
-    		// Let's hope this is a valid handle
-    		if ( ! $userGroup = craft()->userGroups->getGroupByHandle( $source ) ) {
-    			return false;
-    		}
+		switch ( $source ) {
 
-    		$userGroupId = $userGroup->id;
+            case '*' :
 
-    	} else {
+                $layout = $this->getLayoutByListingHandle( 'users' );
 
-    		$temp = explode( ':', $source );
+                break;
 
-	        if ( $temp[ 0 ] != 'group' || ! isset( $temp[ 1 ] ) || ! is_numeric( $temp[ 1 ] ) ) {
-	            return false;
-	        }
+            default :
 
-	        $userGroupId = $temp[ 1 ];
+				if ( strpos( $source, ':' ) === false ) {
 
-    	}
+		    		// Let's hope this is a valid handle
+		    		if ( ! $userGroup = craft()->userGroups->getGroupByHandle( $source ) ) {
+		    			return false;
+		    		}
 
-    	$layout = $this->getLayoutByUserGroupId( $userGroupId );
+		    		$userGroupId = $userGroup->id;
+
+		    	} else {
+
+		    		$temp = explode( ':', $source );
+
+			        if ( $temp[ 0 ] != 'group' || ! isset( $temp[ 1 ] ) || ! is_numeric( $temp[ 1 ] ) ) {
+			            return false;
+			        }
+
+			        $userGroupId = $temp[ 1 ];
+
+		    	}
+
+		    	$layout = $this->getLayoutByUserGroupId( $userGroupId );
+
+		}
 
     	return $layout;
 

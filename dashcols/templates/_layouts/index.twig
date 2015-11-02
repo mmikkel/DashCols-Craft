@@ -78,7 +78,7 @@
 			</tr>
 			{% for userGroup in userGroups %}
 			<tr data-id="{{ userGroup.id }}" data-name="{{ userGroup.name|t }}">
-				<th scope="row" data-title="{{ 'Category groups' | t }}"><a href="{{ url( 'dashcols/layouts/category-group/' ~ userGroup.handle ) }}">{{ userGroup.name | t }}</a></th>
+				<th scope="row" data-title="{{ 'Category groups' | t }}"><a href="{{ url( 'dashcols/layouts/users/' ~ userGroup.handle ) }}">{{ userGroup.name | t }}</a></th>
 			</tr>
 			{% endfor %}
 		</tbody>
