@@ -4,9 +4,11 @@ Pixel and Tonic recently unveiled Craft 2.5, currently in public beta and due to
 
 The native Customizable Element Indexes are awesome, and finally having this functionality in core is a great boon for Craft, its users and the community.  
 
-_DashCols_ 1.3 will be the final release for DashCols, and it will not receive any support, new features or bug fixes going forward. This repo will stay up indefinetely, though.  
+DashCols 1.3 will be the final release for DashCols, and it will not receive any support, new features or bug fixes going forward. This repo will stay up indefinetely, though.  
 
 Thanks a lot for all the support and interest in this plugin!  
+
+[Read more about Craft 2.5 on Pixel & Tonic's blog](http://pixelandtonic.com/blog/craft-2.5-beta)
 
 – Mats
 
