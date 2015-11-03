@@ -25,6 +25,8 @@ class DashCols_LayoutsController extends BaseController
 			throw new HttpException(404);
 		}
 
+		$this->requireCraftVersion();
+
 		// Get layout targets
 		$variables['channels'] = craft()->dashCols->getChannels();
 		$variables['structures'] = craft()->dashCols->getStructures();
@@ -47,6 +49,8 @@ class DashCols_LayoutsController extends BaseController
 	 */
 	public function actionEditEntriesLayout(array $variables = array())
 	{
+
+		$this->requireCraftVersion();
 
 		// Get tab nav items (all sections)
 		$variables['tabNav'] = array(
@@ -117,6 +121,8 @@ class DashCols_LayoutsController extends BaseController
 	public function actionEditCategoryGroupLayout(array $variables = array())
 	{
 
+		$this->requireCraftVersion();
+
 		if (!isset($variables['categoryGroupHandleOrId'])) {
 			$categoryGroups = craft()->dashCols->getCategoryGroups();
 			if (!$categoryGroups) throw new HttpException(404);
@@ -174,6 +180,8 @@ class DashCols_LayoutsController extends BaseController
 	public function actionEditAssetSourceLayout(array $variables = array())
 	{
 
+		$this->requireCraftVersion();
+
 		if (!isset($variables['assetSourceHandleOrId'])) {
 			$assetSources = craft()->dashCols->getAssetSources();
 			if (!$assetSources) throw new HttpException(404);
@@ -230,6 +238,8 @@ class DashCols_LayoutsController extends BaseController
 	 */
 	public function actionEditUserGroupLayout(array $variables = array())
 	{
+
+		$this->requireCraftVersion();
 
 		// Get tab nav items (all user groups)
 		$variables['tabNav'] = array(
@@ -290,6 +300,8 @@ class DashCols_LayoutsController extends BaseController
 	 */
 	public function actionEditListingLayout(array $variables = array())
 	{
+
+		$this->requireCraftVersion();
 
 		if (!isset($variables['listingHandle']) || !in_array($variables['listingHandle'], array('entries', 'singles', 'users'))) {
 			throw new HttpException(404);
@@ -423,6 +435,14 @@ class DashCols_LayoutsController extends BaseController
 			'layout' => $layout,
 		));
 
+	}
+
+	private function requireCraftVersion()
+	{
+		if (!craft()->dashCols->isCraftRequiredVersion())
+		{
+			return $this->renderTemplate('dashCols/_legacy');
+		}
 	}
 
 }

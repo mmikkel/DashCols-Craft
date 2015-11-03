@@ -5,112 +5,104 @@
 
 {% block content %}
 
-	{% if craft.dashCols.isCraftRequiredVersion %}
-
-		{% if tabNav is defined and tabNav|length %}
-		<nav class="dashCols-editNav">
-			<div class="select">
-				<select id="dashCols-editNavSelect">
-					{% for navItem in tabNav %}
-					<option{% if craft.request.path == navItem.url %} selected disabled{% endif %} value="{{ url(navItem.url) }}">{{ navItem.name }}</option>
-					{% endfor %}
-				</select>
-			</div>
-		</nav>
-		{% endif %}
-
-		<div id="dashCols-sectionEdit">
-			<form method="post" accept-charset="UTF-8" data-saveshortcut="1">
-
-				{% include '_includes/fieldlayoutdesigner' with {
-					fieldLayout : layout.getFieldLayout(),
-					customizableTabs : false,
-					pretendTabName : 'Columns' | t
-				} only %}
-
-				<hr />
-
-				{% if defaultFields is defined and defaultFields | length > 0 and defaultFields != false %}
-				<h3>Hide/show default fields</h3>
-				<table id="dashCols-defaultFields" class="data fullwidth collapsible">
-					<tbody>
-						{% for hiddenFieldKey,hiddenFieldValue in defaultFields %}
-						<tr>
-							<td class="dashCols-switch thin">
-								<div class="dashCols-defaultField">
-									{{ forms.lightswitch({
-										id: hiddenFieldKey,
-										name: 'hiddenFields[' ~ hiddenFieldKey ~ ']',
-										on : hiddenFieldKey in layout.hiddenFields ? false : true,
-									}) }}
-								</div>
-							</td>
-							<td class="dashCols-fieldName"><label for="{{ hiddenFieldKey }}">{{ hiddenFieldValue }}</label></td>
-						</tr>
-						{% endfor %}
-					</tbody>
-				</table>
-				<hr />
-				{% endif %}
-
-				{% if metaFields is defined and metaFields | length > 0 and metaFields != false %}
-				<h3>Show/hide metadata</h3>
-				<table id="dashCols-metaFields" class="data fullwidth collapsible">
-					<tbody>
-						{% for metaFieldKey,metaFieldValue in metaFields %}
-						<tr>
-							<td class="dashCols-switch thin">
-								<div class="dashCols-defaultField">
-									{{ forms.lightswitch({
-										id: metaFieldKey,
-										name: 'metaFields[' ~ metaFieldKey ~ ']',
-										on : metaFieldKey in layout.metaFields ? true : false,
-									}) }}
-								</div>
-							</td>
-							<td class="dashCols-fieldName"><label for="{{ metaFieldKey }}">{{ metaFieldValue }}</label></td>
-						</tr>
-						{% endfor %}
-					</tbody>
-				</table>
-				<hr />
-				{% endif %}
-
-				<div id="dashCols-actions">
-					<input type="submit" class="btn submit" value="{{ 'Save' | t }}" />
-				</div>
-
-				{% if section is defined %}
-					<input type="hidden" name="sectionId" value="{{ section.id }}" />
-				{% elseif categoryGroup is defined %}
-					<input type="hidden" name="categoryGroupId" value="{{ categoryGroup.id }}" />
-				{% elseif assetSource is defined %}
-					<input type="hidden" name="assetSourceId" value="{{ assetSource.id }}" />
-				{% elseif userGroup is defined %}
-					<input type="hidden" name="userGroupId" value="{{ userGroup.id }}" />
-				{% elseif listingHandle is defined %}
-					<input type="hidden" name="listingHandle" value="{{ listingHandle }}" />
-				{% endif %}
-				
-				{% if layout.id %}
-				<input type="hidden" name="layoutId" value="{{ layout.id }}" />
-				{% endif %}
-
-				{% if redirectUrl %}
-				<input type="hidden" name="redirect" value="{{ redirectUrl }}" />
-				{% endif %}
-				
-				<input type="hidden" name="action" value="dashCols/layouts/saveLayout">
-				<input type="hidden" name="{{ craft.config.csrfTokenName }}" value="{{ craft.request.csrfToken }}">
-
-			</form>
+	{% if tabNav is defined and tabNav|length %}
+	<nav class="dashCols-editNav">
+		<div class="select">
+			<select id="dashCols-editNavSelect">
+				{% for navItem in tabNav %}
+				<option{% if craft.request.path == navItem.url %} selected disabled{% endif %} value="{{ url(navItem.url) }}">{{ navItem.name }}</option>
+				{% endfor %}
+			</select>
 		</div>
-
-	{% else %}
-
-		<p class="error">Sorry, you need to run Craft {{ craft.dashCols.requiredCraftVersion }} or newer to use DashCols.<br/><strong>Please update Craft and try again!</strong></p>
-
+	</nav>
 	{% endif %}
+
+	<div id="dashCols-sectionEdit">
+		<form method="post" accept-charset="UTF-8" data-saveshortcut="1">
+
+			{% include '_includes/fieldlayoutdesigner' with {
+				fieldLayout : layout.getFieldLayout(),
+				customizableTabs : false,
+				pretendTabName : 'Columns' | t
+			} only %}
+
+			<hr />
+
+			{% if defaultFields is defined and defaultFields | length > 0 and defaultFields != false %}
+			<h3>Hide/show default fields</h3>
+			<table id="dashCols-defaultFields" class="data fullwidth collapsible">
+				<tbody>
+					{% for hiddenFieldKey,hiddenFieldValue in defaultFields %}
+					<tr>
+						<td class="dashCols-switch thin">
+							<div class="dashCols-defaultField">
+								{{ forms.lightswitch({
+									id: hiddenFieldKey,
+									name: 'hiddenFields[' ~ hiddenFieldKey ~ ']',
+									on : hiddenFieldKey in layout.hiddenFields ? false : true,
+								}) }}
+							</div>
+						</td>
+						<td class="dashCols-fieldName"><label for="{{ hiddenFieldKey }}">{{ hiddenFieldValue }}</label></td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			<hr />
+			{% endif %}
+
+			{% if metaFields is defined and metaFields | length > 0 and metaFields != false %}
+			<h3>Show/hide metadata</h3>
+			<table id="dashCols-metaFields" class="data fullwidth collapsible">
+				<tbody>
+					{% for metaFieldKey,metaFieldValue in metaFields %}
+					<tr>
+						<td class="dashCols-switch thin">
+							<div class="dashCols-defaultField">
+								{{ forms.lightswitch({
+									id: metaFieldKey,
+									name: 'metaFields[' ~ metaFieldKey ~ ']',
+									on : metaFieldKey in layout.metaFields ? true : false,
+								}) }}
+							</div>
+						</td>
+						<td class="dashCols-fieldName"><label for="{{ metaFieldKey }}">{{ metaFieldValue }}</label></td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			<hr />
+			{% endif %}
+
+			<div id="dashCols-actions">
+				<input type="submit" class="btn submit" value="{{ 'Save' | t }}" />
+			</div>
+
+			{% if section is defined %}
+				<input type="hidden" name="sectionId" value="{{ section.id }}" />
+			{% elseif categoryGroup is defined %}
+				<input type="hidden" name="categoryGroupId" value="{{ categoryGroup.id }}" />
+			{% elseif assetSource is defined %}
+				<input type="hidden" name="assetSourceId" value="{{ assetSource.id }}" />
+			{% elseif userGroup is defined %}
+				<input type="hidden" name="userGroupId" value="{{ userGroup.id }}" />
+			{% elseif listingHandle is defined %}
+				<input type="hidden" name="listingHandle" value="{{ listingHandle }}" />
+			{% endif %}
+			
+			{% if layout.id %}
+			<input type="hidden" name="layoutId" value="{{ layout.id }}" />
+			{% endif %}
+
+			{% if redirectUrl %}
+			<input type="hidden" name="redirect" value="{{ redirectUrl }}" />
+			{% endif %}
+			
+			<input type="hidden" name="action" value="dashCols/layouts/saveLayout">
+			<input type="hidden" name="{{ craft.config.csrfTokenName }}" value="{{ craft.request.csrfToken }}">
+
+		</form>
+	</div>
 
 	{% include 'dashcols/_partials/_footer.twig' %}
 

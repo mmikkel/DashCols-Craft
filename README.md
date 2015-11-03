@@ -93,6 +93,7 @@ Please report any bugs, feature requests or other issues [here](https://github.c
 * Now supports editing columns for _Assets_
 * CP section redesigned
 * Fixes issue with the _Edit columns_ button not always appearing
+* Various small improvements and fixes
 
 #### 1.2.5
 

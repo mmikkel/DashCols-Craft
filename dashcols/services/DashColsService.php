@@ -40,6 +40,12 @@ class DashColsService extends BaseApplicationComponent
 	*/
 	public function getCpTabs()
 	{
+		if (!$this->isCraftRequiredVersion()) return array(
+			'dashColsIndex' => array(
+				'label' => '',
+				'url' => UrlHelper::getUrl('dashcols'),
+			),
+		);
 		$tabs = array(
 			'dashColsIndex' => array(
 				'label' => '',
@@ -71,6 +77,11 @@ class DashColsService extends BaseApplicationComponent
 	{
 		$settings = $this->getPlugin()->getSettings();
         return isset($settings['cpSectionDisabled']) && $settings['cpSectionDisabled'];
+	}
+
+	public function isCraftRequiredVersion()
+	{
+		return $this->getPlugin()->isCraftRequiredVersion();
 	}
 
 	/*

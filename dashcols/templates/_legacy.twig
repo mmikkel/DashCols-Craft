@@ -1,0 +1,12 @@
+{% extends '_layouts/cp' %}
+{% import '_includes/forms' as forms %}
+
+{% set title = craft.dashCols.getPluginName | t %}
+
+{% block content %}
+
+	<p class="error">Sorry, you need to run Craft {{ craft.dashCols.requiredCraftVersion }} or newer to use DashCols.<br/><strong>Please update Craft and try again!</strong></p>
+
+	{% include 'dashcols/_partials/_footer.twig' %}
+
+{% endblock %}

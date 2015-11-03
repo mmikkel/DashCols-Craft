@@ -68,6 +68,10 @@ class DashColsPlugin extends BasePlugin
     public function registerCpRoutes()
     {
 
+        if (!$this->isCraftRequiredVersion()) return array(
+            'dashcols' => array('action' => 'dashCols/layouts/getIndex'),
+        );
+
         return array(
             
             'dashcols' => array('action' => 'dashCols/layouts/getIndex'),
@@ -93,12 +97,13 @@ class DashColsPlugin extends BasePlugin
 
         parent::init();
 
-        if (!craft()->request->isCpRequest() || !craft()->userSession->getUser() || !$this->isCraftRequiredVersion()) {
+        if (!craft()->request->isCpRequest() || !craft()->userSession->getUser()) {
             return false;
         }
 
-        craft()->dashCols_layouts->init();
         $this->includeResources();
+
+        if ($this->isCraftRequiredVersion()) craft()->dashCols_layouts->init();
 
     }
 
