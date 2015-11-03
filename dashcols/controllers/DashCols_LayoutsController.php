@@ -100,8 +100,8 @@ class DashCols_LayoutsController extends BaseController
 		);
 
 		// Get default + meta fields
-		$variables['defaultFields'] = craft()->dashCols_fields->getDefaultFields('section');
-		$variables['metaFields'] = craft()->dashCols_fields->getMetaFields('section');
+		$variables['defaultFields'] = craft()->dashCols_fields->getDefaultFields('entries');
+		$variables['metaFields'] = craft()->dashCols_fields->getMetaFields('entries');
 
 		// Get redirect URL
 		$variables['redirectUrl'] = UrlHelper::getUrl('entries/' . $section->handle);

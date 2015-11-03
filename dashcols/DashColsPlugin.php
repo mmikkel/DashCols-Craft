@@ -67,6 +67,7 @@ class DashColsPlugin extends BasePlugin
 
     public function registerCpRoutes()
     {
+
         return array(
             
             'dashcols' => array('action' => 'dashCols/layouts/getIndex'),
@@ -83,6 +84,8 @@ class DashColsPlugin extends BasePlugin
             // Asset sources
             'dashcols/assets(/(?P<assetSourceHandleOrId>[-\w]+))?' => array('action' => 'dashCols/layouts/editAssetSourceLayout'),
 
+            // Todo: Add custom element types here
+
         );
     }
 
@@ -90,14 +93,12 @@ class DashColsPlugin extends BasePlugin
 
         parent::init();
 
-        if (!$this->isCraftRequiredVersion()) {
+        if (!craft()->request->isCpRequest() || !craft()->userSession->getUser() || !$this->isCraftRequiredVersion()) {
             return false;
         }
 
-        if (craft()->request->isCpRequest() && craft()->userSession->getUser()) {
-            craft()->dashCols_layouts->init();
-            $this->includeResources();
-        }
+        craft()->dashCols_layouts->init();
+        $this->includeResources();
 
     }
 
@@ -124,28 +125,25 @@ class DashColsPlugin extends BasePlugin
             return false;
         }
 
-        switch ($segments[ 0 ]) {
+        $elementIndexes = array('entries', 'categories', 'users', 'assets');
 
-            case 'entries' : case 'categories' : case 'users' : case 'assets' :
+        // Todo: Add custom element types here
 
-                // Index tables
-                craft()->templates->includeCssResource('dashcols/css/dashcols.index.css');
-                craft()->templates->includeJsResource('dashcols/js/dashcols.index.js');
-
-                break;
-
-            case 'dashcols' :
-
-                // DashCols' CP section
-                craft()->templates->includeCssResource('dashcols/css/dashcols.cp.css');
-                craft()->templates->includeJsResource('dashcols/js/dashcols.cp.js');
-
-                break;
-
-            default :
-
-                return false;
-
+        if (in_array($segments[0], $elementIndexes))
+        {
+            // Index tables
+            craft()->templates->includeCssResource('dashcols/css/dashcols.index.css');
+            craft()->templates->includeJsResource('dashcols/js/dashcols.index.js');
+        }
+        else if ($segments[0] === 'dashcols')
+        {
+            // DashCols' CP section
+            craft()->templates->includeCssResource('dashcols/css/dashcols.cp.css');
+            craft()->templates->includeJsResource('dashcols/js/dashcols.cp.js');
+        }
+        else
+        {
+            return false;
         }
 
         $settings = json_encode($this->getSettings()->attributes);

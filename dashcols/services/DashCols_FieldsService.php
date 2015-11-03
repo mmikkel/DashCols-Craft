@@ -44,7 +44,7 @@ class DashCols_FieldsService extends BaseApplicationComponent
 
                 break;
 
-            case 'section' :
+            case 'entries' :
 
                 return array(
                     'uri' => Craft::t('URI'),
@@ -130,13 +130,34 @@ class DashCols_FieldsService extends BaseApplicationComponent
 
                 break;
 
-            default :
+            case 'entries' :
 
                 return array(
                     'id' => Craft::t('ID'),
                     'dateUpdated' => Craft::t('Updated Date'),
                     'authorId' => Craft::t('Author'),
                     'typeId' => Craft::t('Entry Type'),
+                );
+
+                break;
+
+            case 'singles' :
+
+                return array(
+                    'id' => Craft::t('ID'),
+                    'dateUpdated' => Craft::t('Updated Date'),
+                    'authorId' => Craft::t('Author'),
+                );
+
+                break;
+
+            default :
+
+                return array(
+                    'id' => Craft::t('ID'),
+                    'dateUpdated' => Craft::t('Updated Date'),
+                    'authorId' => Craft::t('Author'),
+                    'type' => Craft::t('Entry Type'),
                     'kind' => Craft::t('Kind'),
                     'width' => Craft::t('Width'),
                     'height' => Craft::t('Height'),
