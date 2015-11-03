@@ -45,9 +45,18 @@
                         selectedSource : 'group:' + groupId
                     });
                 }
-                else
+                
+                break;
+
+            case 'assets' :
+                
+                var assetSourceId = $('input[name="assetSourceId"]').val();
+                
+                if (assetSourceId !== undefined)
                 {
-                    Craft.setLocalStorage('elementindex.User', '');    
+                    Craft.setLocalStorage('elementindex.Asset', {
+                        selectedSource : 'folder:' + assetSourceId
+                    });
                 }
                 
                 break;

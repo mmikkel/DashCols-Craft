@@ -24,6 +24,7 @@ class DashCols_LayoutModel extends BaseModel
 			'id' => AttributeType::Number,
 			'sectionId' => AttributeType::Number,
 			'categoryGroupId' => AttributeType::Number,
+			'assetSourceId' => AttributeType::Number,
 			'userGroupId' => AttributeType::Number,
 			'listingHandle' => AttributeType::String,
 			'fieldLayoutId' => AttributeType::Number,

@@ -19,7 +19,8 @@ class DashColsService extends BaseApplicationComponent
 			$_channels = null,
 			$_structures = null,
 			$_categoryGroups = null,
-			$_userGroups = null;
+			$_userGroups = null,
+			$_assetSources = null;
 
 	/*
 	* Returns the DashCols plugin for use in variables and the like
@@ -52,12 +53,17 @@ class DashColsService extends BaseApplicationComponent
 				'label' => Craft::t('Categories'),
 				'url' => UrlHelper::getUrl('dashcols/categories'),
 			),
+			'assets' => array(
+				'label' => Craft::t('Assets'),
+				'url' => UrlHelper::getUrl('dashcols/assets'),
+			),
 			'users' => array(
 				'label' => Craft::t('Users'),
 				'url' => UrlHelper::getUrl('dashcols/users'),
 			),
 		);
 		if (!$this->getCategoryGroups()) unset($tabs['categories']);
+		if (!$this->getAssetSources()) unset($tabs['assets']);
 		return $tabs;
 	}
 
@@ -204,6 +210,41 @@ class DashColsService extends BaseApplicationComponent
 		foreach ($this->getUserGroups() as $userGroup)
 		{
 			if ($userGroup->handle === $userGroupHandle) return $userGroup;
+		}
+		return false;
+	}
+
+	/*
+	*	Asset sources
+	*
+	*/
+	public function getAssetSources()
+	{
+		if ($this->_assetSources === null) {
+			$this->_assetSources = craft()->assetSources->allSources;
+		}
+		return $this->_assetSources;
+	}
+
+	public function getAssetSourceByHandleOrId($assetSourceHandleOrId)
+	{
+		return ctype_digit($assetSourceHandleOrId) ? $this->getAssetSourceById($assetSourceHandleOrId) : $this->getAssetSourceByHandle($assetSourceHandleOrId);
+	}
+
+	public function getAssetSourceById($assetSourceId)
+	{
+		foreach ($this->getAssetSources() as $assetSource)
+		{
+			if ($assetSource->id === $assetSourceId) return $assetSource;
+		}
+		return false;
+	}
+
+	public function getAssetSourceByHandle($assetSourceHandle)
+	{
+		foreach ($this->getAssetSources() as $assetSource)
+		{
+			if ($assetSource->handle === $assetSourceHandle) return $assetSource;
 		}
 		return false;
 	}

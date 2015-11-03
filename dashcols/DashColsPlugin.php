@@ -14,7 +14,7 @@
 class DashColsPlugin extends BasePlugin
 {
 
-    protected   $_version = '1.2.6',
+    protected   $_version = '1.3',
                 $_developer = 'Mats Mikkel Rummelhoff',
                 $_developerUrl = 'http://mmikkel.no',
                 $_pluginName = 'DashCols',
@@ -54,31 +54,34 @@ class DashColsPlugin extends BasePlugin
     protected function defineSettings()
     {
         return array(
-            'cpSectionDisabled' => array( AttributeType::Bool, 'default' => false ),
-        );
+            'cpSectionDisabled' => array(AttributeType::Bool, 'default' => false),
+       );
     }
 
     public function getSettingsHtml()
     {
-        return craft()->templates->render( 'dashcols/settings', array(
+        return craft()->templates->render('dashcols/settings', array(
             'settings' => $this->getSettings(),
-        ) );
+        ));
     }
 
     public function registerCpRoutes()
     {
         return array(
             
-            'dashcols' => array( 'action' => 'dashCols/layouts/getIndex' ),
+            'dashcols' => array('action' => 'dashCols/layouts/getIndex'),
             
             // Entries
-            'dashcols/entries(/(?P<sourceHandle>[-\w]+))?(/(?P<sectionHandleOrId>[-\w]+))?' => array( 'action' => 'dashCols/layouts/editEntriesLayout' ),
+            'dashcols/entries(/(?P<sourceHandle>[-\w]+))?(/(?P<sectionHandleOrId>[-\w]+))?' => array('action' => 'dashCols/layouts/editEntriesLayout'),
             
             // Category group
-            'dashcols/categories(/(?P<categoryGroupHandleOrId>[-\w]+))?' => array( 'action' => 'dashCols/layouts/editCategoryGroupLayout' ),
+            'dashcols/categories(/(?P<categoryGroupHandleOrId>[-\w]+))?' => array('action' => 'dashCols/layouts/editCategoryGroupLayout'),
             
             // User groups
-            'dashcols/users(/(?P<userGroupHandleOrId>[-\w]+))?' => array( 'action' => 'dashCols/layouts/editUserGroupLayout' ),
+            'dashcols/users(/(?P<userGroupHandleOrId>[-\w]+))?' => array('action' => 'dashCols/layouts/editUserGroupLayout'),
+
+            // Asset sources
+            'dashcols/assets(/(?P<assetSourceHandleOrId>[-\w]+))?' => array('action' => 'dashCols/layouts/editAssetSourceLayout'),
 
         );
     }
@@ -87,11 +90,11 @@ class DashColsPlugin extends BasePlugin
 
         parent::init();
 
-        if ( ! $this->isCraftRequiredVersion() ) {
+        if (!$this->isCraftRequiredVersion()) {
             return false;
         }
 
-        if ( craft()->request->isCpRequest() && craft()->userSession->getUser() ) {
+        if (craft()->request->isCpRequest() && craft()->userSession->getUser()) {
             craft()->dashCols_layouts->init();
             $this->includeResources();
         }
@@ -105,110 +108,125 @@ class DashColsPlugin extends BasePlugin
 
     public function isCraftRequiredVersion()
     {
-        return version_compare( craft()->getVersion(), $this->getCraftRequiredVersion(), '>=' );
+        return version_compare(craft()->getVersion(), $this->getCraftRequiredVersion(), '>=');
     }
 
     protected function includeResources()
     {
 
-        if ( craft()->request->isAjaxRequest() ) {
+        if (craft()->request->isAjaxRequest()) {
             return false;
         }
 
         $segments = craft()->request->segments;
 
-        if ( ! is_array( $segments ) || empty( $segments ) ) {
+        if (!is_array($segments) || empty($segments)) {
             return false;
         }
 
-        switch ( $segments[ 0 ] ) {
+        switch ($segments[ 0 ]) {
 
-            case 'entries' : case 'categories' : case 'users' :
+            case 'entries' : case 'categories' : case 'users' : case 'assets' :
 
                 // Index tables
-                craft()->templates->includeCssResource( 'dashcols/css/dashcols.index.css' );
-                craft()->templates->includeJsResource( 'dashcols/js/dashcols.index.js' );
+                craft()->templates->includeCssResource('dashcols/css/dashcols.index.css');
+                craft()->templates->includeJsResource('dashcols/js/dashcols.index.js');
 
                 break;
 
             case 'dashcols' :
 
                 // DashCols' CP section
-                craft()->templates->includeCssResource( 'dashcols/css/dashcols.cp.css' );
-                craft()->templates->includeJsResource( 'dashcols/js/dashcols.cp.js' );
+                craft()->templates->includeCssResource('dashcols/css/dashcols.cp.css');
+                craft()->templates->includeJsResource('dashcols/js/dashcols.cp.js');
 
                 break;
 
+            default :
+
+                return false;
+
         }
 
+        $settings = json_encode($this->getSettings()->attributes);
+        craft()->templates->includeJs('window._DashCols='.$settings.';');
+
     }
 
     /*
-    *   Modify entry table attributes
+    *   Modify index table attributes
     *
     */
-    public function modifyEntryTableAttributes( &$attributes, $source )
+    public function modifyEntryTableAttributes(&$attributes, $source)
     {
-        craft()->dashCols_layouts->setLayoutFromEntrySource( $source );
-        craft()->dashCols_attributes->modifyIndexTableAttributes( $attributes );
+        craft()->dashCols_layouts->setLayoutFromEntrySource($source);
+        craft()->dashCols_attributes->modifyIndexTableAttributes($attributes);
     }
 
-    /*
-    *   Modify category table attributes
-    *
-    */
-    public function modifyCategoryTableAttributes( &$attributes, $source )
+    public function modifyCategoryTableAttributes(&$attributes, $source)
     {
-        craft()->dashCols_layouts->setLayoutFromCategorySource( $source );
-        craft()->dashCols_attributes->modifyIndexTableAttributes( $attributes );
+        craft()->dashCols_layouts->setLayoutFromCategorySource($source);
+        craft()->dashCols_attributes->modifyIndexTableAttributes($attributes);
     }
 
-    /*
-    *   Modify user table attributes
-    *
-    */
-    public function modifyUserTableAttributes( &$attributes, $source )
+    public function modifyAssetTableAttributes(&$attributes, $source)
     {
-        craft()->dashCols_layouts->setLayoutFromUserSource( $source );
-        craft()->dashCols_attributes->modifyIndexTableAttributes( $attributes );
+        craft()->dashCols_layouts->setLayoutFromAssetSource($source);
+        craft()->dashCols_attributes->modifyIndexTableAttributes($attributes);
+    }
+
+    public function modifyUserTableAttributes(&$attributes, $source)
+    {
+        craft()->dashCols_layouts->setLayoutFromUserSource($source);
+        craft()->dashCols_attributes->modifyIndexTableAttributes($attributes);
     }
 
     /*
     *   Modify sortable attributes
     *
     */
-    public function modifyEntrySortableAttributes( &$attributes )
+    public function modifyEntrySortableAttributes(&$attributes)
     {
-        craft()->dashCols_attributes->modifyIndexSortableAttributes( $attributes );
+        craft()->dashCols_attributes->modifyIndexSortableAttributes($attributes);
     }
 
-    public function modifyCategorySortableAttributes( &$attributes )
+    public function modifyCategorySortableAttributes(&$attributes)
     {
-        craft()->dashCols_attributes->modifyIndexSortableAttributes( $attributes );
+        craft()->dashCols_attributes->modifyIndexSortableAttributes($attributes);
     }
 
-    public function modifyUserSortableAttributes( &$attributes )
+    public function modifyAssetSortableAttributes(&$attributes)
     {
-        craft()->dashCols_attributes->modifyIndexSortableAttributes( $attributes );
+        craft()->dashCols_attributes->modifyIndexSortableAttributes($attributes);   
+    }
+
+    public function modifyUserSortableAttributes(&$attributes)
+    {
+        craft()->dashCols_attributes->modifyIndexSortableAttributes($attributes);
     }
 
     /*
     *   Get table attribute HTML
     *
     */
-    public function getEntryTableAttributeHtml( EntryModel $entry, $attribute )
+    public function getEntryTableAttributeHtml(EntryModel $entry, $attribute)
     {
-        return craft()->dashCols_attributes->getAttributeHtml( $entry, $attribute );
+        return craft()->dashCols_attributes->getAttributeHtml($entry, $attribute);
     }
 
-    public function getCategoryTableAttributeHtml( CategoryModel $category, $attribute )
+    public function getCategoryTableAttributeHtml(CategoryModel $category, $attribute)
     {
-        return craft()->dashCols_attributes->getAttributeHtml( $category, $attribute );
+        return craft()->dashCols_attributes->getAttributeHtml($category, $attribute);
     }
 
-    public function getUserTableAttributeHtml( UserModel $user, $attribute )
+    public function getAssetTableAttributeHtml(AssetFileModel $asset, $attribute)
     {
-        return craft()->dashCols_attributes->getAttributeHtml( $user, $attribute );
+        return craft()->dashCols_attributes->getAttributeHtml($asset, $attribute);
+    }
+
+    public function getUserTableAttributeHtml(UserModel $user, $attribute)
+    {
+        return craft()->dashCols_attributes->getAttributeHtml($user, $attribute);
     }
 
 }

@@ -95,6 +95,33 @@
 
 		{% endif %}
 
+		{% if assetSources %}
+
+		<section id="dashCols-assets" class="dashCols-cpIndexSection">
+
+			<h2>{{ 'Assets' | t }}</h2>
+
+			<table class="data fullwidth collapsible dashCols-layoutGroupTable">
+				<thead>
+					<th scope="col">{{ 'Asset sources' | t }}</th>
+				</thead>
+				<tbody>
+					{% for assetSource in assetSources %}
+					<tr data-id="{{ assetSource.id }}" data-name="{{ assetSource.name }}">
+						<th scope="row" data-title="{{ assetSource.name }}">
+							<a href="{{ url( 'dashcols/assets/' ~ assetSource.handle ) }}">{{ assetSource.name | t }}</a>
+						</th>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+
+		</section>
+
+		<hr />
+
+		{% endif %}
+
 		<section id="dashCols-users" class="dashCols-cpIndexSection">
 
 			<h2>Users</h2>

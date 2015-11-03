@@ -147,11 +147,21 @@
 
 			case 'users' :
 
-				var key = $('#sidebar nav a.sel').data('key'),
-					groupId = key.replace(/^group:/, '');
+				var source = Craft.getLocalStorage('elementindex.User').selectedSource,
+					groupId = source.replace(/^group:/, '');
 
-				this.editUrl += 'users' + (!isNaN(groupId) ? '/' + groupId : '');
+				this.editUrl += segments[0] + (!isNaN(groupId) ? '/' + groupId : '');
 				this.entryIndex = Craft.UserIndex || false;
+
+				break;
+
+			case 'assets' :
+
+				var source = Craft.getLocalStorage('elementindex.Asset').selectedSource,
+					folderId = source.replace(/^folder:/, '');
+
+				this.editUrl += segments[0] + (!isNaN(folderId) ? '/' + folderId : '');
+				this.entryIndex = Craft.AssetIndex || false;
 
 				break;
 
@@ -159,10 +169,12 @@
 
 		this.evalResponsiveTable();
 
-		if ($('#nav-dashcols').length > 0) {
-			this.updateEditButton();
-			this.updateSortButton();
-		}
+		// Return if CP Section is disabled
+		var dashColsSettings = window._DashCols || {};
+		if (dashColsSettings.hasOwnProperty('cpSectionDisabled') && dashColsSettings.cpSectionDisabled) return false;
+
+		this.updateEditButton();
+		this.updateSortButton();
 
 	}
 

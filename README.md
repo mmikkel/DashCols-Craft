@@ -1,14 +1,14 @@
-# DashCols Craft CMS Plugin v. 1.2.6
+# DashCols Craft CMS Plugin v. 1.3
 
-_Now with sorting abilities!_
+_Now with Users and Assets support!_
 
-**The element index tables lists all your content, but let's face it – they're kind of sparse. DashCols makes it easy to add (almost) any custom field to your tables.**
+**The element index tables lists all your content, but let's face it – they're kind of sparse. DashCols makes it easy to add (almost) any custom field to your entry, asset, category and user control panel tables.**
 
 ![Screenshot of index table customized using DashCols](/source/demo/index.jpg?raw=true "Index table customized w/ DashCols")
 
 In addition, DashCols will also:
 
-* Enable you to show/hide _default columns_ (URI, section, expiry date etc.) and _element metadata_ (ID, author and last updated date)
+* Enable you to show/hide _default columns_ (URI, section, expiry date etc.) and _element metadata_ (ID, author and last updated date ++)
 * Enable you to _sort_ index tables on most columns
 * Improve the responsiveness of your index tables
 
@@ -18,19 +18,19 @@ In addition, DashCols will also:
 * Move the /dashcols folder to craft/plugins
 * Install
 
-After installing, visit _DashCols’_ CP section and use the built-in Field Layout Designer to add custom fields to entry and category index tables, and configure the output of default columns and/or element metadata.
+After installing, visit _DashCols’_ CP section and use the built-in Field Layout Designer to add custom fields to entry, category, asset or user sources, and configure the output of default columns and/or element metadata.
 
 Please note that not all FieldTypes are supported – look below for the complete list.
 
 ## Options
 
-* Custom naming: You want to keep the nav tab around, but give it another name.
-* Undercover mode: You want to keep DashCols running, but completely hide the nav tab.
+* Undercover mode: You want to keep DashCols running, but completely hide the nav tab and "Edit columns" button.
 
 ![CP section](/source/demo/cp.jpg?raw=true)
 
 ### Supported FieldTypes
 
+* Assets
 * Categories
 * Checkboxes
 * Color
@@ -51,10 +51,6 @@ Please note that not all FieldTypes are supported – look below for the complet
 * Address (Smart Map) by @lindseydiloreto
 * Doxter by @selvinortiz
 * Preparse Field by @aelvan
-
-### Partially supported FieldTypes
-
-* Assets
 
 ### Unsupported FieldTypes
 
@@ -91,9 +87,11 @@ Please report any bugs, feature requests or other issues [here](https://github.c
 
 ### Changelog
 
-#### 1.2.6
+#### 1.3
 
-* Now supports editing columns for _Users_
+* Now supports editing columns for _Users_  – big thanks to Lindsey DiLoreto for the help!
+* Now supports editing columns for _Assets_
+* CP section redesigned
 
 #### 1.2.5
 

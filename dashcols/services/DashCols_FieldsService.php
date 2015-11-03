@@ -66,6 +66,16 @@ class DashCols_FieldsService extends BaseApplicationComponent
 
                 break;
 
+            case 'assets' :
+
+                return array(
+                    'filename' => Craft::t('Filename'),
+                    'size' => Craft::t('Size'),
+                    'dateModified' => Craft::t('Date Modified'),
+                );
+
+                break;
+
             default :
 
                 return array(
@@ -101,6 +111,21 @@ class DashCols_FieldsService extends BaseApplicationComponent
 
                 return array(
                     'id' => Craft::t('ID'),
+                    'preferredLocale' => Craft::t('Preferred Locale'),
+                    'weekStartDay' => Craft::t('Week Start Day'),   
+                );
+
+                break;
+
+            case 'assets' :
+
+                return array(
+                    'id' => Craft::t('ID'),
+                    'kind' => Craft::t('Kind'),
+                    'width' => Craft::t('Width'),
+                    'height' => Craft::t('Height'),
+                    'dateCreated' => Craft::t('Created Date'),
+                    'dateUpdated' => Craft::t('Updated Date'),
                 );
 
                 break;
@@ -112,6 +137,13 @@ class DashCols_FieldsService extends BaseApplicationComponent
                     'dateUpdated' => Craft::t('Updated Date'),
                     'authorId' => Craft::t('Author'),
                     'typeId' => Craft::t('Entry Type'),
+                    'kind' => Craft::t('Kind'),
+                    'width' => Craft::t('Width'),
+                    'height' => Craft::t('Height'),
+                    'dateCreated' => Craft::t('Created Date'),
+                    'dateUpdated' => Craft::t('Updated Date'),
+                    'preferredLocale' => Craft::t('Preferred Locale'),
+                    'weekStartDay' => Craft::t('Week Start Day'),
                 );
 
         }
