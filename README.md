@@ -1,6 +1,6 @@
 # Important notice
 
-Pixel and Tonic recently unveiled Craft 2.5, currently in public beta and due to relase December 1st 2015. Among a slew of great additions, this update adds _Customizable Element Indexes_ to Craft – basically making the DashCols plugin redundant.  
+Pixel and Tonic recently unveiled Craft 2.5, currently in public beta and due to release December 1st 2015. Among a slew of great additions, this update adds _Customizable Element Indexes_ to Craft – basically making the DashCols plugin redundant.  
 
 The native Customizable Element Indexes are awesome, and finally having this functionality in core is a great boon for Craft, its users and the community.  
 
