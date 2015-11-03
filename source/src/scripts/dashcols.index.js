@@ -60,7 +60,7 @@
 		if (this.$sortButton === null) {
 			this.$sortButton = $('.sortmenubtn:first');
 			if (this.$sortButton.length > 0) {
-				this.$sortButton.on('click', $.proxy(onSortMenuButtonClick, this));
+				this.$sortButton.on('click mouseenter', $.proxy(onSortMenuButtonClick, this));
 			}
 		}
 
@@ -77,6 +77,7 @@
 		var $sortAttributes = $('.menu ul.sort-attributes:first');
 
 		if ($sortAttributes.length === 0) {
+			requestAnimationFrame($.proxy(this.updateSortMenu, this));
 			return false;
 		}
 
@@ -118,20 +119,20 @@
 			uri = currentUrl.replace(Craft.baseCpUrl, ''),
 			segments = uri.split('/');
 
-		if (segments[ 0 ].length === 0) {
+		if (segments[0].length === 0) {
 			segments.shift();
 		}
 
-		switch (segments[ 0 ]) {
+		switch (segments[0]) {
 
 			case 'entries' :
 
-				if (!segments[ 1 ]) {
+				if (!segments[1]) {
 					this.editUrl += 'entries';
-				} else if (segments[ 1 ] === 'singles') {
+				} else if (segments[1] === 'singles') {
 					this.editUrl += 'entries/singles';
 				} else {
-					this.editUrl += 'entries/section/' + segments[ 1 ] || '';
+					this.editUrl += 'entries/section/' + segments[1] || '';
 				}
 
 				this.entryIndex = Craft.EntryIndex || false;
@@ -140,7 +141,7 @@
 
 			case 'categories' :
 
-				this.editUrl += 'categories/' + (segments[ 1 ] || '');
+				this.editUrl += 'categories/' + (segments[1] || '');
 				this.entryIndex = Craft.CategoryIndex || false;
 
 				break;

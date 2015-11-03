@@ -24,15 +24,52 @@
         var path = Craft.path.replace('dashcols/layouts/', ''),
             segments = path.split('/');
 
+        if (segments[0] === 'dashcols') segments.shift();
+
+        if (segments.length === 0) return false;
+
         // Set cached element index to the current section or category group
         switch (segments[0]) {
 
             case 'entries' :
-                Craft.setLocalStorage('elementindex.Entry', '');
+                
+                var selectedSource = '*',
+                    sectionId = $('input[name="sectionId"]').val();
+                
+                if (sectionId !== undefined)
+                {
+                    selectedSource = 'section:' + sectionId;
+                }
+                else
+                {
+                    selectedSource = segments.length > 1 && segments[1] === 'singles' ? 'singles' : '*';
+                }
+                
+                Craft.setLocalStorage('elementindex.Entry', {
+                    selectedSource : selectedSource
+                });
+
+                console.log('selected source', selectedSource);
+
                 break;
             
             case 'categories' :
-                Craft.setLocalStorage('elementindex.Category', '');
+                
+                var groupId = $('input[name="categoryGroupId"]').val();
+
+                if (groupId !== undefined)
+                {
+                    Craft.setLocalStorage('elementindex.Category', {
+                        selectedSource : 'group:' + groupId
+                    });
+                }
+                else
+                {
+                    Craft.setLocalStorage('elementindex.Category', '');    
+                }
+
+                console.log('selected source', groupId);
+
                 break;
 
             case 'users' :
@@ -45,19 +82,31 @@
                         selectedSource : 'group:' + groupId
                     });
                 }
+                else
+                {
+                    Craft.setLocalStorage('elementindex.User', '');    
+                }
+
+                console.log('selected source', groupId);
                 
                 break;
 
             case 'assets' :
                 
-                var assetSourceId = $('input[name="assetSourceId"]').val();
-                
-                if (assetSourceId !== undefined)
+                var folderId = $('input[name="assetSourceId"]').val();
+
+                if (folderId !== undefined)
                 {
                     Craft.setLocalStorage('elementindex.Asset', {
-                        selectedSource : 'folder:' + assetSourceId
+                        selectedSource : 'folder:' + folderId
                     });
                 }
+                else
+                {
+                    Craft.setLocalStorage('elementindex.Asset', '');    
+                }
+
+                console.log('selected source', folderId);
                 
                 break;
 

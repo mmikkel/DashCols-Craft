@@ -157,7 +157,7 @@ class DashCols_FieldsService extends BaseApplicationComponent
                     'id' => Craft::t('ID'),
                     'dateUpdated' => Craft::t('Updated Date'),
                     'authorId' => Craft::t('Author'),
-                    'type' => Craft::t('Entry Type'),
+                    'typeId' => Craft::t('Entry Type'),
                     'kind' => Craft::t('Kind'),
                     'width' => Craft::t('Width'),
                     'height' => Craft::t('Height'),

@@ -20,51 +20,45 @@ class DashCols_AttributesService extends BaseApplicationComponent
 			$_attributeField,
 			$_attributeClass;
 
-	public function modifyIndexTableAttributes( &$attributes )
+	public function modifyIndexTableAttributes(&$attributes)
 	{
 
 		// Get layout
-		if ( ! $dashColsLayout = craft()->dashCols_layouts->getLayout() ) {
+		if (!$dashColsLayout = craft()->dashCols_layouts->getLayout()) {
 			return false;
 		}
 
 		// Add meta fields
-		if ( ( $metaFields = $dashColsLayout->metaFields ) && is_array( $metaFields ) ) {
-
+		if (($metaFields = $dashColsLayout->metaFields) && is_array($metaFields)) {
 			$allMetaFields = craft()->dashCols_fields->getMetaFields();
-
-			foreach ( $metaFields as $attribute ) {
-
-				if ( isset( $allMetaFields[ $attribute ] ) ) {
-					$attributes[ $attribute ] = $allMetaFields[ $attribute ];
+			foreach ($metaFields as $attribute) {
+				if (isset($allMetaFields[$attribute])) {
+					$attributes[$attribute] = $allMetaFields[$attribute];
 				}
-
 			}
 
 		}
 
 		// Add custom fields
-		if ( $customFields = $dashColsLayout->customFields ) {
-			foreach ( $customFields as $customFieldHandle => $customField ) {
-				$attributes[ $customFieldHandle ] = $customField;
+		if ($customFields = $dashColsLayout->customFields) {
+			foreach ($customFields as $customFieldHandle => $customField) {
+				$attributes[$customFieldHandle] = $customField;
 			}
 
 		}
 
 		// Remove hidden fields
-		if ( $dashColsLayout->hiddenFields && is_array( $dashColsLayout->hiddenFields ) ) {
-
-			foreach ( $dashColsLayout->hiddenFields as $attribute ) {
-				if ( isset( $attributes[ $attribute ] ) ) {
-					unset( $attributes[ $attribute ] );
+		if ($dashColsLayout->hiddenFields && is_array($dashColsLayout->hiddenFields)) {
+			foreach ($dashColsLayout->hiddenFields as $attribute) {
+				if (isset($attributes[$attribute])) {
+					unset($attributes[$attribute]);
 				}
 			}
-
 		}
 
 	}
 
-	public function modifyIndexSortableAttributes( &$attributes )
+	public function modifyIndexSortableAttributes(&$attributes)
 	{
 		$sortableFields = craft()->dashCols_fields->getSortableFields();
 		$attributes += $sortableFields;
@@ -74,26 +68,26 @@ class DashCols_AttributesService extends BaseApplicationComponent
 	 * @access public
 	 * @return mixed
 	 */
-	public function getAttributeHtml( $element, $attribute )
+	public function getAttributeHtml($element, $attribute)
 	{
 
 		// Don't do anything for default attributes
 		$defaultFields = craft()->dashCols_fields->getDefaultFields();
-        if ( in_array( $attribute, array_keys( $defaultFields ) ) ) {
+        if (in_array($attribute, array_keys($defaultFields))) {
             return null;
         }
 
         // A little hack to retrieve the full author from the author ID
-		if ( $attribute === 'authorId' ) {
+		if ($attribute === 'authorId') {
 			$attribute = 'author';
-		} else if ( $attribute === 'typeId' ) {
+		} else if ($attribute === 'typeId') {
 			$attribute = 'type';
 		}
 
 		// Cache data about the attribute's field
 		//$customFields = craft()->dashCols_fields->getCustomFields();
 		$this->_attributeHandle = $attribute;
-		$this->_attributeField = craft()->dashCols_fields->getCustomFieldByHandle( $this->_attributeHandle );
+		$this->_attributeField = craft()->dashCols_fields->getCustomFieldByHandle($this->_attributeHandle);
 		$this->_attributeClass = $this->_attributeField ? $this->_attributeField->fieldType->classHandle : '';
 
 		// Handle null values
@@ -114,15 +108,15 @@ class DashCols_AttributesService extends BaseApplicationComponent
 		$this->_attribute = $elementAttribute;
 
 		// Return html from string or object value
-		$attributeValue = is_object( $elementAttribute ) ? $this->_getObjectAttributeHtml() : $this->_getStringValueTableAttributeHtml();
+		$attributeValue = is_object($elementAttribute) ? $this->_getObjectAttributeHtml() : $this->_getStringValueTableAttributeHtml();
 
 		// Set attribute classes
-		$attributeCssClasses = array( 'dashCols-attribute' );
-		if ( $this->_attributeField ) {
-			$attributeCssClasses[] = 'dashCols-' . lcfirst( $this->_attributeField->fieldType->classHandle );
+		$attributeCssClasses = array('dashCols-attribute');
+		if ($this->_attributeField) {
+			$attributeCssClasses[] = 'dashCols-' . lcfirst($this->_attributeField->fieldType->classHandle);
 		}
 
-		return '<span class="' . implode( ' ', $attributeCssClasses ) . '">' . $attributeValue . '</span>';
+		return '<span class="' . implode(' ', $attributeCssClasses) . '">' . $attributeValue . '</span>';
 
 	}
 
@@ -135,7 +129,7 @@ class DashCols_AttributesService extends BaseApplicationComponent
 	 */
 	private function _getStringValueTableAttributeHtml() {
 
-		switch ( $this->_attributeClass ) {
+		switch ($this->_attributeClass) {
 
 			case 'Lightswitch' :
 
@@ -152,15 +146,15 @@ class DashCols_AttributesService extends BaseApplicationComponent
 			default :
 
 				// Could be a URL!
-				if ( filter_var( $this->_attribute, FILTER_VALIDATE_URL ) ) {
+				if (filter_var($this->_attribute, FILTER_VALIDATE_URL)) {
 
 					// ...but is it an external URL?
 					$siteUrl = craft()->urlHelper->getSiteUrl();
 					$url = $this->_attribute;
-					$urlComponents = parse_url( $url );
-  					$isExternal = ! empty( $urlComponents[ 'host' ] ) && strcasecmp( $urlComponents[ 'host' ], $_SERVER[ 'HTTP_HOST' ] );
+					$urlComponents = parse_url($url);
+  					$isExternal = !empty($urlComponents['host']) && strcasecmp($urlComponents['host'], $_SERVER['HTTP_HOST']);
 
-					if ( ! $isExternal ) {
+					if (!$isExternal) {
 						$attributeHtml = '<a href="' . $url .'" class="go">' . $url . '</a>';
 					} else {
 						$attributeHtml = '<a href="' . $url . '" target="_blank">' . $url . '</a>';
@@ -191,9 +185,9 @@ class DashCols_AttributesService extends BaseApplicationComponent
 	private function _getObjectAttributeHtml()
 	{
 
-		if ( $class = @get_class( $this->_attribute ) ) {
+		if ($class = @get_class($this->_attribute)) {
 
-			switch ( $class ) {
+			switch ($class) {
 
 				case 'Craft\ElementCriteriaModel' :
 
@@ -261,7 +255,7 @@ class DashCols_AttributesService extends BaseApplicationComponent
 		// Element types
 		$classHandle = $this->_attribute->elementType->classHandle;
 
-		switch ( $classHandle ) {
+		switch ($classHandle) {
 
 			case 'Asset' :
 
@@ -306,16 +300,16 @@ class DashCols_AttributesService extends BaseApplicationComponent
 	private function _getAssetTableAttributeHtml()
 	{
 
-		if ( ! $asset = $this->_attribute[ 0 ] ) {
+		if (!$asset = $this->_attribute[0]) {
 			return false;
 		}
 
-		$totalCount = count( $this->_attribute );
+		$totalCount = count($this->_attribute);
 
 		// I can haz SVG transforms?
-		$svgTransformSupport = version_compare( craft()->getVersion(), '2.4', '>=' ) && craft()->images->isImagick();
+		$svgTransformSupport = version_compare(craft()->getVersion(), '2.4', '>=') && craft()->images->isImagick();
 
-		if ( $asset->kind === 'image' && ( strtolower( $asset->extension ) !== 'svg' || $svgTransformSupport ) ) {
+		if ($asset->kind === 'image' && (strtolower($asset->extension) !== 'svg' || $svgTransformSupport)) {
 
 			// Image
 			$assetWidth = 60;
@@ -323,10 +317,10 @@ class DashCols_AttributesService extends BaseApplicationComponent
 
 			$attributeHtmlClass = 'image';
 
-			$attributeHtml = '<img src="' . $asset->getThumbUrl( $assetWidth, $assetHeight ) . '" width="' . $assetWidth . '" height="' . $assetHeight . '" alt="' . $asset->title . '" />';
+			$attributeHtml = '<img src="' . $asset->getThumbUrl($assetWidth, $assetHeight) . '" width="' . $assetWidth . '" height="' . $assetHeight . '" alt="' . $asset->title . '" />';
 
-			if ( $totalCount > 1 ) {
-				$attributeHtml .= '<div class="dashCols-assetFileCount">' . $totalCount . ' ' . Craft::t( 'files' ) . '</div>';
+			if ($totalCount > 1) {
+				$attributeHtml .= '<div class="dashCols-assetFileCount">' . $totalCount . ' ' . Craft::t('files') . '</div>';
 			}
 
 		} else {
@@ -336,15 +330,15 @@ class DashCols_AttributesService extends BaseApplicationComponent
 
 			$attributeHtmlClass = 'file';
 
-			$attributeHtml = '<div class="dashCols-assetFile"><img src="' . $asset->getIconUrl( $iconSize ) . '" alt="" class="dashCols-assetFileIcon" />&nbsp;<span class="dashCols-assetFilename">'.$asset->filename . '</span></div>';
+			$attributeHtml = '<div class="dashCols-assetFile"><img src="' . $asset->getIconUrl($iconSize) . '" alt="" class="dashCols-assetFileIcon" />&nbsp;<span class="dashCols-assetFilename">'.$asset->filename . '</span></div>';
 
-			if ( $totalCount > 1 ) {
-				$attributeHtml .= '<div class="dashCols-assetFileCount">+ ' . ( $totalCount - 1 ) . ' ' . Craft::t( 'more' ) . '</div>';
+			if ($totalCount > 1) {
+				$attributeHtml .= '<div class="dashCols-assetFileCount">+ ' . ($totalCount - 1) . ' ' . Craft::t('more') . '</div>';
 			}
 
 		}
 
-		return '<div class="dashCols-assetField' . ucfirst( $attributeHtmlClass ) . '">' . $attributeHtml . '</div>';
+		return '<div class="dashCols-assetField' . ucfirst($attributeHtmlClass) . '">' . $attributeHtml . '</div>';
 
 	}
 
@@ -361,11 +355,11 @@ class DashCols_AttributesService extends BaseApplicationComponent
 		$elements = $this->_attribute->find();
 		$temp = array();
 
-		foreach ( $elements as $element ) {
+		foreach ($elements as $element) {
 
 			$attribute = $element->title;
 
-			if ( $element->cpEditUrl ) {
+			if ($element->cpEditUrl) {
 				$attribute = '<a href="' . $element->cpEditUrl . '">' . $attribute . '</a>';
 			}
 
@@ -373,7 +367,7 @@ class DashCols_AttributesService extends BaseApplicationComponent
 
 		}
 
-		return ! empty( $temp ) ? implode( ', ', $temp ) : false;
+		return !empty($temp) ? implode(', ', $temp) : false;
 
 	}
 
@@ -387,29 +381,29 @@ class DashCols_AttributesService extends BaseApplicationComponent
 	private function _getUserTableAttributeHtml()
 	{
 
-		if ( ! $this->_attribute->id ) {
+		if (!$this->_attribute->id) {
 			$elements = $this->_attribute->find();
 		} else {
-			$elements = array( $this->_attribute );
+			$elements = array($this->_attribute);
 		}
 
 		$temp = array();
 
-		foreach ( $elements as $element ) {
+		foreach ($elements as $element) {
 
 			$name = '';
 
-			if ( $firstName = $element->firstName ) {
+			if ($firstName = $element->firstName) {
 				$name = $firstName . ' ';
 			}
 
-			if ( $lastName = $element->lastName ) {
+			if ($lastName = $element->lastName) {
 				$name .= $lastName;
 			}
 
-			$attribute = $name !== '' ? trim( $name ) : $element->name;
+			$attribute = $name !== '' ? trim($name) : $element->name;
 
-			if ( $element->cpEditUrl ) {
+			if ($element->cpEditUrl) {
 				$attribute = '<a href="' . $element->cpEditUrl . '">' . $attribute . '</a>';
 			}
 
@@ -417,7 +411,7 @@ class DashCols_AttributesService extends BaseApplicationComponent
 
 		}
 
-		return ! empty( $temp ) ? implode( ', ', $temp ) : false;
+		return !empty($temp) ? implode(', ', $temp) : false;
 
 	}
 
@@ -446,13 +440,13 @@ class DashCols_AttributesService extends BaseApplicationComponent
 		$elements = $this->_attribute->find();
 		$temp = array();
 
-		foreach ( $elements as $element ) {
+		foreach ($elements as $element) {
 
 			$temp[] = $element->title;
 
 		}
 
-		return ! empty( $temp ) ? implode( ', ', $temp ) : false;
+		return !empty($temp) ? implode(', ', $temp) : false;
 
 	}
 
@@ -469,13 +463,13 @@ class DashCols_AttributesService extends BaseApplicationComponent
 		$options = $this->_attribute->getOptions();
 		$temp = array();
 
-		foreach ( $options as $option ) {
-			if ( $option->selected ) {
+		foreach ($options as $option) {
+			if ($option->selected) {
 				$temp[] = $option->label;
 			}
 		}
 
-		return ! empty( $temp ) ? implode( ', ', $temp ) : false;
+		return !empty($temp) ? implode(', ', $temp) : false;
 
 	}
 
@@ -489,19 +483,19 @@ class DashCols_AttributesService extends BaseApplicationComponent
 	private function _getDateTimeTableAttributeHtml()
 	{
 
-		if ( $this->_attributeField ) {
+		if ($this->_attributeField) {
 
 			$settings = $this->_attributeField->settings;
 
-			if ( $settings[ 'showDate' ] ) {
+			if ($settings['showDate']) {
 				$date[] = $this->_attribute->localeDate();
 			}
 
-			if ( $settings[ 'showTime' ] ) {
+			if ($settings['showTime']) {
 				$date[] = $this->_attribute->localeTime();
 			}
 
-			return implode( ' ', $date );
+			return implode(' ', $date);
 
 		}
 
