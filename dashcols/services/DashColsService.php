@@ -27,8 +27,8 @@ class DashColsService extends BaseApplicationComponent
 	*/
 	public function getPlugin()
 	{
-		if ( $this->_plugin === null ) {
-			$this->_plugin = craft()->plugins->getPlugin( 'dashCols' );
+		if ($this->_plugin === null) {
+			$this->_plugin = craft()->plugins->getPlugin('dashCols');
 		}
 		return $this->_plugin;
 	}
@@ -42,15 +42,15 @@ class DashColsService extends BaseApplicationComponent
 		return array(
 			'dashColsIndex' => array(
 				'label' => '',
-				'url' => UrlHelper::getUrl( 'dashcols' ),
+				'url' => UrlHelper::getUrl('dashcols'),
 			),
 			'about' => array(
-				'label' => Craft::t( 'About DashCols' ),
-				'url' => UrlHelper::getUrl( 'dashcols/about' ),
+				'label' => Craft::t('About DashCols'),
+				'url' => UrlHelper::getUrl('dashcols/about'),
 			),
 			'settings' => array(
-				'label' => Craft::t( 'Settings' ),
-				'url' => UrlHelper::getUrl( 'settings/plugins/dashcols' ),
+				'label' => Craft::t('Settings'),
+				'url' => UrlHelper::getUrl('settings/plugins/dashcols'),
 			),
 		);
 	}
@@ -58,7 +58,7 @@ class DashColsService extends BaseApplicationComponent
 	public function isCpSectionDisabled()
 	{
 		$settings = $this->getPlugin()->getSettings();
-        return isset( $settings[ 'cpSectionDisabled' ] ) && $settings[ 'cpSectionDisabled' ];
+        return isset($settings['cpSectionDisabled']) && $settings['cpSectionDisabled'];
 	}
 
 	/*
@@ -67,7 +67,7 @@ class DashColsService extends BaseApplicationComponent
 	*/
 	public function getSections()
 	{
-		if ( $this->_sections === null ) {
+		if ($this->_sections === null) {
 			$this->_sections = craft()->sections->allSections;
         }
         return $this->_sections;
@@ -75,11 +75,11 @@ class DashColsService extends BaseApplicationComponent
 
 	public function getChannels()
 	{
-		if ( $this->_channels === null ) {
+		if ($this->_channels === null) {
 			$sections = $this->getSections();
 			$channels = array();
-			foreach ( $sections as $section ) {
-				if ( $section->type == 'channel' ) {
+			foreach ($sections as $section) {
+				if ($section->type == 'channel') {
 					$channels[] = $section;
 				}
 			}
@@ -91,11 +91,11 @@ class DashColsService extends BaseApplicationComponent
 
 	public function getStructures()
 	{
-		if ( $this->_structures === null ) {
+		if ($this->_structures === null) {
 			$sections = $this->getSections();
 			$structures = array();
-			foreach ( $sections as $section ) {
-				if ( $section->type == 'structure' ) {
+			foreach ($sections as $section) {
+				if ($section->type == 'structure') {
 					$structures[] = $section;
 				}
 			}
@@ -105,20 +105,25 @@ class DashColsService extends BaseApplicationComponent
 		return $this->_structures;
 	}
 
-	public function getSectionById( $sectionId )
+	public function getSectionByHandleOrId($sectionHandleOrId)
 	{
-		foreach ( $this->getSections() as $section ) {
-			if ( $section->id == $sectionId ) {
+		return ctype_digit($sectionHandleOrId) ? $this->getSectionById($sectionHandleOrId) : $this->getSectionByHandle($sectionHandleOrId);
+	}
+
+	public function getSectionById($sectionId)
+	{
+		foreach ($this->getSections() as $section) {
+			if ($section->id == $sectionId) {
 				return $section;
 			}
 		}
 		return false;
 	}
 
-	public function getSectionByHandle( $sectionHandle )
+	public function getSectionByHandle($sectionHandle)
 	{
-		foreach ( $this->getSections() as $section ) {
-			if ( $section->handle == $sectionHandle ) {
+		foreach ($this->getSections() as $section) {
+			if ($section->handle == $sectionHandle) {
 				return $section;
 			}
 		}
@@ -131,26 +136,31 @@ class DashColsService extends BaseApplicationComponent
 	*/
 	public function getCategoryGroups()
 	{
-		if ( $this->_categoryGroups === null ) {
+		if ($this->_categoryGroups === null) {
 			$this->_categoryGroups = craft()->categories->allGroups;
 		}
 		return $this->_categoryGroups;
 	}
 
-	public function getCategoryGroupById( $categoryGroupId )
+	public function getCategoryGroupByHandleOrId($categoryGroupHandleOrId)
 	{
-		foreach ( $this->getCategoryGroups() as $categoryGroup ) {
-			if ( $categoryGroup->id == $categoryGroupId ) {
+		return ctype_digit($categoryGroupHandleOrId) ? $this->getCategoryGroupById($categoryGroupHandleOrId) : $this->getCategoryGroupByHandle($categoryGroupHandleOrId);
+	}
+
+	public function getCategoryGroupById($categoryGroupId)
+	{
+		foreach ($this->getCategoryGroups() as $categoryGroup) {
+			if ($categoryGroup->id == $categoryGroupId) {
 				return $categoryGroup;
 			}
 		}
 		return false;
 	}
 
-	public function getCategoryGroupByHandle( $categoryGroupHandle )
+	public function getCategoryGroupByHandle($categoryGroupHandle)
 	{
-		foreach ( $this->getCategoryGroups() as $categoryGroup ) {
-			if ( $categoryGroup->handle == $categoryGroupHandle ) {
+		foreach ($this->getCategoryGroups() as $categoryGroup) {
+			if ($categoryGroup->handle == $categoryGroupHandle) {
 				return $categoryGroup;
 			}
 		}
@@ -163,18 +173,18 @@ class DashColsService extends BaseApplicationComponent
 	*/
 	public function getUserGroups()
 	{
-		if ( $this->_userGroups === null ) {
+		if ($this->_userGroups === null) {
 			$this->_userGroups = craft()->userGroups->allGroups;
 		}
 		return $this->_userGroups;
 	}
 
-	public function getUserGroupByHandleOrId( $userGroupHandleOrId )
+	public function getUserGroupByHandleOrId($userGroupHandleOrId)
 	{
 		return ctype_digit($userGroupHandleOrId) ? $this->getUserGroupById($userGroupHandleOrId) : $this->getUserGroupByHandle($userGroupHandleOrId);
 	}
 
-	public function getUserGroupById( $userGroupId )
+	public function getUserGroupById($userGroupId)
 	{
 		foreach ($this->getUserGroups() as $userGroup)
 		{
@@ -183,7 +193,7 @@ class DashColsService extends BaseApplicationComponent
 		return false;
 	}
 
-	public function getUserGroupByHandle( $userGroupHandle )
+	public function getUserGroupByHandle($userGroupHandle)
 	{
 		foreach ($this->getUserGroups() as $userGroup)
 		{
@@ -196,18 +206,21 @@ class DashColsService extends BaseApplicationComponent
 	*	Listings
 	*
 	*/
-	public function getListingByHandle( $listingHandle )
+	public function getListingByHandle($listingHandle)
 	{
 		$listing = (object) array();
 		switch ($listingHandle) {
 			case '*' : case 'entries' :
 				$listing->name = Craft::t('All entries');
+				$listing->url = 'entries';
 				break;
 			case 'singles' :
 				$listing->name = Craft::t('Singles');
+				$listing->url = 'entries/singles';
 				break;
 			case 'users' :
 				$listing->name = Craft::t('All users');
+				$listing->url = 'users';
 				break;
 			default :
 				return false;

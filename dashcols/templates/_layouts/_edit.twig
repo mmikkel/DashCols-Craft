@@ -78,11 +78,10 @@
 					<input type="submit" class="btn submit" value="{{ 'Save' | t }}" />
 				</div>
 
-				<input type="hidden" name="action" value="dashCols/layouts/saveLayout">
-				{% if sectionId is defined %}
-					<input type="hidden" name="sectionId" value="{{ sectionId }}" />
-				{% elseif categoryGroupId is defined %}
-					<input type="hidden" name="categoryGroupId" value="{{ categoryGroupId }}" />
+				{% if section is defined %}
+					<input type="hidden" name="sectionId" value="{{ section.id }}" />
+				{% elseif categoryGroup is defined %}
+					<input type="hidden" name="categoryGroupId" value="{{ categoryGroup.id }}" />
 				{% elseif userGroup is defined %}
 					<input type="hidden" name="userGroupId" value="{{ userGroup.id }}" />
 				{% elseif listingHandle is defined %}
@@ -97,6 +96,7 @@
 				<input type="hidden" name="redirect" value="{{ redirectUrl }}" />
 				{% endif %}
 				
+				<input type="hidden" name="action" value="dashCols/layouts/saveLayout">
 				<input type="hidden" name="{{ craft.config.csrfTokenName }}" value="{{ craft.request.csrfToken }}">
 
 			</form>

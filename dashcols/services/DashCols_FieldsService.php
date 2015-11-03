@@ -23,23 +23,23 @@ class DashCols_FieldsService extends BaseApplicationComponent
     */
     public function getUnsupportedFieldTypes()
     {
-        return array( 'Rich Text', 'Table', 'Matrix' );
+        return array('Rich Text', 'Table', 'Matrix');
     }
 
     /*
     * Return map of default fields in Craft
     *
     */
-    public function getDefaultFields( $target = false )
+    public function getDefaultFields($target = false)
     {
 
-        switch ( $target ) {
+        switch ($target) {
 
             case 'singles' :
-            case 'categoryGroup' :
+            case 'categories' :
 
                 return array(
-                    'uri' => Craft::t( 'URI' ),
+                    'uri' => Craft::t('URI'),
                 );
 
                 break;
@@ -47,21 +47,21 @@ class DashCols_FieldsService extends BaseApplicationComponent
             case 'section' :
 
                 return array(
-                    'uri' => Craft::t( 'URI' ),
-                    'postDate' => Craft::t( 'Post Date' ),
-                    'expiryDate' => Craft::t( 'Expiry Date' ),
+                    'uri' => Craft::t('URI'),
+                    'postDate' => Craft::t('Post Date'),
+                    'expiryDate' => Craft::t('Expiry Date'),
                 );
 
                 break;
 
-            case 'userGroup' : case 'users' :
+            case 'users' :
 
                 return array(
-                    'firstName' => Craft::t( 'First Name' ),
-                    'lastName' => Craft::t( 'Last Name' ),
-                    'email' => Craft::t( 'Email' ),
-                    'dateCreated' => Craft::t( 'Join Date' ),
-                    'lastLoginDate' => Craft::t( 'Last Login' ),
+                    'firstName' => Craft::t('First Name'),
+                    'lastName' => Craft::t('Last Name'),
+                    'email' => Craft::t('Email'),
+                    'dateCreated' => Craft::t('Join Date'),
+                    'lastLoginDate' => Craft::t('Last Login'),
                 );
 
                 break;
@@ -69,10 +69,10 @@ class DashCols_FieldsService extends BaseApplicationComponent
             default :
 
                 return array(
-                    'uri' => Craft::t( 'URI' ),
-                    'postDate' => Craft::t( 'Post Date' ),
-                    'expiryDate' => Craft::t( 'Expiry Date' ),
-                    'section' => Craft::t( 'Section' ),
+                    'uri' => Craft::t('URI'),
+                    'postDate' => Craft::t('Post Date'),
+                    'expiryDate' => Craft::t('Expiry Date'),
+                    'section' => Craft::t('Section'),
                 );
 
         }
@@ -83,24 +83,24 @@ class DashCols_FieldsService extends BaseApplicationComponent
     * Return map of metadata fields in Craft
     *
     */
-    public function getMetaFields( $target = false )
+    public function getMetaFields($target = false)
     {
 
-        switch ( $target ) {
+        switch ($target) {
 
-            case 'categoryGroup' :
+            case 'categories' :
 
                 return array(
-                    'id' => Craft::t( 'ID' ),
-                    'dateUpdated' => Craft::t( 'Updated Date' ),
+                    'id' => Craft::t('ID'),
+                    'dateUpdated' => Craft::t('Updated Date'),
                 );
 
                 break;
 
-            case 'userGroup' : case 'users' :
+            case 'users' :
 
                 return array(
-                    'id' => Craft::t( 'ID' ),
+                    'id' => Craft::t('ID'),
                 );
 
                 break;
@@ -108,10 +108,10 @@ class DashCols_FieldsService extends BaseApplicationComponent
             default :
 
                 return array(
-                    'id' => Craft::t( 'ID' ),
-                    'dateUpdated' => Craft::t( 'Updated Date' ),
-                    'authorId' => Craft::t( 'Author' ),
-                    'typeId' => Craft::t( 'Entry Type' ),
+                    'id' => Craft::t('ID'),
+                    'dateUpdated' => Craft::t('Updated Date'),
+                    'authorId' => Craft::t('Author'),
+                    'typeId' => Craft::t('Entry Type'),
                 );
 
         }
@@ -131,15 +131,15 @@ class DashCols_FieldsService extends BaseApplicationComponent
     *   Add custom fields to the cache
     *
     */
-    public function addCustomFields( $fields )
+    public function addCustomFields($fields)
     {
 
         $customFields = $this->getCustomFields();
 
-        foreach ( $fields as $field ) {
+        foreach ($fields as $field) {
 
-            if ( ! isset( $customFields[ $field->handle ] ) ) {
-                $customFields[ $field->handle ] = $field;
+            if (! isset($customFields[$field->handle])) {
+                $customFields[$field->handle] = $field;
             }
 
         }
@@ -152,24 +152,24 @@ class DashCols_FieldsService extends BaseApplicationComponent
     *   Get custom field by handle
     *
     */
-    public function getCustomFieldByHandle( $handle )
+    public function getCustomFieldByHandle($handle)
     {
-        return isset( $this->_customFields[ $handle ] ) ? $this->_customFields[ $handle ] : false;
+        return isset($this->_customFields[$handle]) ? $this->_customFields[$handle] : false;
     }
 
     /*
     *   Add a FieldLayoutModel's fields to the cache
     *
     */
-    public function getCustomFieldsFromFieldLayout( FieldLayoutModel $fieldLayout )
+    public function getCustomFieldsFromFieldLayout(FieldLayoutModel $fieldLayout)
     {
 
         $fields = array();
         $fieldLayoutFieldModels = $fieldLayout->getFields();
 
-        foreach ( $fieldLayoutFieldModels as $fieldLayoutFieldModel ) {
-            if ( ! in_array( $fieldLayoutFieldModel->field->getFieldType()->name, $this->getUnsupportedFieldTypes() ) ) {
-                $fields[ $fieldLayoutFieldModel->field->handle ] = $fieldLayoutFieldModel->field;
+        foreach ($fieldLayoutFieldModels as $fieldLayoutFieldModel) {
+            if (! in_array($fieldLayoutFieldModel->field->getFieldType()->name, $this->getUnsupportedFieldTypes())) {
+                $fields[$fieldLayoutFieldModel->field->handle] = $fieldLayoutFieldModel->field;
             }
         }
 
@@ -184,26 +184,26 @@ class DashCols_FieldsService extends BaseApplicationComponent
     public function getSortableFields()
     {
 
-        $sortableAttributeTypes = array( 
+        $sortableAttributeTypes = array(
             AttributeType::Number,
             AttributeType::DateTime,
             AttributeType::String,
             AttributeType::Bool,
-        );
+       );
 
         $sortableFields = $this->getMetaFields();
         $customFields = $this->getCustomFields();
 
-        foreach ( $customFields as $handle => $field ) {
+        foreach ($customFields as $handle => $field) {
 
             $fieldTypeContentAttribute = $field->fieldType->defineContentAttribute();
 
-            if ( is_array( $fieldTypeContentAttribute ) ) {
-                $fieldTypeContentAttribute = array_shift( $fieldTypeContentAttribute );
+            if (is_array($fieldTypeContentAttribute)) {
+                $fieldTypeContentAttribute = array_shift($fieldTypeContentAttribute);
             }
 
-            if ( in_array( $fieldTypeContentAttribute, $sortableAttributeTypes ) ) {
-                $sortableFields[ $handle ] = $field;
+            if (in_array($fieldTypeContentAttribute, $sortableAttributeTypes)) {
+                $sortableFields[$handle] = $field;
             }
 
         }

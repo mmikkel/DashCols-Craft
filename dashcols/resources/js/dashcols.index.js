@@ -127,11 +127,11 @@
 			case 'entries' :
 
 				if (!segments[ 1 ]) {
-					this.editUrl += 'listing/entries';
+					this.editUrl += 'entries';
 				} else if (segments[ 1 ] === 'singles') {
-					this.editUrl += 'listing/singles';
+					this.editUrl += 'entries/singles';
 				} else {
-					this.editUrl += 'section/' + segments[ 1 ] || '';
+					this.editUrl += 'entries/section/' + segments[ 1 ] || '';
 				}
 
 				this.entryIndex = Craft.EntryIndex || false;
@@ -140,7 +140,7 @@
 
 			case 'categories' :
 
-				this.editUrl += 'category-group/' + (segments[ 1 ] || '');
+				this.editUrl += 'categories/' + (segments[ 1 ] || '');
 				this.entryIndex = Craft.CategoryIndex || false;
 
 				break;

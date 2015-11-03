@@ -48,42 +48,48 @@ class DashCols_LayoutsController extends BaseController
 	 * @access public
 	 * @return mixed
 	 */
-	public function actionEditSectionLayout(array $variables = array())
+	public function actionEditEntriesLayout(array $variables = array())
 	{
 
-		if (!isset($variables['sectionHandle'])) {
-			throw new HttpException(404);
+		if (!isset($variables['sourceHandle'])) $variables['sourceHandle'] = 'entries';
+
+		if (!isset($variables['sectionHandleOrId']))
+		{
+			$variables['listingHandle'] = $variables['sourceHandle'];
+			return $this->actionEditListingLayout($variables);
 		}
 
-		$variables['section'] = craft()->dashCols->getSectionByHandle($variables['sectionHandle']);
-		if (!$variables['section'] || $variables['section']->type === 'single') {
-			throw new HttpException(404);
-		}
-
-		$variables['sectionId'] = $variables['section']->id;
-
+		// Get section
+		if (!isset($variables['sectionHandleOrId'])) throw new HttpException(404);
+		$section = craft()->dashCols->getSectionByHandleOrId($variables['sectionHandleOrId']);
+		if (!$section) throw new HttpException(404);
+		$variables['section'] = $section;
+		
 		// Get layout model
-		if (!$variables['layout'] = craft()->dashCols_layouts->getLayoutBySectionId($variables['sectionId'])) {
-			$variables['layout'] = new DashCols_LayoutModel();
-		}
+		$variables['layout'] = craft()->dashCols_layouts->getLayoutBySectionId($section->id);
+		if (!$variables['layout']) $variables['layout'] = new DashCols_LayoutModel();
 
+		
 		$variables['crumb'] = array(
-			'label' => Craft::t($variables['section']->name),
-			'url' => UrlHelper::getUrl('dashcols/layouts/section/' . $variables['section']->handle),
+			'label' => Craft::t($section->name),
+			'url' => UrlHelper::getUrl('dashcols/layouts/entries/section/' . $section->handle),
 		);
 
 		// Set selected tab
-		$variables['tabs'][$variables['section']->handle] = array(
-			'label' => Craft::t('Edit layout'),
-			'url' => UrlHelper::getUrl('dashcols/layouts/section/' . $variables['section']->handle),
+		$variables['tabs'][$section->handle] = array(
+			'label' => Craft::t('Edit layout') . ': ' . $section->name,
+			'url' => UrlHelper::getUrl('dashcols/layouts/entries/section/' . $section->handle),
 		);
-		$variables['selectedTab'] = $variables['section']->handle;
+		$variables['selectedTab'] = $section->handle;
 
 		// Get default fields
 		$variables['defaultFields'] = craft()->dashCols_fields->getDefaultFields('section');
 
 		// Get meta fields
 		$variables['metaFields'] = craft()->dashCols_fields->getMetaFields('section');
+
+		// Get redirect URL
+		$variables['redirectUrl'] = UrlHelper::getUrl('entries/' . $section->handle);
 
 		return $this->renderEditLayout($variables);
 
@@ -96,39 +102,39 @@ class DashCols_LayoutsController extends BaseController
 	public function actionEditCategoryGroupLayout(array $variables = array())
 	{
 
-		if (!isset($variables['categoryGroupHandle'])) {
+		if (!isset($variables['categoryGroupHandleOrId'])) {
 			throw new HttpException(404);
 		}
 
-		$variables['section'] = craft()->dashCols->getCategoryGroupByHandle($variables['categoryGroupHandle']);
-		if (!$variables['section']) {
-			throw new HttpException(404);
-		}
-
-		$variables['categoryGroupId'] = $variables['section']->id;
+		// Get category group
+		$categoryGroup = craft()->dashCols->getCategoryGroupByHandleOrId($variables['categoryGroupHandleOrId']);
+		if (!$categoryGroup) throw new HttpException(404);
+		$variables['categoryGroup'] = $categoryGroup;
 
 		// Get layout model
-		if (!$variables['layout'] = craft()->dashCols_layouts->getLayoutByCategoryGroupId($variables['categoryGroupId'])) {
-			$variables['layout'] = new DashCols_LayoutModel();
-		}
+		$variables['layout'] = craft()->dashCols_layouts->getLayoutByCategoryGroupId($categoryGroup->id);
+		if (!$variables['layout']) $variables['layout'] = new DashCols_LayoutModel();
 
 		$variables['crumb'] = array(
-			'label' => Craft::t($variables['section']->name),
-			'url' => UrlHelper::getUrl('dashcols/layouts/category-group/' . $variables['section']->handle),
+			'label' => Craft::t($categoryGroup->name),
+			'url' => UrlHelper::getUrl('dashcols/layouts/categories/' . $categoryGroup->handle),
 		);
 
 		// Set selected tab
-		$variables['tabs'][$variables['section']->handle] = array(
-			'label' => Craft::t('Edit layout'),
-			'url' => UrlHelper::getUrl('dashcols/layouts/category-group/' . $variables['section']->handle),
+		$variables['tabs'][$categoryGroup->handle] = array(
+			'label' => Craft::t('Edit layout') . ': ' . $categoryGroup->name,
+			'url' => UrlHelper::getUrl('dashcols/layouts/categories/' . $categoryGroup->handle),
 		);
-		$variables['selectedTab'] = $variables['section']->handle;
+		$variables['selectedTab'] = $categoryGroup->handle;
 
 		// Get default fields
-		$variables['defaultFields'] = craft()->dashCols_fields->getDefaultFields('categoryGroup');
+		$variables['defaultFields'] = craft()->dashCols_fields->getDefaultFields('categories');
 
 		// Get meta fields
-		$variables['metaFields'] = craft()->dashCols_fields->getMetaFields('categoryGroup');
+		$variables['metaFields'] = craft()->dashCols_fields->getMetaFields('categories');
+
+		// Get redirect URL
+		$variables['redirectUrl'] = UrlHelper::getUrl('categories/' . $categoryGroup->handle);
 
 		return $this->renderEditLayout($variables);
 
@@ -195,7 +201,7 @@ class DashCols_LayoutsController extends BaseController
 		$listing = craft()->dashCols->getListingByHandle($variables['listingHandle']);
 		if (!$listing) throw new HttpException(404);
 		$listingHandle = $variables['listingHandle'];
-		$listingEditUrl = UrlHelper::getUrl('dashcols/layouts/' . $listingHandle);
+		$listingEditUrl = UrlHelper::getUrl('dashcols/layouts/' . $listing->url);
 
 		// Get layout model
 		$variables['layout'] = craft()->dashCols_layouts->getLayoutByListingHandle($listingHandle);
@@ -222,7 +228,7 @@ class DashCols_LayoutsController extends BaseController
 		$variables['metaFields'] = craft()->dashCols_fields->getMetaFields($listingHandle);
 
 		// Get redirect URL
-		$variables['redirectUrl'] = UrlHelper::getUrl($listingHandle);
+		$variables['redirectUrl'] = UrlHelper::getUrl($listing->url);
 
 		return $this->renderEditLayout($variables);
 
@@ -243,7 +249,7 @@ class DashCols_LayoutsController extends BaseController
 		$variables['tabs'] = array_merge(craft()->dashCols->getCpTabs(), $variables['tabs']);
 		$variables['crumbs'] = array(
 			array(
-				'label' => 'DashCols',
+				'label' => craft()->dashCols->getPlugin()->getName(),
 				'url' => UrlHelper::getUrl('dashcols'),
 			),
 			array(
@@ -257,12 +263,12 @@ class DashCols_LayoutsController extends BaseController
 		$variables['layoutUrls'] = array(
 			array(
 				'label' => Craft::t('All entries'),
-				'url' => UrlHelper::getUrl('dashcols/layouts/listing/entries'),
+				'url' => UrlHelper::getUrl('dashcols/layouts/entries'),
 				'active' => $variables['selectedTab'] === 'entries',
 			),
 			array(
 				'label' => Craft::t('Singles'),
-				'url' => UrlHelper::getUrl('dashcols/layouts/listing/singles'),
+				'url' => UrlHelper::getUrl('dashcols/layouts/entries/singles'),
 				'active' => $variables['selectedTab'] === 'singles',
 			),
 			array(
@@ -278,7 +284,7 @@ class DashCols_LayoutsController extends BaseController
 			}
 			$variables['layoutUrls'][$section->handle] = array(
 				'label' => $section->name,
-				'url' => UrlHelper::getUrl('dashcols/layouts/section/' . $section->handle),
+				'url' => UrlHelper::getUrl('dashcols/layouts/entries/section/' . $section->handle),
 				'active' => isset($variables['section']) && $variables['section']->handle === $section->handle,
 			);
 		}
@@ -286,7 +292,7 @@ class DashCols_LayoutsController extends BaseController
 		foreach (craft()->dashCols->getCategoryGroups() as $categoryGroup) {
 			$variables['layoutUrls'][$categoryGroup->handle] = array(
 				'label' => $categoryGroup->name,
-				'url' => UrlHelper::getUrl('dashcols/layouts/category-group/' . $categoryGroup->handle),
+				'url' => UrlHelper::getUrl('dashcols/layouts/categories/' . $categoryGroup->handle),
 				'active' => isset($variables['categoryGroup']) && $variables['categoryGroup']->handle === $categoryGroup->handle,
 			);
 		}
