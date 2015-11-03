@@ -6,83 +6,131 @@
 {% set content %}
 
 	{% if craft.dashCols.isCraftRequiredVersion == false %}
-	<p class="error">Sorry, you need to run Craft {{ craft.dashCols.requiredCraftVersion }} or newer to use DashCols.<br/><strong>Please update your Craft installation.</strong></p>
-	{% endif %}
-	
-	<table id="dashCols-listings" class="data fullwidth collapsible dashCols-layoutGroupTable">
-		<thead>
-			<th scope="col">{{ 'Listings' | t }}</th>
-		</thead>
-		<tbody>
-			{% for listingKey, listingName in listings %}
-			<tr data-name="{{ listingName | t }}">
-				<th scope="row" data-title="{{ 'Listings' | t }}"><a href="{{ url( 'dashcols/layouts/listing/' ~ listingKey ) }}">{{ listingName | t }}</a></th>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
+		
+		<p class="error">Sorry, you need to run Craft {{ craft.dashCols.requiredCraftVersion }} or newer to use DashCols.<br/><strong>Please update your Craft installation.</strong></p>
+		
+	{% else %}
 
-	{% if channels %}
-	<table id="dashCols-channels" class="data fullwidth collapsible dashCols-layoutGroupTable">
-		<thead>
-			<th scope="col">{{ 'Channels' | t }}</th>
-		</thead>
-		<tbody>
-			{% for channel in channels %}
-			<tr data-id="{{ channel.id }}" data-name="{{ channel.name|t }}">
-				<th scope="row" data-title="{{ 'Section' | t }}"><a href="{{ url( 'dashcols/layouts/section/' ~ channel.handle ) }}">{{ channel.name | t }}</a></th>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-	{% endif %}
+		<section id="dashCols-entries" class="dashCols-cpIndexSection">
 
-	{% if structures %}
-	<table id="dashCols-structures" class="data fullwidth collapsible dashCols-layoutGroupTable">
-		<thead>
-			<th scope="col">{{ 'Structures' | t }}</th>
-		</thead>
-		<tbody>
-			{% for structure in structures %}
-			<tr data-id="{{ structure.id }}" data-name="{{ structure.name|t }}">
-				<th scope="row" data-title="{{ 'Section' | t }}"><a href="{{ url( 'dashcols/layouts/section/' ~ structure.handle ) }}">{{ structure.name | t }}</a></th>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-	{% endif %}
+			<h2>{{ 'Entries' | t }}</h2>
 
-	{% if categoryGroups %}
-	<table id="dashCols-sections" class="data fullwidth collapsible dashCols-layoutGroupTable">
-		<thead>
-			<th scope="col">{{ 'Category groups' | t }}</th>
-		</thead>
-		<tbody>
-			{% for categoryGroup in categoryGroups %}
-			<tr data-id="{{ categoryGroup.id }}" data-name="{{ categoryGroup.name|t }}">
-				<th scope="row" data-title="{{ 'Category groups' | t }}"><a href="{{ url( 'dashcols/layouts/category-group/' ~ categoryGroup.handle ) }}">{{ categoryGroup.name | t }}</a></th>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-	{% endif %}
+			<table class="data fullwidth collapsible dashCols-layoutGroupTable">
+				<tbody>
+					<tr data-name="{{ 'All entries'|t }}">
+						<th scope="row" data-title="{{ 'All entries' | t }}">
+							<a href="{{ url( 'dashcols/entries' ) }}">{{ 'All entries' | t }}</a>
+						</th>
+					</tr>
+					<tr data-name="{{ 'Singles'|t }}">
+						<th scope="row" data-title="{{ 'Singles' | t }}">
+							<a href="{{ url( 'dashcols/entries/singles' ) }}">{{ 'Singles' | t }}</a>
+						</th>
+					</tr>
+				</tbody>
+			</table>
 
-	{% if userGroups %}
-	<table id="dashCols-users" class="data fullwidth collapsible dashCols-layoutGroupTable">
-		<thead>
-			<th scope="col">{{ 'User groups' | t }}</th>
-		</thead>
-		<tbody>
-			<tr data-name="All Users">
-				<th scope="row" data-title="{{ 'User groups' | t }}"><a href="{{ url( 'dashcols/layouts/users' ) }}">{{ 'All Users' | t }}</a></th>
-			</tr>
-			{% for userGroup in userGroups %}
-			<tr data-id="{{ userGroup.id }}" data-name="{{ userGroup.name|t }}">
-				<th scope="row" data-title="{{ 'Category groups' | t }}"><a href="{{ url( 'dashcols/layouts/users/' ~ userGroup.handle ) }}">{{ userGroup.name | t }}</a></th>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
+			{% if channels %}
+			<table class="data fullwidth collapsible dashCols-layoutGroupTable">
+				<tbody>
+					<thead>
+						<th scope="col">{{ 'Channels' | t }}</th>
+					</thead>
+					{% for channel in channels %}
+					<tr data-id="{{ channel.id }}" data-name="{{ channel.name }}">
+						<th scope="row" data-title="{{ channel.name }}">
+							<a href="{{ url( 'dashcols/entries/section/' ~ channel.handle ) }}">{{ channel.name | t }}</a>
+						</th>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			{% endif %}
+
+			{% if structures %}
+			<table class="data fullwidth collapsible dashCols-layoutGroupTable">
+				<tbody>
+					<thead>
+						<th scope="col">{{ 'Structures' | t }}</th>
+					</thead>
+					{% for structure in structures %}
+					<tr data-id="{{ structure.id }}" data-name="{{ structure.name }}">
+						<th scope="row" data-title="{{ structure.name }}">
+							<a href="{{ url( 'dashcols/entries/section/' ~ structure.handle ) }}">{{ structure.name | t }}</a>
+						</th>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			{% endif %}
+
+		</section>
+
+		<hr />
+
+		{% if categoryGroups %}
+
+		<section id="dashCols-categories" class="dashCols-cpIndexSection">
+
+			<h2>{{ 'Categories' | t }}</h2>
+
+			<table class="data fullwidth collapsible dashCols-layoutGroupTable">
+				<thead>
+					<th scope="col">{{ 'Category groups' | t }}</th>
+				</thead>
+				<tbody>
+					{% for categoryGroup in categoryGroups %}
+					<tr data-id="{{ categoryGroup.id }}" data-name="{{ categoryGroup.name }}">
+						<th scope="row" data-title="{{ categoryGroup.name }}">
+							<a href="{{ url( 'dashcols/categories/' ~ categoryGroup.handle ) }}">{{ categoryGroup.name | t }}</a>
+						</th>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+
+		</section>
+
+		<hr />
+
+		{% endif %}
+
+		<section id="dashCols-users" class="dashCols-cpIndexSection">
+
+			<h2>Users</h2>
+
+			<table class="data fullwidth collapsible dashCols-layoutGroupTable">
+				<tbody>
+					<tr data-name="{{ 'All users' | t }}">
+						<th scope="row" data-title="{{ 'All users' | t }}">
+							<a href="{{ url( 'dashcols/users' ) }}">{{ 'All Users' | t }}</a>
+						</th>
+					</tr>
+				</tbody>
+			</table>
+
+			{% if userGroups %}
+			<table class="data fullwidth collapsible dashCols-layoutGroupTable">
+				<tbody>
+					<thead>
+					<th scope="col">{{ 'User groups' | t }}</th>
+				</thead>
+					{% for userGroup in userGroups %}
+					<tr data-id="{{ userGroup.id }}" data-name="{{ userGroup.name }}">
+						<th scope="row" data-title="{{ userGroup.name }}">
+							<a href="{{ url( 'dashcols/users/' ~ userGroup.handle ) }}">{{ userGroup.name | t }}</a>
+						</th>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+
+			{% endif %}
+
+		</section>
+
+		<hr />
+
 	{% endif %}
 
 	{% include 'dashcols/_partials/_footer.twig' %}

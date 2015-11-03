@@ -7,13 +7,15 @@
 
 	{% if craft.dashCols.isCraftRequiredVersion %}
 
-		{% if layoutUrls is defined and layoutUrls | length > 0 %}
-		<nav id="dashCols-sections">
-			<ul>
-			{% for item in layoutUrls %}
-				<li><a href="{{ item.url }}" class="btn{% if item.active %} active{% endif %}">{{ item.label }}</a></li>
-			{% endfor %}
-			</ul>
+		{% if tabNav is defined and tabNav|length %}
+		<nav class="dashCols-editNav">
+			<div class="select">
+				<select id="dashCols-editNavSelect">
+					{% for navItem in tabNav %}
+					<option{% if craft.request.path == navItem.url %} selected disabled{% endif %} value="{{ url(navItem.url) }}">{{ navItem.name }}</option>
+					{% endfor %}
+				</select>
+			</div>
 		</nav>
 		{% endif %}
 

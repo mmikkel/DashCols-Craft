@@ -39,20 +39,26 @@ class DashColsService extends BaseApplicationComponent
 	*/
 	public function getCpTabs()
 	{
-		return array(
+		$tabs = array(
 			'dashColsIndex' => array(
 				'label' => '',
 				'url' => UrlHelper::getUrl('dashcols'),
 			),
-			'about' => array(
-				'label' => Craft::t('About DashCols'),
-				'url' => UrlHelper::getUrl('dashcols/about'),
+			'entries' => array(
+				'label' => Craft::t('Entries'),
+				'url' => UrlHelper::getUrl('dashcols/entries'),
 			),
-			'settings' => array(
-				'label' => Craft::t('Settings'),
-				'url' => UrlHelper::getUrl('settings/plugins/dashcols'),
+			'categories' => array(
+				'label' => Craft::t('Categories'),
+				'url' => UrlHelper::getUrl('dashcols/categories'),
+			),
+			'users' => array(
+				'label' => Craft::t('Users'),
+				'url' => UrlHelper::getUrl('dashcols/users'),
 			),
 		);
+		if (!$this->getCategoryGroups()) unset($tabs['categories']);
+		return $tabs;
 	}
 
 	public function isCpSectionDisabled()

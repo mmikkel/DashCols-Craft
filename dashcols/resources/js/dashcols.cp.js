@@ -8,11 +8,13 @@
 
     DashCols_CpSection.init = function () {
 
+        // Init submit button
         var $submitBtn = $('#dashCols-actions .submit:first');
+        if ($submitBtn.length > 0) $submitBtn.on('click', $.proxy(onSubmitButtonClick, this));
 
-        if ($submitBtn.length > 0) {
-            $submitBtn.on('click', $.proxy(onSubmitButtonClick, this));
-        }
+        // Init tab nav select
+        var $tabNav = $('#dashCols-editNavSelect');
+        if ($tabNav.length > 0) $tabNav.on('change', $.proxy(onTabNavChange, this));
 
     }
 
@@ -52,6 +54,12 @@
 
         }
 
+    }
+
+    function onTabNavChange (e)
+    {
+        e.preventDefault();
+        window.location.href = $(e.target).val();
     }
 
     $(document).ready($.proxy(DashCols_CpSection.init, DashCols_CpSection));

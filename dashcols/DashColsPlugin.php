@@ -70,17 +70,16 @@ class DashColsPlugin extends BasePlugin
         return array(
             
             'dashcols' => array( 'action' => 'dashCols/layouts/getIndex' ),
-            'dashcols/layouts' => array( 'action' => 'dashCols/layouts/getIndex' ),
             
             // Entries
-            'dashcols/layouts/entries(/(?P<sourceHandle>[-\w]+))?(/(?P<sectionHandleOrId>[-\w]+))?' => array( 'action' => 'dashCols/layouts/editEntriesLayout' ),
+            'dashcols/entries(/(?P<sourceHandle>[-\w]+))?(/(?P<sectionHandleOrId>[-\w]+))?' => array( 'action' => 'dashCols/layouts/editEntriesLayout' ),
             
             // Category group
-            'dashcols/layouts/categories/(?P<categoryGroupHandleOrId>[-\w]+)' => array( 'action' => 'dashCols/layouts/editCategoryGroupLayout' ),
+            'dashcols/categories(/(?P<categoryGroupHandleOrId>[-\w]+))?' => array( 'action' => 'dashCols/layouts/editCategoryGroupLayout' ),
             
             // User groups
-            'dashcols/layouts/users(/(?P<userGroupHandleOrId>[-\w]+))?' => array( 'action' => 'dashCols/layouts/editUserGroupLayout' ),
-            
+            'dashcols/users(/(?P<userGroupHandleOrId>[-\w]+))?' => array( 'action' => 'dashCols/layouts/editUserGroupLayout' ),
+
         );
     }
 

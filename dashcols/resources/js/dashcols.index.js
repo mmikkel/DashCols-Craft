@@ -106,7 +106,7 @@
 
 	function onUpdate(e, status, requestData) {
 
-		this.editUrl = Craft.baseCpUrl + '/dashcols/layouts/',
+		this.editUrl = Craft.baseCpUrl + '/dashcols/',
 		this.entryIndex = false;
 
 		if (requestData.url.indexOf('elementIndex/getElements') === -1) {
