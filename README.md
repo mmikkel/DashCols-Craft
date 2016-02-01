@@ -10,6 +10,9 @@ Thanks a lot for all the support and interest in this plugin!
 
 [Read more about Craft 2.5 on Pixel & Tonic's blog](http://pixelandtonic.com/blog/craft-2.5-beta)
 
+**Update February 2nd 2016**
+Some people have lamented losing DashCol's sorting features. I concur that the current CEI implementation leaves something to be desired in regards to _sorting_ on custom field columns, so I decided to build a standalone plugin called [CP Sortable Custom Columns](https://github.com/mmikkel/CpSortableCustomColumns-Craft), which – like DashCols – will a) make the sortable menu in index tables _source aware_ and b) automatically add any sortable custom field included in an index table to that table's sortable attributes.  
+
 – Mats
 
 ***
